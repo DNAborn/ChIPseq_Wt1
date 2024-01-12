@@ -2,6 +2,94 @@
 
 ## R
 
+``` r
+BiocManager::install(quiet = TRUE)
+BiocManager::install(update = TRUE, ask = FALSE)
+
+# library("ggVennDiagram")
+# library("ggvenn")
+# library(AnnotationHub)
+# library(dbplyr)
+# library(tidyverse)
+# library(ChIPQC)
+# library(BiocParallel)
+# library(readxl)
+# library(writexl)
+# library(xlsx)
+# library(beepr)
+# library(ChIPseeker)
+# library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+# library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+# library(TxDb.Mmusculus.UCSC.mm10.knownGene)
+# library(TxDb.Mmusculus.UCSC.mm39.knownGene)
+# # txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
+# # txdb <- TxDb.Mmusculus.UCSC.mm10.knownGene
+# txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
+# library(clusterProfiler)
+# library(UpSetR)
+# library(ggimage)
+# library(ReactomePA)
+# library(ggcorrplot)
+# library(gplots)
+# library(pheatmap)
+# library(EnsDb.Mmusculus.v79)
+# library(Rsamtools)
+# library(VennDiagram)
+# library(biomaRt)
+# library(biobtreeR)
+# library(memes)
+# library(magrittr)
+# library(ggplot2)
+# library(GenomicRanges)
+# library(Motif2Site)
+# library(updater)
+# library(viridis)
+# library(BiocManager)
+# library(ChIPQC)
+# library(rtracklayer)
+# library(ChIPpeakAnno)
+# library(trackViewer)
+# library(Gviz)
+# library(rtracklayer)
+# library(trackViewer)
+# library(GenomicFeatures)
+# library(UpSetR)
+# library(grid)
+# library(plyr)
+# library(tidyGenomeBrowser)
+# library(rentrez)
+# library("GenomicFeatures")
+# library("Gviz")
+# library(GenomicRanges)
+# # library()
+
+ifelse(Sys.info()["sysname"]== "Linux",
+  s <- "/mnt/s",
+  s <- "S:")
+```
+
+    ##  sysname 
+    ## "/mnt/s"
+
+``` r
+ddir <- paste(s,"AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF",sep="/")
+
+wdir <- "E:/Simon/P3026_ChIP_Seq_epiSVF"
+
+setwd(ddir)
+getwd()
+```
+
+    ## [1] "/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF"
+
+``` r
+outdir <- paste(s,"AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/output/",sep="/")
+dir.create(outdir)
+
+# run name
+# run_name <- "test1"
+```
+
 ## linux
 
 ``` bash

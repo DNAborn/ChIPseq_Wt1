@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Prepare System
 ## R
-```{r, include=FALSE}
+```{r eval=TRUE, message=FALSE, warning=FALSE, include=TRUE}
 
 BiocManager::install(quiet = TRUE)
 BiocManager::install(update = TRUE, ask = FALSE)
