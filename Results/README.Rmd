@@ -1,20 +1,240 @@
 ---
-title: "R Notebook"
+title: "ChIP_Wt1 - Results"
+author: "Kelterborn"
+date: "`r Sys.Date()`"
 output:
   md_document:
     variant: gfm
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
-
-```{r}
-plot(cars)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+# Prepare System
+## R update and load librarys
+```{r eval=TRUE, message=FALSE, warning=FALSE, include=TRUE}
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+BiocManager::install(update = TRUE, ask = FALSE)
+
+# library("ggVennDiagram")
+# library("ggvenn")
+# library(AnnotationHub)
+# library(dbplyr)
+# library(tidyverse)
+# library(ChIPQC)
+# library(BiocParallel)
+# library(readxl)
+# library(writexl)
+# library(xlsx)
+# library(beepr)
+# library(ChIPseeker)
+# library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+# library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+# library(TxDb.Mmusculus.UCSC.mm10.knownGene)
+# library(TxDb.Mmusculus.UCSC.mm39.knownGene)
+# # txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
+# # txdb <- TxDb.Mmusculus.UCSC.mm10.knownGene
+# txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
+# library(clusterProfiler)
+# library(UpSetR)
+# library(ggimage)
+# library(ReactomePA)
+# library(ggcorrplot)
+# library(gplots)
+# library(pheatmap)
+# library(EnsDb.Mmusculus.v79)
+# library(Rsamtools)
+# library(VennDiagram)
+# library(biomaRt)
+# library(biobtreeR)
+# library(memes)
+# library(magrittr)
+# library(ggplot2)
+# library(GenomicRanges)
+# library(Motif2Site)
+# library(updater)
+# library(viridis)
+# library(BiocManager)
+# library(ChIPQC)
+# library(rtracklayer)
+# library(ChIPpeakAnno)
+# library(trackViewer)
+# library(Gviz)
+# library(rtracklayer)
+# library(trackViewer)
+# library(GenomicFeatures)
+# library(UpSetR)
+# library(grid)
+# library(plyr)
+# library(tidyGenomeBrowser)
+# library(rentrez)
+# library("GenomicFeatures")
+# library("Gviz")
+# library(GenomicRanges)
+# # library()
+
+
+
+```
+
+## R folders
+```{r}
+
+if(Sys.info()[["sysname"]]== "Linux") {
+  s <- "/mnt/s"
+} else(
+  s <- "S:"
+)
+
+ddir <- paste(s,"AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF",sep="/")
+
+wdir <- "E:/Simon/P3026_ChIP_Seq_epiSVF"
+
+setwd(ddir)
+getwd()
+
+outdir <- paste(s,"AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/output/",sep="/")
+dir.create(outdir)
+
+```
+
+
+
+## linux
+```{bash eval=FALSE, include=TRUE}
+##  linux ####
+sudo apt update
+sudo apt upgrade
+conda update conda
+conda update --all
+sudo mount -t drvfs S: /mnt/s
+
+```
+
+# 0 Prerequisits
+## Folder & Names
+```{bash}
+source activate chipseq
+
+run="Kelly";
+
+dirdata="/mnt/s/AG/AG-Scholz-NGS/Daten/ChIP_epiSVF_P3026";
+dir="/mnt/e/Simon/P3026_ChIP_Seq_epiSVF"; 
+dirs="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF"; 
+
+index_GRCh38="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Human/GRCh38_noalt_decoy_as/GRCh38_noalt_decoy_as";
+index_GRCm39="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/GRCm39/GRCm39";
+index_mm10="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/mm10/mm10";
+index_mm39="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/GRCm39/USCS/mm39";
+index_cm_mm39="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/GRCm39/USCS/mm39.index";
+
+fastqdir="$dirdata/fastq";
+
+ardir="$dirdata/Adapterremoval";
+  test -d $ardir && echo "# Folder $ardir exists" ||
+  (mkdir $ardir && echo "# Folder $ardir created");
+  
+fastqcdir="$dirdata/fastqc/";
+  test -d $fastqcdir && echo "# Folder $fastqcdir exists" ||
+  (mkdir $fastqcdir && echo "# Folder $fastqcdir created");
+  
+multiqcdir="$dirdata/multiqc/";
+  test -d $multiqcdir && echo "# Folder $multiqcdir exists" ||
+  (mkdir $multiqcdir && echo "# Folder $multiqcdir created");
+  
+bdir="$dir/Bowtie2";
+  test -d $bdir && echo "# Folder $bdir exists" ||
+  (mkdir $bdir && echo "# Folder $bdir created");
+  
+mdir="$dirs/MACS3";
+  test -d $mdir && echo "# Folder $mdir exists" ||
+  (mkdir $mdir && echo "# Folder $mdir created");
+
+rgtmdir="$dir/RGT-Motif";
+  test -d $rgtmdir && echo "# Folder $rgtmdir exists" ||
+  (mkdir $rgtmdir && echo "# Folder $rgtmdir created");
+
+dtoolsdir="$dir/deeptools";
+  test -d $dtoolsdir && echo "# Folder $dtoolsdir exists" ||
+  (mkdir $dtoolsdir && echo "# Folder $dtoolsdir created");
+
+chromapdir="$dir/chromap";
+  test -d $chromapdir && echo "# Folder $chromapdir exists" ||
+  (mkdir $chromapdir && echo "# Folder $chromapdir created");
+
+blacklhs="/mnt/e/Simon/ChIPSeq_Kelly/Bowtie2/hg38-blacklist.v2.bed"
+blacklmm39="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/GRCm39/mm39.excluderanges.bed.gz"
+blacklmm10="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/mm10/mm10.blacklist.bed.gz"
+
+```
+
+## Download data
+https://hpc-docs.cubi.bihealth.org/how-to/service/file-exchange/#from-linux
+```{bash eval=FALSE, include=TRUE}
+
+cd $fastqdir
+lftp
+
+# open -u <user>@<DOMAIN> https://file-exchange.bihealth.org/<file-box-id>/
+open -u kelterbs@CHARITE https://file-exchange.bihealth.org/7d1ebe64-ca0b-47ab-ae16-9c57c6190226/
+# open -u kelterbs@CHARITE https://file-exchange.bihealth.org/bd53df77-dd5a-4fb6-b640-4625548c5119/
+
+
+# [Password]
+
+# Download all data into target folder
+mirror . $fastqdir
+# mirror . /mnt/s/AG/AG-Scholz-NGS/Daten/RNASeq_Kelly2_P3302
+
+# Check data
+cd $fastqdir
+ls $fastqdir | wc -l
+ls $fastqdir/*R1*.fastq.gz | wc -l
+# 18x R1+R2 = 36 fastq.gz files = 18 Samples, 36 files
+
+# Check downloads
+log="$fastqdir/download.log";
+echo "##################
+# $(date +%Y_%m_%d__%T) Check md5 Checksums
+#";
+md5sum -c  *.md5 | tee -a $log;
+wc -l $log
+# 36 files ok
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
