@@ -13,10 +13,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 # Prepare System
-## R
+## R update and load librarys
 ```{r eval=TRUE, message=FALSE, warning=FALSE, include=TRUE}
 
-BiocManager::install(quiet = TRUE)
 BiocManager::install(update = TRUE, ask = FALSE)
 
 # library("ggVennDiagram")
@@ -76,9 +75,23 @@ BiocManager::install(update = TRUE, ask = FALSE)
 # library(GenomicRanges)
 # # library()
 
-ifelse(Sys.info()["sysname"]== "Linux",
-  s <- "/mnt/s",
-  s <- "S:")
+
+
+
+
+# run name
+# run_name <- "test1"
+
+```
+
+## R folders
+```{r}
+
+if(Sys.info()[["sysname"]]== "Linux") {
+  s <- "/mnt/s"
+} else(
+  s <- "S:"
+)
 
 ddir <- paste(s,"AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF",sep="/")
 
@@ -90,10 +103,9 @@ getwd()
 outdir <- paste(s,"AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/output/",sep="/")
 dir.create(outdir)
 
-# run name
-# run_name <- "test1"
-
 ```
+
+
 
 ## linux
 ```{bash eval=FALSE, include=TRUE}
