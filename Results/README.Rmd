@@ -18,18 +18,32 @@ knitr::opts_chunk$set(echo = TRUE)
 
 BiocManager::install(update = TRUE, ask = FALSE)
 
+library(dbplyr)
+library(tidyverse)
+library(ChIPseeker)
+library(rtracklayer)
+library(trackViewer)
+library(GenomicRanges)
+library(IRanges)
+library(ChIPpeakAnno)
+library(AnnotationHub)
+library(ggplot2)
+library(viridis)
+
+library(TxDb.Mmusculus.UCSC.mm39.knownGene)
+txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
+
 # library("ggVennDiagram")
 # library("ggvenn")
-# library(AnnotationHub)
-# library(dbplyr)
-# library(tidyverse)
+# 
+
 # library(ChIPQC)
 # library(BiocParallel)
 # library(readxl)
 # library(writexl)
 # library(xlsx)
 # library(beepr)
-# library(ChIPseeker)
+
 # library(TxDb.Hsapiens.UCSC.hg19.knownGene)
 # library(TxDb.Hsapiens.UCSC.hg38.knownGene)
 # library(TxDb.Mmusculus.UCSC.mm10.knownGene)
@@ -51,19 +65,18 @@ BiocManager::install(update = TRUE, ask = FALSE)
 # library(biobtreeR)
 # library(memes)
 # library(magrittr)
-# library(ggplot2)
-# library(GenomicRanges)
+# 
+
 # library(Motif2Site)
 # library(updater)
-# library(viridis)
+# 
 # library(BiocManager)
 # library(ChIPQC)
 # library(rtracklayer)
-# library(ChIPpeakAnno)
+
 # library(trackViewer)
 # library(Gviz)
-# library(rtracklayer)
-# library(trackViewer)
+
 # library(GenomicFeatures)
 # library(UpSetR)
 # library(grid)
@@ -73,34 +86,29 @@ BiocManager::install(update = TRUE, ask = FALSE)
 # library("GenomicFeatures")
 # library("Gviz")
 # library(GenomicRanges)
-# # library()
-
-
+# library()
 
 ```
 
 ## R folders
-```{r}
+```{r, warning=FALSE}
 
 if(Sys.info()[["sysname"]]== "Linux") {
-  s <- "/mnt/s"
-} else(
-  s <- "S:"
-)
+  s <- "/mnt/s"} else(
+  s <- "S:")
 
 ddir <- paste(s,"AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF",sep="/")
+gitdir <- paste(ddir,"ChIPseq_Wt1_P3026", sep="/")
+resdir <- paste(gitdir,"Results", sep="/")
+pubfigdir <- paste(resdir,"pub_figures",sep="/")
 
 wdir <- "E:/Simon/P3026_ChIP_Seq_epiSVF"
 
-setwd(ddir)
+setwd(gitdir)
 getwd()
 
-outdir <- paste(s,"AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/output/",sep="/")
-dir.create(outdir)
 
 ```
-
-
 
 ## linux
 ```{bash eval=FALSE, include=TRUE}
@@ -115,7 +123,7 @@ sudo mount -t drvfs S: /mnt/s
 
 # 0 Prerequisits
 ## Folder & Names
-```{bash}
+```{bash, message=FALSE, warning=FALSE}
 source activate chipseq
 
 run="Kelly";
@@ -170,71 +178,404 @@ blacklmm10="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/mm10/mm10.black
 
 ```
 
-## Download data
-https://hpc-docs.cubi.bihealth.org/how-to/service/file-exchange/#from-linux
-```{bash eval=FALSE, include=TRUE}
+# 3 Results
+### Generate combined peak list
+```{r}
+csdir <- paste(ddir,"ChIPSeeker",sep="/")
 
-cd $fastqdir
-lftp
+# Peak Calling files
+macsdir <- paste(ddir,"MACS3",sep="/")
+macssubdir <- list.dirs(macsdir)
+macssubdir <- macssubdir[c(6,5,3,2,4)]
 
-# open -u <user>@<DOMAIN> https://file-exchange.bihealth.org/<file-box-id>/
-open -u kelterbs@CHARITE https://file-exchange.bihealth.org/7d1ebe64-ca0b-47ab-ae16-9c57c6190226/
-# open -u kelterbs@CHARITE https://file-exchange.bihealth.org/bd53df77-dd5a-4fb6-b640-4625548c5119/
+# blacklist
+blacklmm39 <- paste(s,"AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/GRCm39/mm39.excluderanges.bed.gz",sep="/")
+bl <- readPeakFile(blacklmm39)
 
+extraCols_narrowPeak <- c(signalValue = "numeric", pValue = "numeric",
+                          qValue = "numeric", peak = "integer")
 
-# [Password]
+# Read peak files from all subfolders
+npeak_list_all <- list()
+npeak_combined_all <- list()
 
-# Download all data into target folder
-mirror . $fastqdir
-# mirror . /mnt/s/AG/AG-Scholz-NGS/Daten/RNASeq_Kelly2_P3302
+# loop through subfolders
+for (beddir in macssubdir){
+  print(beddir)
+  run <- basename(beddir)
+  print(run)
 
-# Check data
-cd $fastqdir
-ls $fastqdir | wc -l
-ls $fastqdir/*R1*.fastq.gz | wc -l
-# 18x R1+R2 = 36 fastq.gz files = 18 Samples, 36 files
+beds <- list.files(beddir, pattern=".narrowPeak")
+beds <- file.path(beddir,beds)
+name <- paste(run,"_",sep="")
 
-# Check downloads
-log="$fastqdir/download.log";
-echo "##################
-# $(date +%Y_%m_%d__%T) Check md5 Checksums
-#";
-md5sum -c  *.md5 | tee -a $log;
-wc -l $log
-# 36 files ok
+npeak_numbers <- {}
+npeak_list <- list()
+
+# inside loop thourgh each replicate
+for (i in beds) {
+  print(i)
+# npeak <- readPeakFile(i)
+npeak <- import(i, format = "BED",extraCols = extraCols_narrowPeak)
+n <- basename(i) %>% str_remove(pattern="_all_peaks.narrowPeak")
+print(paste("Run: ",run,", Sample: ",n," Peaks: ",length(npeak), sep=""))
+npeak_numbers <- rbind(npeak_numbers,data.frame(sample = paste(n,sep="_"), peaks = length(npeak)))
+assign(paste(run,"npeaks",sep="_"),npeak_numbers)
+
+print(length(npeak))
+npeak <- keepStandardChromosomes(npeak, pruning.mode="coarse")
+print(length(npeak))
+filtered <- GenomicRanges::setdiff(npeak, bl)
+revmap <- findOverlaps(filtered, npeak, select="arbitrary")
+mcols(filtered) <- mcols(npeak)[revmap, , drop=FALSE]
+print(length(filtered))
+npeak_list[[n]] <- filtered
+npeak_list_all[[n]] <- filtered
+}
+
+# combine replicates
+assign(paste(run,"npeak_list",sep="_"),npeak_list)
+npeak_list <- GRangesList(npeak_list)
+ul <- unlist(npeak_list)
+ul <- sort(ul,by=~qValue, decreasing = T)
+length(ul)
+npeak_combined <- GenomicRanges::reduce(ul)
+length(ul)
+length(npeak_combined)
+revmap <- findOverlaps(npeak_combined, ul, select="first")
+mcols(npeak_combined) <- mcols(ul)[revmap, , drop=FALSE]
+length(npeak_combined)
+
+# count overlap between peaks
+npeak_combined$hits <- rep(0,length(npeak_combined))
+for (i in 1:length(npeak_list)){
+print(i)
+npeak_combined$hits <- npeak_combined$hits+countOverlaps(npeak_combined,npeak_list[i])
+}
+hist(npeak_combined$hits, breaks=10, main=run)
+npeak_combined <- npeak_combined[elementMetadata(npeak_combined)$hits > 1,]
+length(npeak_combined)
+assign(paste(run,"npeak_combined",sep="_"),npeak_combined)
+
+npeak_combined_all[[run]] <- npeak_combined
+
+}
+
+npeak_combined_all
+lapply(npeak_combined_all, length)
+
+# generate overlap table
+peaks_summary <- data.frame(Sample=basename(macssubdir),
+                          Peaks=lengths(npeak_combined_all))
+ol.all <- {}
+l <- length(npeak_combined_all)
+for (n in names(npeak_combined_all)){
+  assign(paste("ol",n,sep="."),{})
+  variable <- paste0("ol.",n)
+  ol <- eval(parse(text = variable))
+  peaks_to_compare <- npeak_combined_all[[n]]
+for (i in 1:l){
+  start(peaks_to_compare) <- start(peaks_to_compare) - 100
+  end(peaks_to_compare) <- end(peaks_to_compare) + 100
+  ol <- c(ol,sum(countOverlaps(peaks_to_compare,npeak_combined_all[[i]])))
+}
+  assign(paste("ol",n,sep="."),ol)
+}
+
+peaks_summary <- data.frame(peaks_summary,ol.Std, ol.pe, ol.local, ol.chro5k, ol.Online)
+peaks_summary
 
 ```
 
 
+#### Venn
+```{r}
+
+# Venns
+olvenn <- findOverlapsOfPeaks(npeak_combined_all[[1]],
+                          npeak_combined_all[[2]],
+                          npeak_combined_all[[3]],
+                          npeak_combined_all[[4]],
+                          npeak_combined_all[[5]])
+
+# pdf(paste(csrundir,"Venn_Peaks2.pdf",sep="/"))
+makeVennDiagram(olvenn,
+                NameOfPeaks = names(npeak_combined_all),
+                fill=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise"),
+                cat.col=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise")
+                )
+
+# dev.off()
+
+# ggsave(peaks.venn,file=paste(pubfigdir,"Venn_Peaks.pdf",sep="/"), width = 8, height = 8, device = "pdf")
 
 
-
-
-
-
-
-
-
-
-
-
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
 ```
 
-## Including Plots
+### Convert Peaks to Gene names
+```{r}
 
-You can also embed plots, for example:
+# Add Gene names
+ah = AnnotationHub()
+query(ah, c("EnsDb", "Musculus"))
+edb <- ah[["AH113713"]]
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+# 1 Subfolder
+i <- 5
+all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
+  all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
+  all_npeaksAnno_table$transcriptId2 <- sub("\\.\\d+$", "", all_npeaksAnno_table$transcriptId)
+  all_npeaksAnno_table$geneId <- mapIds(edb, keys = all_npeaksAnno_table$transcriptId2, column = "GENEID", keytype = "TXID")
+  all_npeaksAnno_table$symbol <- mapIds(edb, keys = all_npeaksAnno_table$transcriptId2, column = "SYMBOL", keytype = "TXID")
+n <- names(npeak_combined_all[i])
+all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotation,pattern = " ", simplify = TRUE)[,1]
+
+ggplot(all_npeaksAnno_table,aes(x=hits, fill=hits)) +
+      stat_bin(alpha=0.6, position = 'identity', binwidth=1) + #
+      stat_bin(position = 'identity', binwidth=1, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
+  ggtitle(n)
+
+ggplot(all_npeaksAnno_table,aes(x=width, group=annotation_short, fill=annotation_short)) +
+      stat_bin(alpha=0.5, position = 'identity', binwidth=100) + 
+  # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
+  scale_fill_viridis_d() +
+  ggtitle(paste("genetic region per peak size (",n,")",sep="")) # + coord_cartesian(xlim = c(0, 100), ylim=c(0,200))
+ggsave(file=paste(pubfigdir,"Peaks_geneticregions_",n,".pdf",sep=""), width = 8, height = 8, device = "pdf")
+
+ggplot(all_npeaksAnno_table,aes(x=width, group=hits, fill=hits)) +
+      stat_bin(alpha=0.5, position = 'identity', binwidth=200) + 
+  # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
+  scale_fill_viridis_c() +
+  ggtitle(paste("hits per peak size")) # + coord_cartesian(xlim = c(0, 10000), ylim=c(0,50))
+
+ggplot(all_npeaksAnno_table,aes(x=qValue, group=hits, fill=hits)) +
+  stat_bin(alpha=0.5, position = 'identity', binwidth=5) + 
+  scale_fill_viridis_c() +
+  ggtitle(paste("qvalue per hit")) # + coord_cartesian(xlim = c(0, 10000), ylim=c(0,50))
+
+levels(factor(all_npeaksAnno_table$annotation_short))
+
+all_npeaksAnno_table[order(all_npeaksAnno_table$width),]
+viridis(8)
+
+top_hits <- subset(all_npeaksAnno_table, distanceToTSS > -2000 & distanceToTSS < 2000)
+dim(top_hits)
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+#### All peaks
+```{r eval=FALSE, include=FALSE}
+
+## All peaks
+  
+npeakAnnoList <- lapply(npeak_combined_all, annotatePeak, TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
+
+# make list
+npeakAnnoList_table <- list()
+gene_ids_all_list <- list()
+for (i in 1:length(npeakAnnoList)){
+  print(paste(i,": ",names(npeakAnnoList)[i],sep=""))
+  n <- names(npeakAnnoList[i])
+  table <- as.data.frame(npeakAnnoList[[i]]@anno)
+  table$transcriptId2  <- sub("\\.\\d+$", "", table$transcriptId)
+  table$entrez <- table$geneId
+  table$geneId <- mapIds(edb, keys = table$transcriptId2, column = "GENEID", keytype = "TXID")
+  table$symbol <- mapIds(edb, keys = table$transcriptId2, column = "SYMBOL", keytype = "TXID")
+  assign(paste("narrow_table",n,sep="_"),table)
+  table_filter <- subset(table, distanceToTSS > -2000 & distanceToTSS < 2000)
+  gene_ids_all_list <- lapply(gene_ids_all_list,unique)
+
+  print(paste("Before: ",length(rownames(table)),", After: ",length(rownames(table_filter))," (",round(length(rownames(table_filter))/length(rownames(table))*100),"%)"))
+  npeakAnnoList_table[[n]] <- table_filter
+  gene_ids_all_list[[n]] <- table_filter$geneId
+}
+
+# Results from RNA-Seq
+deg <- readRDS(paste(dirname(outdir),"RNA-Seq_res_degs.RDS", sep="/"))
+deg.top <- readRDS(paste(dirname(outdir),"RNA-Seq_top_degs.RDS", sep="/"))
+
+# Plot gene region for all lists
+i <- 5
+for (i in names(npeak_combined_all)){
+all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
+  all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
+  all_npeaksAnno_table$transcriptId2 <- sub("\\.\\d+$", "", all_npeaksAnno_table$transcriptId)
+  all_npeaksAnno_table$geneId <- mapIds(edb, keys = all_npeaksAnno_table$transcriptId2, column = "GENEID", keytype = "TXID")
+  all_npeaksAnno_table$symbol <- mapIds(edb, keys = all_npeaksAnno_table$transcriptId2, column = "SYMBOL", keytype = "TXID")
+n <- names(npeak_combined_all[i])
+all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotation,pattern = " ", simplify = TRUE)[,1]
+
+g <- ggplot(all_npeaksAnno_table,aes(x=score, group=annotation_short, fill=annotation_short)) +
+      stat_bin(alpha=0.5, position = 'identity', binwidth=100) + 
+  # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
+  scale_fill_viridis_d() +
+  ggtitle(paste("genetic region per peak size (",n,")",sep="")) # + coord_cartesian(xlim = c(0, 100), ylim=c(0,200))
+plot(g)
+ggsave(g, file=paste(pubfigdir,"/Peaks_geneticregions_score_",n,".pdf",sep=""), width = 8, height = 8, device = "pdf")
+}
+
+
+```
+
+#### Venns
+```{r eval=FALSE, include=FALSE}
+# overlap
+gene_ids_all_list[["RNASeq"]] <- deg.top$gene_id
+
+id_comb <- unlist(gene_ids_all_list) %>% unique()
+id_symb <- mapIds(edb, keys = id_comb, column = "SYMBOL", keytype = "GENEID", multiVals = "first")
+
+id_com_table <- data.frame("ensembl" = id_comb,
+                           "id_symbol" = id_symb) 
+
+for (n in names(gene_ids_all_list)){
+  isin <- {}
+  for (i in id_com_table$ensembl){
+    ifelse(i %in% gene_ids_all_list[[n]],
+         isin <- c(isin,1),
+         isin <- c(isin,0))
+  }
+  id_com_table <- cbind(id_com_table,isin)
+  l <- ncol(id_com_table)
+  colnames(id_com_table)[l] <- n
+}
+id_com_table
+
+subset(id_com_table, chro5k == 1)
+subset(id_com_table, Std == 1)
+subset(id_com_table, pe == 1 & local == 1 & Online == 0 & RNASeq == 1)$id_symbol
+
+# & Online == TRUE
+# & RNASeq == TRUE
+
+id_com_table$sum <- rowSums(id_com_table[,3:8])
+summary(duplicated(id_com_table$id_symbol))
+id_com_table <- id_com_table[!duplicated(id_com_table$id_symbol),]
+id_com_table <- id_com_table[!is.na(id_com_table$id_symbol),]
+id_com_table <- id_com_table[order(id_com_table$sum, decreasing = TRUE),]
+rownames(id_com_table) <- id_com_table$id_symbol
+
+heatmap(Rowv = TRUE, as.matrix(subset(id_com_table,sum>1)[,3:8]))
+
+pdf(file=paste(csdir,"/Heatmap.pdf",sep=""))
+heatmap(as.matrix(subset(id_com_table,Std == 1 | chro5k == 1 | pe == 1 & local ==1)[,3:8]),
+        Rowv = TRUE)
+heatmap(as.matrix(subset(id_com_table,Std == 1 | chro5k == 1 | pe == 1 | local ==1)[,3:8]),
+        Rowv = FALSE)
+dev.off()
+ggsave(file=paste(pubfigdir,"/Heatmap.png",sep=""), width = 8, height = 8)
+
+heat.data <- subset(id_com_table,Std == 1 | chro5k == 1 | pe == 1 & local ==1)[,3:8]
+ggplot(heat.data, aes(x=c(colnames(heat.data)),y=rownmaes(), fill= Z)) + 
+  geom_tile()
+
+lapply(gene_ids_all_list,length)
+gene_ids_all_list <- lapply(gene_ids_all_list,unique)
+lapply(gene_ids_all_list,length)
+
+length(gene_ids_all_list)
+vennplot(gene_ids_all_list[1:5])
+ggvenn(gene_ids_all_list[1:4],
+      fill_color = c("yellow3", "yellow", "yellow","darkolivegreen1"),
+      stroke_size = 0.5,
+      show_percentage = FALSE)
+ggsave(file=paste(pubfigdir,"/Venn_Genes_own.png",sep=""), width = 8, height = 8)
+
+in_pe_local <- intersect(gene_ids_all_list[["pe"]],
+          gene_ids_all_list[["local"]])
+in_pe_local_Std <- intersect(in_pe_local,gene_ids_all_list[["Std"]])
+in_pe_local_Std
+
+,
+          gene_ids_all_list[["pe"]]
+,
+          gene_ids_all_list[["local"]],
+          gene_ids_all_list[["Online"]],
+          gene_ids_all_list[["chro5k"]],
+
+)
+
+
+setdiff (intersect(intersect(gene_ids_all_list["chro5k"], gene_ids_all_list["Std"]), UPDEGsTR40SR40genes),  UPDEGsTRCSRCgenes)
+
+
+ggvenn(gene_ids_all_list[c(2,3,5,6)],
+      fill_color = c("yellow", "yellow","lightblue","salmon"),
+      stroke_size = 0.5,
+      show_percentage = FALSE)
+ggsave(file=paste(pubfigdir,"/Venn_Genes_compare.png",sep=""), width = 8, height = 8)
+
+ol <- calculate.overlap(gene_ids_all_list[1:5])
+
+
+       
+
+library(ggplot2)
+library(ggVennDiagram)
+
+x <- list(A=1:5,B=2:7,C=3:6,D=4:9)
+
+
+
+
+# manual
+venn <- Venn(x)
+data <- process_data(venn)
+ggplot() +
+  # 1. region count layer
+  geom_sf(aes(fill = count), data = venn_region(data)) +
+  # 2. set edge layer
+  geom_sf(aes(color = name), data = venn_setedge(data), show.legend = TRUE, size = 2) +
+  # 3. set label layer
+  geom_sf_text(aes(label = name), data = venn_setlabel(data)) +
+  # 4. region label layer
+  geom_sf_label(aes(label = paste0(count, " (", scales::percent(count/sum(count), accuracy = 2), ")")), 
+                data = venn_region(data),
+                size = 3) +
+  scale_fill_gradient(low = "#F4FAFE", high = "#4981BF")+
+  scale_color_manual(values = c("A" = "yellow","B" ="steelblue",'C' = 'red', 'D' = 'black'),
+                     labels = c('D' = 'D = bdiv_human'))+
+  theme_void()
+
+
+
+
+v <- ggVennDiagram(gene_ids_all_list,
+              label_alpha = 0,
+              label = "count",
+              set_color = c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise"))
+v + scale_fill_distiller(palette = "RdBu")
+
+              ,
+              
+              scale_fill_distiller(palette = "RdBu"))
+,
+              scale_fill_manual = c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise"),
+              cat.col=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise"))
+              )
+
+makeVennDiagram(gene_ids_all_list)
+
+,by=gplots)
+
+                         fill=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise"),
+                cat.col=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise")
+                )
+       
+       
+ol <- calculate.overlap(gene_ids_all_list[1:3])
+summary(ol)
+ol <- calculate.overlap(list("ChIP.all"=subset(gene_table_hits, hits > 7)$geneid,
+                             "RNA-Seq"=deg.top$gene_id))
+
+
+
+venn.diagram(gene_ids_all_list)
+
+chip.rna <- sort(unname(mapIds(edb,keys=ol$a3,column = "SYMBOL",keytype = "GENEID", multiVals = "first")))
+
+beep()
+
+
+```
+
