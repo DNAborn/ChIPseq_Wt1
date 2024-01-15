@@ -3,21 +3,30 @@ title: "ChIP_Wt1 - Results"
 author: "Kelterborn"
 date: "`r Sys.Date()`"
 output:
-  md_document:
-    variant: gfm
+  html_document: 
+    toc: true
+    keep_md: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+<style>
+.vscroll-plot {
+    width: 1000px;
+    height: 500px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+</style>
 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T,
+                      results = "hide", error=FALSE, warning=FALSE, message=FALSE)
+```
 
 # Prepare System
 ## R update and load librarys
-```{r eval=TRUE, message=FALSE, warning=FALSE, include=TRUE}
-
-BiocManager::install(update = TRUE, ask = FALSE)
-
+```{r librarys}
+BiocManager::install("kableExtra",update = TRUE, ask = FALSE)
 library(dbplyr)
 library(tidyverse)
 library(ChIPseeker)
@@ -29,10 +38,14 @@ library(ChIPpeakAnno)
 library(AnnotationHub)
 library(ggplot2)
 library(viridis)
+library(kableExtra)
 
 library(TxDb.Mmusculus.UCSC.mm39.knownGene)
 txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
 
+```
+
+```{r old_librarys, eval=FALSE, include=FALSE}
 # library("ggVennDiagram")
 # library("ggvenn")
 # 
@@ -88,10 +101,12 @@ txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
 # library(GenomicRanges)
 # library()
 
+
 ```
 
+
 ## R folders
-```{r, warning=FALSE}
+```{r R_folders, warning=FALSE, echo=F}
 
 if(Sys.info()[["sysname"]]== "Linux") {
   s <- "/mnt/s"} else(
@@ -104,14 +119,14 @@ pubfigdir <- paste(resdir,"pub_figures",sep="/")
 
 wdir <- "E:/Simon/P3026_ChIP_Seq_epiSVF"
 
-setwd(gitdir)
+# setwd(gitdir)
 getwd()
 
 
 ```
 
 ## linux
-```{bash eval=FALSE, include=TRUE}
+```{bash unix_system, eval=FALSE, echo=F}
 ##  linux ####
 sudo apt update
 sudo apt upgrade
@@ -123,7 +138,7 @@ sudo mount -t drvfs S: /mnt/s
 
 # 0 Prerequisits
 ## Folder & Names
-```{bash, message=FALSE, warning=FALSE}
+```{bash unix_folders, message=FALSE, warning=FALSE, echo=FALSE}
 source activate chipseq
 
 run="Kelly";
@@ -180,7 +195,7 @@ blacklmm10="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/mm10/mm10.black
 
 # 3 Results
 ### Generate combined peak list
-```{r}
+```{r combine_peaks, echo=FALSE, }
 csdir <- paste(ddir,"ChIPSeeker",sep="/")
 
 # Peak Calling files
@@ -198,6 +213,7 @@ extraCols_narrowPeak <- c(signalValue = "numeric", pValue = "numeric",
 # Read peak files from all subfolders
 npeak_list_all <- list()
 npeak_combined_all <- list()
+npeak_numbers_table <- {}
 
 # loop through subfolders
 for (beddir in macssubdir){
@@ -209,28 +225,33 @@ beds <- list.files(beddir, pattern=".narrowPeak")
 beds <- file.path(beddir,beds)
 name <- paste(run,"_",sep="")
 
-npeak_numbers <- {}
+
 npeak_list <- list()
 
+i <- beds[1]
 # inside loop thourgh each replicate
 for (i in beds) {
-  print(i)
-# npeak <- readPeakFile(i)
+  npeak_numbers <- {}
+  # print(i)
+  # npeak <- readPeakFile(i)
 npeak <- import(i, format = "BED",extraCols = extraCols_narrowPeak)
 n <- basename(i) %>% str_remove(pattern="_all_peaks.narrowPeak")
 print(paste("Run: ",run,", Sample: ",n," Peaks: ",length(npeak), sep=""))
-npeak_numbers <- rbind(npeak_numbers,data.frame(sample = paste(n,sep="_"), peaks = length(npeak)))
+npeak_numbers <- rbind(npeak_numbers,data.frame(sample = paste(n,sep="_"), all_peaks = length(npeak)))
 assign(paste(run,"npeaks",sep="_"),npeak_numbers)
 
-print(length(npeak))
+print(c("Total peaks",length(npeak)))
 npeak <- keepStandardChromosomes(npeak, pruning.mode="coarse")
-print(length(npeak))
+print(c("Peaks on Std Chromosomes",length(npeak)))
+npeak_numbers <- cbind(npeak_numbers, peaks_on_std_chromosomes = length(npeak))
 filtered <- GenomicRanges::setdiff(npeak, bl)
 revmap <- findOverlaps(filtered, npeak, select="arbitrary")
 mcols(filtered) <- mcols(npeak)[revmap, , drop=FALSE]
-print(length(filtered))
+print(c("Peaks filtered from blacklist:",length(filtered)))
+npeak_numbers <- cbind(npeak_numbers, peaks_wo_blacklist = length(filtered))
 npeak_list[[n]] <- filtered
 npeak_list_all[[n]] <- filtered
+npeak_numbers_table <- rbind(npeak_numbers_table,npeak_numbers)
 }
 
 # combine replicates
@@ -249,10 +270,10 @@ length(npeak_combined)
 # count overlap between peaks
 npeak_combined$hits <- rep(0,length(npeak_combined))
 for (i in 1:length(npeak_list)){
-print(i)
+# print(i)
 npeak_combined$hits <- npeak_combined$hits+countOverlaps(npeak_combined,npeak_list[i])
 }
-hist(npeak_combined$hits, breaks=10, main=run)
+hist(c(0,10,npeak_combined$hits), xlim=c(0,10), breaks=10, main=c("hits per replicate, Method: ",run))
 npeak_combined <- npeak_combined[elementMetadata(npeak_combined)$hits > 1,]
 length(npeak_combined)
 assign(paste(run,"npeak_combined",sep="_"),npeak_combined)
@@ -261,8 +282,8 @@ npeak_combined_all[[run]] <- npeak_combined
 
 }
 
-npeak_combined_all
-lapply(npeak_combined_all, length)
+# npeak_combined_all
+# lapply(npeak_combined_all, length)
 
 # generate overlap table
 peaks_summary <- data.frame(Sample=basename(macssubdir),
@@ -287,9 +308,19 @@ peaks_summary
 
 ```
 
+```{r peak_numbers, results='markup'}
+knitr::kable(npeak_numbers_table) %>% 
+  kable_styling("striped", full_width = F) %>% 
+ scroll_box(height = "400px")
+knitr::kable(peaks_summary)
+# tibble::as.tibble(npeak_numbers_table)
+# tibble::as.tibble(peaks_summary)
+```
+
+
 
 #### Venn
-```{r}
+```{r venn_overlaps,  echo = FALSE}
 
 # Venns
 olvenn <- findOverlapsOfPeaks(npeak_combined_all[[1]],
@@ -298,15 +329,15 @@ olvenn <- findOverlapsOfPeaks(npeak_combined_all[[1]],
                           npeak_combined_all[[4]],
                           npeak_combined_all[[5]])
 
+length(npeak_combined_all)
 # pdf(paste(csrundir,"Venn_Peaks2.pdf",sep="/"))
-makeVennDiagram(olvenn,
+makeVennDiagram(plot = TRUE, npeak_combined_all,
                 NameOfPeaks = names(npeak_combined_all),
                 fill=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise"),
                 cat.col=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise")
                 )
 
 # dev.off()
-
 # ggsave(peaks.venn,file=paste(pubfigdir,"Venn_Peaks.pdf",sep="/"), width = 8, height = 8, device = "pdf")
 
 
@@ -355,7 +386,7 @@ ggplot(all_npeaksAnno_table,aes(x=qValue, group=hits, fill=hits)) +
 
 levels(factor(all_npeaksAnno_table$annotation_short))
 
-all_npeaksAnno_table[order(all_npeaksAnno_table$width),]
+head(all_npeaksAnno_table[order(all_npeaksAnno_table$width),])
 viridis(8)
 
 top_hits <- subset(all_npeaksAnno_table, distanceToTSS > -2000 & distanceToTSS < 2000)
