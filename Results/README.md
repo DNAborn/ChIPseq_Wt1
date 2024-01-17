@@ -1,12 +1,22 @@
 ---
 title: "ChIP_Wt1 - Results"
 author: "Kelterborn"
-date: "2024-01-15"
+date: "2024-01-17"
 output:
   html_document: 
     toc: true
     keep_md: true
 ---
+
+<style>
+.vscroll-plot {
+    width: 1000px;
+    height: 500px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+</style>
+
 
 
 
@@ -51,16 +61,18 @@ txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
 
 
 ```r
-knitr::kable(npeak_numbers_table)
+knitr::kable(npeak_numbers_table) %>% 
+  kable_styling("striped", full_width = F) %>% 
+ scroll_box(height = "400px")
 ```
 
-<table>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; "><table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
-   <th style="text-align:left;"> sample </th>
-   <th style="text-align:right;"> all_peaks </th>
-   <th style="text-align:right;"> peaks_on_std_chromosomes </th>
-   <th style="text-align:right;"> peaks_wo_blacklist </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> sample </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> all_peaks </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> peaks_on_std_chromosomes </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> peaks_wo_blacklist </th>
   </tr>
  </thead>
 <tbody>
@@ -299,46 +311,23 @@ knitr::kable(npeak_numbers_table)
    <td style="text-align:right;"> 15963 </td>
   </tr>
 </tbody>
-</table>
+</table></div>
 
 ```r
-tibble::as.tibble(npeak_numbers_table)
+knitr::kable(peaks_summary)
 ```
 
-```
-## # A tibble: 39 × 4
-##    sample        all_peaks peaks_on_std_chromosomes peaks_wo_blacklist
-##    <chr>             <int>                    <int>              <int>
-##  1 Std_1463_1461       379                      338                200
-##  2 Std_1466_1464       282                      241                124
-##  3 Std_1499_1497       411                      368                236
-##  4 Std_1574_1572       568                      523                310
-##  5 Std_1577_1575       224                      190                107
-##  6 Std_1580_1578      2063                     1997               1562
-##  7 Std_1583_1581      1131                     1072                826
-##  8 Std_1586_1584       184                      143                 48
-##  9 Std_1589_1587       109                      106                 61
-## 10 pe_1463_1461       2553                     2531               1861
-## # ℹ 29 more rows
-```
-
-```r
-knitr::kable(peaks_summary) %>% 
-  kable_styling("striped", full_width = F) %>% 
- scroll_box(width = "500px", height = "200px")
-```
-
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:500px; "><table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table>
  <thead>
   <tr>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">   </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> Sample </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> Peaks </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> ol.Std </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> ol.pe </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> ol.local </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> ol.chro5k </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> ol.Online </th>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:left;"> Sample </th>
+   <th style="text-align:right;"> Peaks </th>
+   <th style="text-align:right;"> ol.Std </th>
+   <th style="text-align:right;"> ol.pe </th>
+   <th style="text-align:right;"> ol.local </th>
+   <th style="text-align:right;"> ol.chro5k </th>
+   <th style="text-align:right;"> ol.Online </th>
   </tr>
  </thead>
 <tbody>
@@ -393,27 +382,17 @@ knitr::kable(peaks_summary) %>%
    <td style="text-align:right;"> 17594 </td>
   </tr>
 </tbody>
-</table></div>
+</table>
 
 ```r
-tibble::as.tibble(peaks_summary)
-```
-
-```
-## # A tibble: 5 × 7
-##   Sample Peaks ol.Std ol.pe ol.local ol.chro5k ol.Online
-##   <chr>  <int>  <int> <int>    <int>     <int>     <int>
-## 1 Std       48     48    22       27        14         7
-## 2 pe      3038     22  3138     2288         9        22
-## 3 local   3061     27  2301     3207        10        33
-## 4 chro5k    11     14     9       10        11         5
-## 5 Online 15376      7    25       34         5     17594
+# tibble::as.tibble(npeak_numbers_table)
+# tibble::as.tibble(peaks_summary)
 ```
 
 
 
 #### Venn
-![](README_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+![](README_files/figure-html/venn_overlaps-1.png)<!-- -->
 
 ### Convert Peaks to Gene names
 
@@ -439,7 +418,7 @@ ggplot(all_npeaksAnno_table,aes(x=hits, fill=hits)) +
   ggtitle(n)
 ```
 
-![](README_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](README_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
 
 ```r
 ggplot(all_npeaksAnno_table,aes(x=width, group=annotation_short, fill=annotation_short)) +
@@ -449,7 +428,7 @@ ggplot(all_npeaksAnno_table,aes(x=width, group=annotation_short, fill=annotation
   ggtitle(paste("genetic region per peak size (",n,")",sep="")) # + coord_cartesian(xlim = c(0, 100), ylim=c(0,200))
 ```
 
-![](README_files/figure-html/unnamed-chunk-2-2.png)<!-- -->
+![](README_files/figure-html/unnamed-chunk-1-2.png)<!-- -->
 
 ```r
 ggsave(file=paste(pubfigdir,"Peaks_geneticregions_",n,".pdf",sep=""), width = 8, height = 8, device = "pdf")
@@ -461,7 +440,7 @@ ggplot(all_npeaksAnno_table,aes(x=width, group=hits, fill=hits)) +
   ggtitle(paste("hits per peak size")) # + coord_cartesian(xlim = c(0, 10000), ylim=c(0,50))
 ```
 
-![](README_files/figure-html/unnamed-chunk-2-3.png)<!-- -->
+![](README_files/figure-html/unnamed-chunk-1-3.png)<!-- -->
 
 ```r
 ggplot(all_npeaksAnno_table,aes(x=qValue, group=hits, fill=hits)) +
@@ -470,7 +449,7 @@ ggplot(all_npeaksAnno_table,aes(x=qValue, group=hits, fill=hits)) +
   ggtitle(paste("qvalue per hit")) # + coord_cartesian(xlim = c(0, 10000), ylim=c(0,50))
 ```
 
-![](README_files/figure-html/unnamed-chunk-2-4.png)<!-- -->
+![](README_files/figure-html/unnamed-chunk-1-4.png)<!-- -->
 
 ```r
 levels(factor(all_npeaksAnno_table$annotation_short))
