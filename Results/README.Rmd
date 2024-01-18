@@ -23,10 +23,12 @@ knitr::opts_chunk$set(echo = T,
                       results = "hide", error=FALSE, warning=FALSE, message=FALSE)
 ```
 
-# Prepare System
+# R Prepare System
 ## R update and load librarys
+BiocManager::install("")
+
 ```{r librarys}
-BiocManager::install("kableExtra",update = TRUE, ask = FALSE)
+BiocManager::install(update = TRUE, ask = FALSE)
 library(dbplyr)
 library(tidyverse)
 library(ChIPseeker)
@@ -39,6 +41,7 @@ library(AnnotationHub)
 library(ggplot2)
 library(viridis)
 library(kableExtra)
+library(DT)
 
 library(TxDb.Mmusculus.UCSC.mm39.knownGene)
 txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
@@ -125,7 +128,8 @@ getwd()
 
 ```
 
-## linux
+# Unix Prepare System
+## Unix Update System
 ```{bash unix_system, eval=FALSE, echo=F}
 ##  linux ####
 sudo apt update
@@ -136,8 +140,7 @@ sudo mount -t drvfs S: /mnt/s
 
 ```
 
-# 0 Prerequisits
-## Folder & Names
+## Unix Folder & Names
 ```{bash unix_folders, message=FALSE, warning=FALSE, echo=FALSE}
 source activate chipseq
 
@@ -211,6 +214,7 @@ extraCols_narrowPeak <- c(signalValue = "numeric", pValue = "numeric",
                           qValue = "numeric", peak = "integer")
 
 # Read peak files from all subfolders
+# generate list with combined peaks
 npeak_list_all <- list()
 npeak_combined_all <- list()
 npeak_numbers_table <- {}
@@ -237,7 +241,7 @@ for (i in beds) {
 npeak <- import(i, format = "BED",extraCols = extraCols_narrowPeak)
 n <- basename(i) %>% str_remove(pattern="_all_peaks.narrowPeak")
 print(paste("Run: ",run,", Sample: ",n," Peaks: ",length(npeak), sep=""))
-npeak_numbers <- rbind(npeak_numbers,data.frame(sample = paste(n,sep="_"), all_peaks = length(npeak)))
+npeak_numbers <- rbind(npeak_numbers,data.frame(sample = paste(n,sep="_"), Mapping = run, all_peaks = length(npeak)))
 assign(paste(run,"npeaks",sep="_"),npeak_numbers)
 
 print(c("Total peaks",length(npeak)))
@@ -273,7 +277,7 @@ for (i in 1:length(npeak_list)){
 # print(i)
 npeak_combined$hits <- npeak_combined$hits+countOverlaps(npeak_combined,npeak_list[i])
 }
-hist(c(0,10,npeak_combined$hits), xlim=c(0,10), breaks=10, main=c("hits per replicate, Method: ",run))
+# hist(c(0,10,npeak_combined$hits), xlim=c(0,10), breaks=10, main=c("hits per replicate, Method: ",run))
 npeak_combined <- npeak_combined[elementMetadata(npeak_combined)$hits > 1,]
 length(npeak_combined)
 assign(paste(run,"npeak_combined",sep="_"),npeak_combined)
@@ -286,7 +290,7 @@ npeak_combined_all[[run]] <- npeak_combined
 # lapply(npeak_combined_all, length)
 
 # generate overlap table
-peaks_summary <- data.frame(Sample=basename(macssubdir),
+peaks_overlap <- data.frame(Sample=basename(macssubdir),
                           Peaks=lengths(npeak_combined_all))
 ol.all <- {}
 l <- length(npeak_combined_all)
@@ -303,8 +307,8 @@ for (i in 1:l){
   assign(paste("ol",n,sep="."),ol)
 }
 
-peaks_summary <- data.frame(peaks_summary,ol.Std, ol.pe, ol.local, ol.chro5k, ol.Online)
-peaks_summary
+peaks_overlap <- data.frame(peaks_overlap,ol.Std, ol.pe, ol.local, ol.chro5k, ol.Online)
+# peaks_overlap
 
 ```
 
@@ -312,10 +316,30 @@ peaks_summary
 knitr::kable(npeak_numbers_table) %>% 
   kable_styling("striped", full_width = F) %>% 
  scroll_box(height = "400px")
-knitr::kable(peaks_summary)
+datatable(npeak_numbers_table)
+knitr::kable(peaks_overlap)
 # tibble::as.tibble(npeak_numbers_table)
-# tibble::as.tibble(peaks_summary)
+# tibble::as.tibble(peaks_overlap)
 ```
+
+### Results combined peaks
+```{r}
+run <- names(npeak_combined_all)
+for (i in run){
+  print(i)
+  pt <- as.data.frame(npeak_combined_all[[i]])
+  ggplot(pt,aes(x=hits, fill=hits)) +
+    stat_bin(alpha=0.5, position = 'identity', binwidth = 1) + 
+    scale_fill_viridis_c() +
+    coord_cartesian(xlim = c(0, 10)) +
+    ggtitle(paste("peaks per replicate")) 
+
+}
+
+
+
+```
+
 
 
 
@@ -343,7 +367,7 @@ makeVennDiagram(plot = TRUE, npeak_combined_all,
 
 ```
 
-### Convert Peaks to Gene names
+### Annotate Peaks
 ```{r}
 
 # Add Gene names
