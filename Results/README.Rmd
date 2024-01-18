@@ -8,14 +8,14 @@ output:
     keep_md: true
 ---
 
-<style>
-.vscroll-plot {
-    width: 1000px;
-    height: 500px;
-    overflow-y: scroll;
-    overflow-x: scroll;
-}
-</style>
+<!-- <style> -->
+<!-- .vscroll-plot { -->
+<!--     width: 1000px; -->
+<!--     height: 1000px; -->
+<!--     overflow-y: scroll; -->
+<!--     overflow-x: scroll; -->
+<!-- } -->
+<!-- </style> -->
 
 
 ```{r setup, include=FALSE}
@@ -42,6 +42,8 @@ library(ggplot2)
 library(viridis)
 library(kableExtra)
 library(DT)
+library(patchwork)
+library(gridExtra)
 
 library(TxDb.Mmusculus.UCSC.mm39.knownGene)
 txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
@@ -197,6 +199,32 @@ blacklmm10="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/mm10/mm10.black
 ```
 
 # 3 Results
+
+![Analysis Overview](../Data/sheme.pdf){height=100%, width=100%}
+
+![Analysis Overview](../Data/sheme.png){height=100%, width=100%}
+
+
+```{r method_overview2, echo = TRUE}
+knitr::include_graphics("../Data/sheme.png")
+knitr::include_graphics("../Data/sheme.pdf")
+knitr::include_graphics("./sheme.png")
+knitr::include_graphics("./sheme.pdf")
+knitr::include_graphics("../sheme.png")
+knitr::include_graphics("../sheme.pdf")
+knitr::include_graphics("/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/ChIPseq_Wt1_P3026/Results/sheme.png")
+knitr::include_graphics("/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/ChIPseq_Wt1_P3026/Results/sheme.pdf")
+getwd()
+```
+
+
+```{r Method_overview, message=TRUE, fig.align='center', fig.cap='Analysis Overview', out.width='1\\linewidth', fig.pos='H'}
+print("include figure in r chunk")
+knitr::include_graphics("../Data/sheme.pdf") # doesn't show
+
+```
+
+
 ### Generate combined peak list
 ```{r combine_peaks, echo=FALSE, }
 csdir <- paste(ddir,"ChIPSeeker",sep="/")
@@ -218,6 +246,7 @@ extraCols_narrowPeak <- c(signalValue = "numeric", pValue = "numeric",
 npeak_list_all <- list()
 npeak_combined_all <- list()
 npeak_numbers_table <- {}
+hist_hits <- list()
 
 # loop through subfolders
 for (beddir in macssubdir){
@@ -231,6 +260,7 @@ name <- paste(run,"_",sep="")
 
 
 npeak_list <- list()
+
 
 i <- beds[1]
 # inside loop thourgh each replicate
@@ -247,12 +277,12 @@ assign(paste(run,"npeaks",sep="_"),npeak_numbers)
 print(c("Total peaks",length(npeak)))
 npeak <- keepStandardChromosomes(npeak, pruning.mode="coarse")
 print(c("Peaks on Std Chromosomes",length(npeak)))
-npeak_numbers <- cbind(npeak_numbers, peaks_on_std_chromosomes = length(npeak))
+npeak_numbers <- cbind(npeak_numbers, filt_Std_Chrom = length(npeak))
 filtered <- GenomicRanges::setdiff(npeak, bl)
 revmap <- findOverlaps(filtered, npeak, select="arbitrary")
 mcols(filtered) <- mcols(npeak)[revmap, , drop=FALSE]
 print(c("Peaks filtered from blacklist:",length(filtered)))
-npeak_numbers <- cbind(npeak_numbers, peaks_wo_blacklist = length(filtered))
+npeak_numbers <- cbind(npeak_numbers, filt_bl = length(filtered))
 npeak_list[[n]] <- filtered
 npeak_list_all[[n]] <- filtered
 npeak_numbers_table <- rbind(npeak_numbers_table,npeak_numbers)
@@ -278,6 +308,33 @@ for (i in 1:length(npeak_list)){
 npeak_combined$hits <- npeak_combined$hits+countOverlaps(npeak_combined,npeak_list[i])
 }
 # hist(c(0,10,npeak_combined$hits), xlim=c(0,10), breaks=10, main=c("hits per replicate, Method: ",run))
+
+# generate list of histograms
+
+
+gg_b <- ggplot_build(
+  ggplot(as.data.frame(npeak_combined),aes(x=hits, colours=hits)) +
+    stat_bin(alpha=0.5, position = 'identity', binwidth = 1, colours = npeak_combined$hits) + 
+    scale_fill_viridis_c() +
+    coord_cartesian(xlim = c(0, 10)) +
+    stat_bin(position = 'identity', binwidth=1, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
+    scale_x_continuous(n.breaks= 10) +
+    ggtitle(paste("peaks per replicate. Total peaks (>1 hit):"))
+)
+nu_bins <- dim(gg_b$data[[1]])[1]
+ymax <- max(gg_b$data[[1]]$y)
+g <- ggplot(as.data.frame(npeak_combined),aes(x=hits, colours=hits)) +
+    stat_bin(alpha=0.5, position = 'identity', binwidth = 1, colours = npeak_combined$hits, fill = viridis(nu_bins)) + 
+    scale_fill_viridis_c() +
+    coord_cartesian(xlim = c(0, 10), ylim=c(0,ymax*1.05)) +
+    stat_bin(position = 'identity', binwidth=1, geom='text', size=3,  vjust=-0.2, aes(label=after_stat(count)), colour=c("red",rep("blue",nu_bins-1))) +
+    scale_x_continuous(n.breaks= 10) +
+    ggtitle(paste("Method:",run,"Peaks per replicate. Total peaks (>1 hit):",summary(elementMetadata(npeak_combined)$hits > 1)["TRUE"]))
+# 
+print(paste(run,": generate ggplot"))
+hist_hits[[run]] <- g
+
+summary(elementMetadata(npeak_combined)$hits > 1)[2]
 npeak_combined <- npeak_combined[elementMetadata(npeak_combined)$hits > 1,]
 length(npeak_combined)
 assign(paste(run,"npeak_combined",sep="_"),npeak_combined)
@@ -312,7 +369,8 @@ peaks_overlap <- data.frame(peaks_overlap,ol.Std, ol.pe, ol.local, ol.chro5k, ol
 
 ```
 
-```{r peak_numbers, results='markup'}
+#### Peak Tables
+```{r peak_numbers, include=FALSE}
 knitr::kable(npeak_numbers_table) %>% 
   kable_styling("striped", full_width = F) %>% 
  scroll_box(height = "400px")
@@ -322,28 +380,34 @@ knitr::kable(peaks_overlap)
 # tibble::as.tibble(peaks_overlap)
 ```
 
-### Results combined peaks
-```{r}
-run <- names(npeak_combined_all)
-for (i in run){
-  print(i)
-  pt <- as.data.frame(npeak_combined_all[[i]])
-  ggplot(pt,aes(x=hits, fill=hits)) +
-    stat_bin(alpha=0.5, position = 'identity', binwidth = 1) + 
-    scale_fill_viridis_c() +
-    coord_cartesian(xlim = c(0, 10)) +
-    ggtitle(paste("peaks per replicate")) 
+#### Hists & Tables
+```{r hits_tables, out.width="100%", echo=FALSE, out.height=1000px}
 
+# patchwork::wrap_plots(hist_hits) +plot_layout(nrow = 3, ncol = 2, axis_titles = "collect") # axes = "collect"
+
+# add sum row to tables
+
+for (run in names(hist_hits)){
+     table <- subset(npeak_numbers_table, Mapping == run) %>% 
+                bind_rows(summarise_all(., ~if(is.numeric(.)) sum(.) else "Total"))
+      l <- dim(table)[1]
+      t1 <- ttheme_default(base_size = 8,
+                         core=list(
+        fg_params=list(fontface=c(rep("plain", (l-1)), "bold.italic")),
+        bg_params = list(fill=c(rep(c("white", "grey95"),
+                                    length.out=(l-1)), "lightyellow")
+        )))
+      
+  print(hist_hits[[run]] / gridExtra::tableGrob(table, theme = t1) +  plot_layout(heights = c(1,2)) )
 }
-
-
+#  bg_params = list(fill=c(rep("white",(l-1)), "skyblue1"))) 
 
 ```
 
 
 
 
-#### Venn
+#### Overlap Peaks
 ```{r venn_overlaps,  echo = FALSE}
 
 # Venns
@@ -355,7 +419,8 @@ olvenn <- findOverlapsOfPeaks(npeak_combined_all[[1]],
 
 length(npeak_combined_all)
 # pdf(paste(csrundir,"Venn_Peaks2.pdf",sep="/"))
-makeVennDiagram(plot = TRUE, npeak_combined_all,
+makeVennDiagram(main="Overlap of combined & filtered (>1 hits) peak lists",
+                plot = TRUE, npeak_combined_all,
                 NameOfPeaks = names(npeak_combined_all),
                 fill=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise"),
                 cat.col=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise")
@@ -367,8 +432,9 @@ makeVennDiagram(plot = TRUE, npeak_combined_all,
 
 ```
 
-### Annotate Peaks
-```{r}
+## Annotate Peaks
+#### 1 Run
+```{r }
 
 # Add Gene names
 ah = AnnotationHub()
@@ -376,7 +442,7 @@ query(ah, c("EnsDb", "Musculus"))
 edb <- ah[["AH113713"]]
 
 # 1 Subfolder
-i <- 5
+i <- 1
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
   all_npeaksAnno_table$transcriptId2 <- sub("\\.\\d+$", "", all_npeaksAnno_table$transcriptId)
@@ -404,7 +470,7 @@ ggplot(all_npeaksAnno_table,aes(x=width, group=hits, fill=hits)) +
   ggtitle(paste("hits per peak size")) # + coord_cartesian(xlim = c(0, 10000), ylim=c(0,50))
 
 ggplot(all_npeaksAnno_table,aes(x=qValue, group=hits, fill=hits)) +
-  stat_bin(alpha=0.5, position = 'identity', binwidth=5) + 
+  stat_bin(alpha=0.5, position = 'identity') + 
   scale_fill_viridis_c() +
   ggtitle(paste("qvalue per hit")) # + coord_cartesian(xlim = c(0, 10000), ylim=c(0,50))
 
@@ -415,6 +481,8 @@ viridis(8)
 
 top_hits <- subset(all_npeaksAnno_table, distanceToTSS > -2000 & distanceToTSS < 2000)
 dim(top_hits)
+
+
 
 ```
 
@@ -446,27 +514,27 @@ for (i in 1:length(npeakAnnoList)){
 }
 
 # Results from RNA-Seq
-deg <- readRDS(paste(dirname(outdir),"RNA-Seq_res_degs.RDS", sep="/"))
-deg.top <- readRDS(paste(dirname(outdir),"RNA-Seq_top_degs.RDS", sep="/"))
+deg <- readRDS("../../RNA-Seq_res_degs.RDS")
+deg.top <- readRDS("../../RNA-Seq_top_degs.RDS")
 
 # Plot gene region for all lists
 i <- 5
-for (i in names(npeak_combined_all)){
-all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
-  all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
+for (i in names(npeakAnnoList)){
+
+  all_npeaksAnno_table <- as.data.frame(npeakAnnoList[[i]])
   all_npeaksAnno_table$transcriptId2 <- sub("\\.\\d+$", "", all_npeaksAnno_table$transcriptId)
   all_npeaksAnno_table$geneId <- mapIds(edb, keys = all_npeaksAnno_table$transcriptId2, column = "GENEID", keytype = "TXID")
   all_npeaksAnno_table$symbol <- mapIds(edb, keys = all_npeaksAnno_table$transcriptId2, column = "SYMBOL", keytype = "TXID")
 n <- names(npeak_combined_all[i])
 all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotation,pattern = " ", simplify = TRUE)[,1]
 
-g <- ggplot(all_npeaksAnno_table,aes(x=score, group=annotation_short, fill=annotation_short)) +
-      stat_bin(alpha=0.5, position = 'identity', binwidth=100) + 
+g <- ggplot(all_npeaksAnno_table,aes(x=symbol, group=annotation_short, fill=annotation_short)) +
+      stat_bin(alpha=0.5, position = 'identity') + 
   # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
   scale_fill_viridis_d() +
   ggtitle(paste("genetic region per peak size (",n,")",sep="")) # + coord_cartesian(xlim = c(0, 100), ylim=c(0,200))
 plot(g)
-ggsave(g, file=paste(pubfigdir,"/Peaks_geneticregions_score_",n,".pdf",sep=""), width = 8, height = 8, device = "pdf")
+# ggsave(g, file=paste(pubfigdir,"/Peaks_geneticregions_score_",n,".pdf",sep=""), width = 8, height = 8, device = "pdf")
 }
 
 
