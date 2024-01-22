@@ -434,7 +434,7 @@ makeVennDiagram(main="Overlap of combined & filtered (>1 hits) peak lists",
 
 ## Annotate Peaks
 #### 1 Run
-```{r }
+```{r , echo=FALSE}
 
 # Add Gene names
 ah = AnnotationHub()
@@ -442,7 +442,7 @@ query(ah, c("EnsDb", "Musculus"))
 edb <- ah[["AH113713"]]
 
 # 1 Subfolder
-i <- 1
+i <- 2
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
   all_npeaksAnno_table$transcriptId2 <- sub("\\.\\d+$", "", all_npeaksAnno_table$transcriptId)
@@ -451,36 +451,38 @@ all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3
 n <- names(npeak_combined_all[i])
 all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotation,pattern = " ", simplify = TRUE)[,1]
 
-ggplot(all_npeaksAnno_table,aes(x=hits, fill=hits)) +
+g1 <- ggplot(all_npeaksAnno_table,aes(x=hits, fill=hits)) +
       stat_bin(alpha=0.6, position = 'identity', binwidth=1) + #
       stat_bin(position = 'identity', binwidth=1, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
   ggtitle(n)
 
-ggplot(all_npeaksAnno_table,aes(x=width, group=annotation_short, fill=annotation_short)) +
+g2 <- ggplot(all_npeaksAnno_table,aes(x=width, group=annotation_short, fill=annotation_short)) +
       stat_bin(alpha=0.5, position = 'identity', binwidth=100) + 
   # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
   scale_fill_viridis_d() +
-  ggtitle(paste("genetic region per peak size (",n,")",sep="")) # + coord_cartesian(xlim = c(0, 100), ylim=c(0,200))
-ggsave(file=paste(pubfigdir,"Peaks_geneticregions_",n,".pdf",sep=""), width = 8, height = 8, device = "pdf")
+  ggtitle(paste("genetic region per peak size (",n,")",sep="")) + coord_cartesian(xlim = c(0, 10000))
+# ggsave(file=paste(pubfigdir,"Peaks_geneticregions_",n,".pdf",sep=""), width = 8, height = 8, device = "pdf")
 
-ggplot(all_npeaksAnno_table,aes(x=width, group=hits, fill=hits)) +
+g3 <- ggplot(all_npeaksAnno_table,aes(x=width, group=hits, fill=hits)) +
       stat_bin(alpha=0.5, position = 'identity', binwidth=200) + 
   # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
   scale_fill_viridis_c() +
-  ggtitle(paste("hits per peak size")) # + coord_cartesian(xlim = c(0, 10000), ylim=c(0,50))
+  ggtitle(paste("hits per peak size")) + coord_cartesian(xlim = c(0, 10000))
 
-ggplot(all_npeaksAnno_table,aes(x=qValue, group=hits, fill=hits)) +
+g4 <- ggplot(all_npeaksAnno_table,aes(x=qValue, group=hits, fill=hits)) +
   stat_bin(alpha=0.5, position = 'identity') + 
   scale_fill_viridis_c() +
   ggtitle(paste("qvalue per hit")) # + coord_cartesian(xlim = c(0, 10000), ylim=c(0,50))
 
 levels(factor(all_npeaksAnno_table$annotation_short))
 
-head(all_npeaksAnno_table[order(all_npeaksAnno_table$width),])
+datatable(head(all_npeaksAnno_table[order(all_npeaksAnno_table$width),]))
 viridis(8)
 
 top_hits <- subset(all_npeaksAnno_table, distanceToTSS > -2000 & distanceToTSS < 2000)
 dim(top_hits)
+
+g1+g2+g3+g4+plot_layout(nrow = 2, ncol = 2, axis_titles = "collect") 
 
 
 
