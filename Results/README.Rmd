@@ -6,6 +6,8 @@ output:
   html_document: 
     toc: true
     keep_md: true
+    self_contained: false
+    df_print: kable
 ---
 
 <!-- <style> -->
@@ -381,7 +383,7 @@ knitr::kable(peaks_overlap)
 ```
 
 #### Hists & Tables
-```{r hits_tables, out.width="100%", echo=FALSE, out.height=1000px}
+```{r hits_tables, out.width="100%", echo=FALSE, out.height="1000px"}
 
 # patchwork::wrap_plots(hist_hits) +plot_layout(nrow = 3, ncol = 2, axis_titles = "collect") # axes = "collect"
 
