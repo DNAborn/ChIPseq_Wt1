@@ -208,14 +208,14 @@ blacklmm10="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/mm10/mm10.black
 
 
 ```{r method_overview2, echo = TRUE}
-knitr::include_graphics("../Data/sheme.png")
-knitr::include_graphics("../Data/sheme.pdf")
-knitr::include_graphics("./sheme.png")
-knitr::include_graphics("./sheme.pdf")
-knitr::include_graphics("../sheme.png")
-knitr::include_graphics("../sheme.pdf")
-knitr::include_graphics("/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/ChIPseq_Wt1_P3026/Results/sheme.png")
-knitr::include_graphics("/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/ChIPseq_Wt1_P3026/Results/sheme.pdf")
+knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png")
+knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.pdf")
+# knitr::include_graphics("./sheme.png")
+# knitr::include_graphics("./sheme.pdf")
+# knitr::include_graphics("../sheme.png")
+# knitr::include_graphics("../sheme.pdf")
+# knitr::include_graphics("/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/ChIPseq_Wt1_P3026/Results/sheme.png")
+# knitr::include_graphics("/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/ChIPseq_Wt1_P3026/Results/sheme.pdf")
 getwd()
 ```
 
