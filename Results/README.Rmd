@@ -3,10 +3,9 @@ title: "ChIP_Wt1 - Results"
 author: "Kelterborn"
 date: "`r Sys.Date()`"
 output:
-  html_document: 
+  md_document:
+    variant: gfm
     toc: true
-    keep_md: true
-    self_contained: false
     df_print: kable
 ---
 
@@ -19,6 +18,13 @@ output:
 <!-- } -->
 <!-- </style> -->
 
+<!-- output: -->
+<!--   html_document:  -->
+<!--     toc: true -->
+<!--     keep_md: true -->
+<!--     self_contained: false -->
+<!--     df_print: kable -->
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = T,
@@ -30,7 +36,8 @@ knitr::opts_chunk$set(echo = T,
 BiocManager::install("")
 
 ```{r librarys}
-BiocManager::install(update = TRUE, ask = FALSE)
+# BiocManager::install(update = TRUE, ask = FALSE)
+
 library(dbplyr)
 library(tidyverse)
 library(ChIPseeker)
@@ -436,7 +443,7 @@ makeVennDiagram(main="Overlap of combined & filtered (>1 hits) peak lists",
 
 ## Annotate Peaks
 #### 1 Run
-```{r , echo=FALSE}
+```{r annotated_peaks, echo=FALSE}
 
 # Add Gene names
 ah = AnnotationHub()
@@ -453,18 +460,25 @@ all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3
 n <- names(npeak_combined_all[i])
 all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotation,pattern = " ", simplify = TRUE)[,1]
 
-g1 <- ggplot(all_npeaksAnno_table,aes(x=hits, fill=hits)) +
-      stat_bin(alpha=0.6, position = 'identity', binwidth=1) + #
+g1 <- ggplot(all_npeaksAnno_table,aes(x=hits)) + # fill = cut(hits, 100)
+      stat_bin(alpha=0.6, position = 'identity', binwidth=1) + 
+      scale_fill_viridis_d() +
       stat_bin(position = 'identity', binwidth=1, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
-  ggtitle(n)
+      ggtitle("Overlapping peaks over replicates")
 
 g2 <- ggplot(all_npeaksAnno_table,aes(x=width, group=annotation_short, fill=annotation_short)) +
-      stat_bin(alpha=0.5, position = 'identity', binwidth=100) + 
+      stat_bin(alpha=0.5, position = 'identity', binwidth=1) + 
   # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
   scale_fill_viridis_d() +
   ggtitle(paste("genetic region per peak size (",n,")",sep="")) + coord_cartesian(xlim = c(0, 10000))
 # ggsave(file=paste(pubfigdir,"Peaks_geneticregions_",n,".pdf",sep=""), width = 8, height = 8, device = "pdf")
 
+g2 <- ggplot(all_npeaksAnno_table,aes(x=qValue, group=annotation_short, fill=annotation_short)) +
+      stat_bin(alpha=0.5, position = 'identity', binwidth=1) + 
+  # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
+  scale_fill_viridis_d() +
+  ggtitle(paste("genetic region per qValue (",n,")",sep="")) + coord_cartesian(xlim = c(0, 50))
+g2
 g3 <- ggplot(all_npeaksAnno_table,aes(x=width, group=hits, fill=hits)) +
       stat_bin(alpha=0.5, position = 'identity', binwidth=200) + 
   # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
@@ -472,20 +486,29 @@ g3 <- ggplot(all_npeaksAnno_table,aes(x=width, group=hits, fill=hits)) +
   ggtitle(paste("hits per peak size")) + coord_cartesian(xlim = c(0, 10000))
 
 g4 <- ggplot(all_npeaksAnno_table,aes(x=qValue, group=hits, fill=hits)) +
-  stat_bin(alpha=0.5, position = 'identity') + 
+  stat_bin(alpha=0.5, position = 'identity', binwidth = 1) + 
   scale_fill_viridis_c() +
-  ggtitle(paste("qvalue per hit")) # + coord_cartesian(xlim = c(0, 10000), ylim=c(0,50))
+  ggtitle(paste("qvalue per hit")) + coord_cartesian(xlim=c(0,50))
+
+all_npeaksAnno_table$hits <- as.factor(all_npeaksAnno_table$hits)
+g4 <- ggplot(all_npeaksAnno_table,aes(x=hits, y=qValue)) +
+  geom_violin(aes(fill=hits)) +
+  scale_fill_viridis_d() +
+  geom_point(size=0.05, position ='jitter', alpha=0.2,color="grey40") +
+  coord_cartesian(ylim=c(0,50))
 
 levels(factor(all_npeaksAnno_table$annotation_short))
 
 datatable(head(all_npeaksAnno_table[order(all_npeaksAnno_table$width),]))
 viridis(8)
 
-top_hits <- subset(all_npeaksAnno_table, distanceToTSS > -2000 & distanceToTSS < 2000)
+top_hits <- subset(all_npeaksAnno_table, distanceToTSS > -2000 & distanceToTSS < 2000) 
 dim(top_hits)
+top_hits <- top_hits[order(top_hits$score, decreasing=T),]
+kable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalValue","qValue")])
+datatable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalValue","qValue")])
 
-g1+g2+g3+g4+plot_layout(nrow = 2, ncol = 2, axis_titles = "collect") 
-
+g1+g2+g3+g4+plot_layout(nrow = 2, ncol = 2, axis_titles = "collect") + plot_annotation(title = paste("Method:",n))
 
 
 ```
