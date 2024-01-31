@@ -5,8 +5,7 @@ date: "`r Sys.Date()`"
 output:
   md_document:
     variant: gfm
-    toc: true
-    df_print: kable
+always_allow_html: true
 ---
 
 <!-- <style> -->
@@ -29,6 +28,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = T,
                       results = "hide", error=FALSE, warning=FALSE, message=FALSE)
+options(kableExtra.auto_format = FALSE)
 ```
 
 # R Prepare System
@@ -214,7 +214,7 @@ blacklmm10="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/mm10/mm10.black
 ![Analysis Overview](../Data/sheme.png){height=100%, width=100%}
 
 
-```{r method_overview2, echo = TRUE}
+```{r method_overview2, echo = TRUE, include=TRUE, results='markup'}
 knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png")
 knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.pdf")
 # knitr::include_graphics("./sheme.png")
@@ -383,19 +383,19 @@ peaks_overlap <- data.frame(peaks_overlap,ol.Std, ol.pe, ol.local, ol.chro5k, ol
 knitr::kable(npeak_numbers_table) %>% 
   kable_styling("striped", full_width = F) %>% 
  scroll_box(height = "400px")
-datatable(npeak_numbers_table)
+# datatable(npeak_numbers_table)
 knitr::kable(peaks_overlap)
 # tibble::as.tibble(npeak_numbers_table)
 # tibble::as.tibble(peaks_overlap)
 ```
 
 #### Hists & Tables
-```{r hits_tables, out.width="100%", echo=FALSE, out.height="1000px"}
+```{r hits_tables, out.width="100%", echo=FALSE, out.height="2000px"}
 
 # patchwork::wrap_plots(hist_hits) +plot_layout(nrow = 3, ncol = 2, axis_titles = "collect") # axes = "collect"
 
 # add sum row to tables
-
+ht_list <- list()
 for (run in names(hist_hits)){
      table <- subset(npeak_numbers_table, Mapping == run) %>% 
                 bind_rows(summarise_all(., ~if(is.numeric(.)) sum(.) else "Total"))
@@ -407,8 +407,12 @@ for (run in names(hist_hits)){
                                     length.out=(l-1)), "lightyellow")
         )))
       
-  print(hist_hits[[run]] / gridExtra::tableGrob(table, theme = t1) +  plot_layout(heights = c(1,2)) )
+  ht_list[[run]] <-  hist_hits[[run]] / gridExtra::tableGrob(table, theme = t1) +  plot_layout(heights = c(1,2))
 }
+patchwork::wrap_plots(ht_list[1:2]) + plot_layout(ncol = 2)
+patchwork::wrap_plots(ht_list[3:4]) + plot_layout(ncol = 2)
+patchwork::wrap_plots(ht_list[5]) + plot_layout(ncol = 2)
+
 #  bg_params = list(fill=c(rep("white",(l-1)), "skyblue1"))) 
 
 ```
@@ -443,7 +447,7 @@ makeVennDiagram(main="Overlap of combined & filtered (>1 hits) peak lists",
 
 ## Annotate Peaks
 #### 1 Run
-```{r annotated_peaks, echo=FALSE}
+```{r annotated_peaks, include=TRUE, results = "show"}
 
 # Add Gene names
 ah = AnnotationHub()
@@ -451,7 +455,67 @@ query(ah, c("EnsDb", "Musculus"))
 edb <- ah[["AH113713"]]
 
 # 1 Subfolder
-i <- 2
+
+figures_annotated_peaks <- list()
+
+i <- "pe"
+all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
+  all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
+  all_npeaksAnno_table$transcriptId2 <- sub("\\.\\d+$", "", all_npeaksAnno_table$transcriptId)
+  all_npeaksAnno_table$geneId <- mapIds(edb, keys = all_npeaksAnno_table$transcriptId2, column = "GENEID", keytype = "TXID")
+  all_npeaksAnno_table$symbol <- mapIds(edb, keys = all_npeaksAnno_table$transcriptId2, column = "SYMBOL", keytype = "TXID")
+n <- names(npeak_combined_all[i])
+all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotation,pattern = " ", simplify = TRUE)[,1]
+
+# Annotated table
+top_hits <- subset(all_npeaksAnno_table, distanceToTSS > -2000 & distanceToTSS < 2000) 
+dim(top_hits)
+top_hits <- top_hits[order(top_hits$score, decreasing=T),]
+knitr::kable(top_hits[c(0:50),c("symbol","annotation","distanceToTSS","peak","score","signalValue","qValue","hits")],format = "markdown")
+
+hits_lim <- max(all_npeaksAnno_table$hits)
+score_lim <- quantile(all_npeaksAnno_table$score, .90)
+peak_lim <- quantile(all_npeaksAnno_table$peak, .90)
+signalValue_lim <- quantile(all_npeaksAnno_table$signalValue, .90)
+qValue_lim <- quantile(all_npeaksAnno_table$qValue, .90)
+
+
+g1 <- ggplot(all_npeaksAnno_table,aes(x=score, y=peak, color=hits)) +
+  # geom_violin(aes(fill=hits)) +
+  geom_point(size=0.5, position ='jitter', alpha=0.5) +
+  scale_color_viridis_c() +
+  coord_cartesian(xlim=c(0,score_lim), ylim = c(0,peak_lim)) +
+  ggtitle(paste("score to peak"))
+
+g2 <- ggplot(all_npeaksAnno_table,aes(x=score, y=signalValue, color=hits)) +
+  # geom_violin(aes(fill=hits)) +
+  geom_point(size=0.5, position ='jitter', alpha=0.5) +
+  scale_color_viridis_c() +
+  coord_cartesian(xlim=c(0,score_lim), ylim = c(0,signalValue_lim)) +
+  ggtitle(paste("score to signalValue"))
+
+g3 <- ggplot(all_npeaksAnno_table,aes(x=score, y=qValue, color=hits)) +
+  # geom_violin(aes(fill=hits)) +
+  geom_point(size=0.5, position ='jitter', alpha=0.5) +
+  scale_color_viridis_c() +
+  coord_cartesian(xlim=c(0,score_lim), ylim = c(0,qValue_lim)) +
+  ggtitle(paste("score to qValue"))
+
+g1+g2+g3+plot_layout(guides = "collect")
+
+
+head(all_npeaksAnno_table)
+
+ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=score, color=hits)) +
+  geom_point(size=1, alpha=0.5, position = "jitter") +
+  scale_color_viridis_c() +
+  coord_cartesian(ylim=c(0,score_lim)) +
+  ggtitle(paste("scores to signalValue"))
+# xlim=c(-10000,10000)
+
+
+
+for (i in 1:length(npeak_combined_all)){
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
   all_npeaksAnno_table$transcriptId2 <- sub("\\.\\d+$", "", all_npeaksAnno_table$transcriptId)
@@ -464,52 +528,72 @@ g1 <- ggplot(all_npeaksAnno_table,aes(x=hits)) + # fill = cut(hits, 100)
       stat_bin(alpha=0.6, position = 'identity', binwidth=1) + 
       scale_fill_viridis_d() +
       stat_bin(position = 'identity', binwidth=1, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
-      ggtitle("Overlapping peaks over replicates")
+      ggtitle("peaks in replicates")
 
-g2 <- ggplot(all_npeaksAnno_table,aes(x=width, group=annotation_short, fill=annotation_short)) +
+g2a <- ggplot(all_npeaksAnno_table,aes(x=score, group=annotation_short, fill=annotation_short)) +
+      stat_bin(alpha=0.5, position = 'identity', binwidth=5) + 
+  # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
+  scale_fill_viridis_d() +
+  ggtitle(paste("genetic region per score (",n,")",sep="")) + coord_cartesian(xlim = c(0, 100))
+g2b <- ggplot(all_npeaksAnno_table,aes(x=signalValue, group=annotation_short, fill=annotation_short)) +
       stat_bin(alpha=0.5, position = 'identity', binwidth=1) + 
   # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
   scale_fill_viridis_d() +
-  ggtitle(paste("genetic region per peak size (",n,")",sep="")) + coord_cartesian(xlim = c(0, 10000))
-# ggsave(file=paste(pubfigdir,"Peaks_geneticregions_",n,".pdf",sep=""), width = 8, height = 8, device = "pdf")
+  ggtitle(paste("genetic region per signalValue (",n,")",sep="")) + coord_cartesian(xlim = c(0, 15))
 
-g2 <- ggplot(all_npeaksAnno_table,aes(x=qValue, group=annotation_short, fill=annotation_short)) +
-      stat_bin(alpha=0.5, position = 'identity', binwidth=1) + 
-  # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
-  scale_fill_viridis_d() +
-  ggtitle(paste("genetic region per qValue (",n,")",sep="")) + coord_cartesian(xlim = c(0, 50))
-g2
 g3 <- ggplot(all_npeaksAnno_table,aes(x=width, group=hits, fill=hits)) +
       stat_bin(alpha=0.5, position = 'identity', binwidth=200) + 
   # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
   scale_fill_viridis_c() +
   ggtitle(paste("hits per peak size")) + coord_cartesian(xlim = c(0, 10000))
 
-g4 <- ggplot(all_npeaksAnno_table,aes(x=qValue, group=hits, fill=hits)) +
-  stat_bin(alpha=0.5, position = 'identity', binwidth = 1) + 
-  scale_fill_viridis_c() +
-  ggtitle(paste("qvalue per hit")) + coord_cartesian(xlim=c(0,50))
-
 all_npeaksAnno_table$hits <- as.factor(all_npeaksAnno_table$hits)
-g4 <- ggplot(all_npeaksAnno_table,aes(x=hits, y=qValue)) +
-  geom_violin(aes(fill=hits)) +
+
+# g4 <- ggplot(all_npeaksAnno_table,aes(x=hits, y=qValue)) +
+#   geom_violin(aes(fill=hits)) +
+#   scale_fill_viridis_d() +
+#   geom_point(size=0.05, position ='jitter', alpha=0.2,color="grey40") +
+#   coord_cartesian(ylim=c(0,50))
+
+g4 <- ggplot(all_npeaksAnno_table,aes(x=hits, y=score)) +
+  geom_violin(aes(fill=hits, color=hits)) +
   scale_fill_viridis_d() +
   geom_point(size=0.05, position ='jitter', alpha=0.2,color="grey40") +
-  coord_cartesian(ylim=c(0,50))
+  coord_cartesian(ylim=c(0,1000)) +
+  ggtitle(paste("scores per hit"))
 
 levels(factor(all_npeaksAnno_table$annotation_short))
 
-datatable(head(all_npeaksAnno_table[order(all_npeaksAnno_table$width),]))
+g5 <- ggplot(all_npeaksAnno_table,aes(x=score, y=qValue, color=signalValue)) +
+  # geom_violin(aes(fill=hits)) +
+  geom_point(size=0.5, position ='jitter', alpha=0.5) +
+  scale_color_viridis_c(limits = c(0, 15)) +
+  coord_cartesian(ylim=c(0,50), xlim = c(0,500)) +
+  ggtitle(paste("score to qvalue"))
+
+g6 <- ggplot(all_npeaksAnno_table,aes(x=score, y=signalValue, color=pValue)) +
+  # geom_violin(aes(fill=hits)) +
+  geom_point(size=1, alpha=0.5) +
+  scale_color_viridis_c(option = "D", direction = -1, limits = c(0, 100)) +
+  coord_cartesian(ylim=c(0,15), xlim = c(0,1000))+
+  ggtitle(paste("scores to signalValue"))
+
+# datatable(head(all_npeaksAnno_table[order(all_npeaksAnno_table$width),]))
 viridis(8)
 
 top_hits <- subset(all_npeaksAnno_table, distanceToTSS > -2000 & distanceToTSS < 2000) 
 dim(top_hits)
 top_hits <- top_hits[order(top_hits$score, decreasing=T),]
-kable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalValue","qValue")])
-datatable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalValue","qValue")])
+top_hits_list[[n]] <- top_hits
 
-g1+g2+g3+g4+plot_layout(nrow = 2, ncol = 2, axis_titles = "collect") + plot_annotation(title = paste("Method:",n))
+figures_annotated_peaks[[n]] <- g1+g2a+g3+g4+g5+g6+plot_layout(nrow = 2, ncol = 3, axis_titles = "collect") + plot_annotation(title = paste("Method:",n))
+}
 
+
+
+options(kableExtra.auto_format = FALSE)
+knitr::kable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")
+# datatable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalValue","qValue")])
 
 ```
 
