@@ -5,7 +5,7 @@
 BiocManager::install(““)
 
 ``` r
-BiocManager::install(update = TRUE, ask = FALSE)
+# BiocManager::install(update = TRUE, ask = FALSE)
 
 library(dbplyr)
 library(tidyverse)
@@ -84,13 +84,24 @@ knitr::include_graphics("../Data/sheme.pdf") # doesn't show
 
 #### Peak Tables
 
+``` r
+knitr::kable(npeak_numbers_table) %>% 
+  kable_styling("striped", full_width = F) %>% 
+ scroll_box(height = "400px")
+# datatable(npeak_numbers_table)
+knitr::kable(peaks_overlap)
+# tibble::as.tibble(npeak_numbers_table)
+# tibble::as.tibble(peaks_overlap)
+print("hello")
+```
+
 #### Hists & Tables
 
-<img src="README_files/figure-gfm/hits_tables-1.png" width="100%" height="2000px" /><img src="README_files/figure-gfm/hits_tables-2.png" width="100%" height="2000px" /><img src="README_files/figure-gfm/hits_tables-3.png" width="100%" height="2000px" /><img src="README_files/figure-gfm/hits_tables-4.png" width="100%" height="2000px" />
+![](README_files/figure-gfm/hits_tables-1.png)<!-- -->![](README_files/figure-gfm/hits_tables-2.png)<!-- -->![](README_files/figure-gfm/hits_tables-3.png)<!-- -->![](README_files/figure-gfm/hits_tables-4.png)<!-- -->![](README_files/figure-gfm/hits_tables-5.png)<!-- -->
 
-#### Overlap Peaks
+#### Venn Overlap Peaks
 
-![](README_files/figure-gfm/venn_overlaps-1.png)<!-- -->
+![](README_files/figure-gfm/venn_overlaps-1.png)<!-- -->![](README_files/figure-gfm/venn_overlaps-2.png)<!-- -->
 
 ## Annotate Peaks
 
@@ -136,12 +147,12 @@ i <- "pe"
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
 ```
 
-    ## >> preparing features information...      2024-02-12 12:16:21 
-    ## >> identifying nearest features...        2024-02-12 12:16:21 
-    ## >> calculating distance from peak to TSS...   2024-02-12 12:16:22 
-    ## >> assigning genomic annotation...        2024-02-12 12:16:22 
-    ## >> assigning chromosome lengths           2024-02-12 12:16:34 
-    ## >> done...                    2024-02-12 12:16:34
+    ## >> preparing features information...      2024-02-12 13:37:34 
+    ## >> identifying nearest features...        2024-02-12 13:37:35 
+    ## >> calculating distance from peak to TSS...   2024-02-12 13:37:35 
+    ## >> assigning genomic annotation...        2024-02-12 13:37:35 
+    ## >> assigning chromosome lengths           2024-02-12 13:37:48 
+    ## >> done...                    2024-02-12 13:37:48
 
 ``` r
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
@@ -217,7 +228,10 @@ knitr::kable(top_hits[c(0:50),c("symbol","annotation","distanceToTSS","peak","sc
 | 5206 | Gm24641       | Promoter (\<=1kb) |           936 |   773.38 |   40.12 |        3.49 |   4.07 |    8 |
 
 ``` r
-# 5th: "score" = int(-10*log10qvalue) / int(-10*log10qvalue)
+# extraCols_narrowPeak <- c(signalValue = "numeric", pValue = "numeric",
+                          # qValue = "numeric", peak = "integer")
+
+# 5th: "score" = int(-10*log10qvalue)
 # 6th: "strand" = [empty]
 # 7th: fold-change at peak summit
 # 8th: "pValue" = -log10pvalue at peak summit
@@ -258,7 +272,7 @@ g4 <- ggplot(all_npeaksAnno_table,aes(x=peak, y=signalValue, color=hits)) +
   # geom_violin(aes(fill=hits)) +
   geom_point(size=0.5, position ='jitter', alpha=0.5) +
   scale_color_viridis_c() +
-  coord_cartesian(xlim=c(0,peak_lim), ylim = c(0,signalValue_lim)) +
+  coord_cartesian(xlim=c(0,peak_lim), ylim = c(1.9,signalValue_lim)) +
   ggtitle(paste("peak to signalValue"))
 
 g1+g2+g3+g4+plot_layout(guides = "collect")
@@ -410,36 +424,36 @@ figures_annotated_peaks[[n]] <- g1+g2a+g3+g4+g5+g6+plot_layout(nrow = 2, ncol = 
 }
 ```
 
-    ## >> preparing features information...      2024-02-12 12:16:35 
-    ## >> identifying nearest features...        2024-02-12 12:16:35 
-    ## >> calculating distance from peak to TSS...   2024-02-12 12:16:35 
-    ## >> assigning genomic annotation...        2024-02-12 12:16:35 
-    ## >> assigning chromosome lengths           2024-02-12 12:16:38 
-    ## >> done...                    2024-02-12 12:16:38 
-    ## >> preparing features information...      2024-02-12 12:16:38 
-    ## >> identifying nearest features...        2024-02-12 12:16:38 
-    ## >> calculating distance from peak to TSS...   2024-02-12 12:16:38 
-    ## >> assigning genomic annotation...        2024-02-12 12:16:38 
-    ## >> assigning chromosome lengths           2024-02-12 12:16:40 
-    ## >> done...                    2024-02-12 12:16:40 
-    ## >> preparing features information...      2024-02-12 12:16:40 
-    ## >> identifying nearest features...        2024-02-12 12:16:40 
-    ## >> calculating distance from peak to TSS...   2024-02-12 12:16:40 
-    ## >> assigning genomic annotation...        2024-02-12 12:16:40 
-    ## >> assigning chromosome lengths           2024-02-12 12:16:43 
-    ## >> done...                    2024-02-12 12:16:43 
-    ## >> preparing features information...      2024-02-12 12:16:43 
-    ## >> identifying nearest features...        2024-02-12 12:16:43 
-    ## >> calculating distance from peak to TSS...   2024-02-12 12:16:43 
-    ## >> assigning genomic annotation...        2024-02-12 12:16:43 
-    ## >> assigning chromosome lengths           2024-02-12 12:16:45 
-    ## >> done...                    2024-02-12 12:16:45 
-    ## >> preparing features information...      2024-02-12 12:16:45 
-    ## >> identifying nearest features...        2024-02-12 12:16:45 
-    ## >> calculating distance from peak to TSS...   2024-02-12 12:16:45 
-    ## >> assigning genomic annotation...        2024-02-12 12:16:45 
-    ## >> assigning chromosome lengths           2024-02-12 12:16:47 
-    ## >> done...                    2024-02-12 12:16:47
+    ## >> preparing features information...      2024-02-12 13:37:49 
+    ## >> identifying nearest features...        2024-02-12 13:37:49 
+    ## >> calculating distance from peak to TSS...   2024-02-12 13:37:49 
+    ## >> assigning genomic annotation...        2024-02-12 13:37:49 
+    ## >> assigning chromosome lengths           2024-02-12 13:37:51 
+    ## >> done...                    2024-02-12 13:37:51 
+    ## >> preparing features information...      2024-02-12 13:37:51 
+    ## >> identifying nearest features...        2024-02-12 13:37:51 
+    ## >> calculating distance from peak to TSS...   2024-02-12 13:37:51 
+    ## >> assigning genomic annotation...        2024-02-12 13:37:51 
+    ## >> assigning chromosome lengths           2024-02-12 13:37:53 
+    ## >> done...                    2024-02-12 13:37:53 
+    ## >> preparing features information...      2024-02-12 13:37:53 
+    ## >> identifying nearest features...        2024-02-12 13:37:53 
+    ## >> calculating distance from peak to TSS...   2024-02-12 13:37:53 
+    ## >> assigning genomic annotation...        2024-02-12 13:37:53 
+    ## >> assigning chromosome lengths           2024-02-12 13:37:55 
+    ## >> done...                    2024-02-12 13:37:55 
+    ## >> preparing features information...      2024-02-12 13:37:55 
+    ## >> identifying nearest features...        2024-02-12 13:37:55 
+    ## >> calculating distance from peak to TSS...   2024-02-12 13:37:55 
+    ## >> assigning genomic annotation...        2024-02-12 13:37:55 
+    ## >> assigning chromosome lengths           2024-02-12 13:37:57 
+    ## >> done...                    2024-02-12 13:37:57 
+    ## >> preparing features information...      2024-02-12 13:37:57 
+    ## >> identifying nearest features...        2024-02-12 13:37:57 
+    ## >> calculating distance from peak to TSS...   2024-02-12 13:37:57 
+    ## >> assigning genomic annotation...        2024-02-12 13:37:57 
+    ## >> assigning chromosome lengths           2024-02-12 13:37:59 
+    ## >> done...                    2024-02-12 13:37:59
 
 ``` r
 options(kableExtra.auto_format = FALSE)
@@ -563,3 +577,5 @@ knitr::kable(top_hits[c(0:50),])
 #### All peaks
 
 #### Venns
+
+# Visualize Peaks
