@@ -8,22 +8,6 @@ output:
 always_allow_html: true
 ---
 
-<!-- <style> -->
-<!-- .vscroll-plot { -->
-<!--     width: 1000px; -->
-<!--     height: 1000px; -->
-<!--     overflow-y: scroll; -->
-<!--     overflow-x: scroll; -->
-<!-- } -->
-<!-- </style> -->
-
-<!-- output: -->
-<!--   html_document:  -->
-<!--     toc: true -->
-<!--     keep_md: true -->
-<!--     self_contained: false -->
-<!--     df_print: kable -->
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = T,
@@ -36,7 +20,7 @@ options(kableExtra.auto_format = FALSE)
 BiocManager::install("")
 
 ```{r librarys}
-# BiocManager::install(update = TRUE, ask = FALSE)
+BiocManager::install(update = TRUE, ask = FALSE)
 
 library(dbplyr)
 library(tidyverse)
@@ -53,6 +37,9 @@ library(kableExtra)
 library(DT)
 library(patchwork)
 library(gridExtra)
+library(foreach)
+library(doParallel)
+# library()
 
 library(TxDb.Mmusculus.UCSC.mm39.knownGene)
 txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
@@ -267,10 +254,7 @@ beds <- list.files(beddir, pattern=".narrowPeak")
 beds <- file.path(beddir,beds)
 name <- paste(run,"_",sep="")
 
-
 npeak_list <- list()
-
-
 i <- beds[1]
 # inside loop thourgh each replicate
 for (i in beds) {
@@ -307,7 +291,54 @@ npeak_combined <- GenomicRanges::reduce(ul)
 length(ul)
 length(npeak_combined)
 revmap <- findOverlaps(npeak_combined, ul, select="first")
-mcols(npeak_combined) <- mcols(ul)[revmap, , drop=FALSE]
+
+# Means of mcols...
+revmap_h <- findOverlaps(npeak_combined, ul, select="all") # "first"
+
+
+# set-up parallel
+n.cores <- parallel::detectCores() - 30
+my.cluster <- parallel::makeCluster(
+  n.cores, 
+  type = "FORK")
+print(my.cluster)
+doParallel::registerDoParallel(cl = my.cluster)
+foreach::getDoParRegistered()
+foreach::getDoParWorkers()
+
+# parallel loop
+stats <- {}
+stats_t <- foreach(
+  i = 1:length(npeak_combined), 
+  .combine = 'rbind'
+) %dopar% {
+  op <- revmap_h[queryHits(revmap_h)==i] %>% to()
+  op_df <- mcols(ul)[op,] %>% as.data.frame()
+  stats <- summarize_all(op_df, mean) %>% round(digits = 2)
+  stats$id <- i
+  stats$name <- paste(op_df$name, collapse =", ")
+  stats
+}
+parallel::stopCluster(cl = my.cluster)
+
+head(stats_t)
+mcols(npeak_combined) <- stats_t
+
+
+i <- 2
+
+# # standard loop
+# for (i in 1:10000){
+# op <- revmap_h[queryHits(revmap_h)==i] %>% to()
+# op_df <- mcols(ul)[op,] %>% as.data.frame()
+# Stats <- summarize_all(op_df, mean)
+# Stats$name <- paste(op_df$name, collapse =", ")
+# Stats$id <- i
+# Stats_t <- rbind(Stats_t,Stats)
+# print(i)
+# }
+# Stats_t
+# mcols(npeak_combined) <- mcols(ul)[revmap, ,drop=FALSE]
 length(npeak_combined)
 
 # count overlap between peaks
@@ -319,8 +350,6 @@ npeak_combined$hits <- npeak_combined$hits+countOverlaps(npeak_combined,npeak_li
 # hist(c(0,10,npeak_combined$hits), xlim=c(0,10), breaks=10, main=c("hits per replicate, Method: ",run))
 
 # generate list of histograms
-
-
 gg_b <- ggplot_build(
   ggplot(as.data.frame(npeak_combined),aes(x=hits, colours=hits)) +
     stat_bin(alpha=0.5, position = 'identity', binwidth = 1, colours = npeak_combined$hits) + 
@@ -344,7 +373,7 @@ print(paste(run,": generate ggplot"))
 hist_hits[[run]] <- g
 
 summary(elementMetadata(npeak_combined)$hits > 1)[2]
-npeak_combined <- npeak_combined[elementMetadata(npeak_combined)$hits > 1,]
+# npeak_combined <- npeak_combined[elementMetadata(npeak_combined)$hits > 1,]
 length(npeak_combined)
 assign(paste(run,"npeak_combined",sep="_"),npeak_combined)
 
@@ -409,9 +438,29 @@ for (run in names(hist_hits)){
       
   ht_list[[run]] <-  hist_hits[[run]] / gridExtra::tableGrob(table, theme = t1) +  plot_layout(heights = c(1,2))
 }
+
 patchwork::wrap_plots(ht_list[1:2]) + plot_layout(ncol = 2)
 patchwork::wrap_plots(ht_list[3:4]) + plot_layout(ncol = 2)
 patchwork::wrap_plots(ht_list[5]) + plot_layout(ncol = 2)
+
+
+# plot peaks
+i <- "pe"
+
+
+
+df <- as.data.frame(npeak_combined_all[[i]])
+df$hits <- as.factor(df$hits)
+score_lim <- quantile(df$score, .90)
+peak_lim <- quantile(df$peak, .90)
+ggplot(df,aes(x=score, y=peak, color=hits)) +
+  # geom_violin(aes(fill=hits)) +
+  geom_point(size=0.5, position ='jitter', alpha=0.5) +
+  scale_color_viridis_d() +
+  coord_cartesian(xlim=c(0,score_lim), ylim = c(0,peak_lim)) +
+  ggtitle(paste("score to peak"))
+
+
 
 #  bg_params = list(fill=c(rep("white",(l-1)), "skyblue1"))) 
 
@@ -473,6 +522,14 @@ dim(top_hits)
 top_hits <- top_hits[order(top_hits$score, decreasing=T),]
 knitr::kable(top_hits[c(0:50),c("symbol","annotation","distanceToTSS","peak","score","signalValue","qValue","hits")],format = "markdown")
 
+# 5th: "score" = int(-10*log10qvalue) / int(-10*log10qvalue)
+# 6th: "strand" = [empty]
+# 7th: fold-change at peak summit
+# 8th: "pValue" = -log10pvalue at peak summit
+# 9th: "qValue" = -log10qvalue at peak summit
+# 10th: "peak" = - relative summit position to peak start
+
+
 hits_lim <- max(all_npeaksAnno_table$hits)
 score_lim <- quantile(all_npeaksAnno_table$score, .90)
 peak_lim <- quantile(all_npeaksAnno_table$peak, .90)
@@ -491,17 +548,25 @@ g2 <- ggplot(all_npeaksAnno_table,aes(x=score, y=signalValue, color=hits)) +
   # geom_violin(aes(fill=hits)) +
   geom_point(size=0.5, position ='jitter', alpha=0.5) +
   scale_color_viridis_c() +
-  coord_cartesian(xlim=c(0,score_lim), ylim = c(0,signalValue_lim)) +
+  coord_cartesian(xlim=c(0,score_lim), ylim = c(1.9,signalValue_lim)) +
   ggtitle(paste("score to signalValue"))
 
 g3 <- ggplot(all_npeaksAnno_table,aes(x=score, y=qValue, color=hits)) +
   # geom_violin(aes(fill=hits)) +
   geom_point(size=0.5, position ='jitter', alpha=0.5) +
   scale_color_viridis_c() +
-  coord_cartesian(xlim=c(0,score_lim), ylim = c(0,qValue_lim)) +
+  coord_cartesian(xlim=c(0,score_lim), ylim = c(1.9,qValue_lim)) +
   ggtitle(paste("score to qValue"))
 
-g1+g2+g3+plot_layout(guides = "collect")
+
+g4 <- ggplot(all_npeaksAnno_table,aes(x=peak, y=signalValue, color=hits)) +
+  # geom_violin(aes(fill=hits)) +
+  geom_point(size=0.5, position ='jitter', alpha=0.5) +
+  scale_color_viridis_c() +
+  coord_cartesian(xlim=c(0,peak_lim), ylim = c(0,signalValue_lim)) +
+  ggtitle(paste("peak to signalValue"))
+
+g1+g2+g3+g4+plot_layout(guides = "collect")
 
 
 head(all_npeaksAnno_table)
@@ -513,7 +578,7 @@ ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=score, color=hits)) +
   ggtitle(paste("scores to signalValue"))
 # xlim=c(-10000,10000)
 
-
+top_hits_list <- list()
 
 for (i in 1:length(npeak_combined_all)){
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
@@ -593,6 +658,8 @@ figures_annotated_peaks[[n]] <- g1+g2a+g3+g4+g5+g6+plot_layout(nrow = 2, ncol = 
 
 options(kableExtra.auto_format = FALSE)
 knitr::kable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")
+knitr::kable(top_hits[c(0:50),])
+
 # datatable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalValue","qValue")])
 
 ```
