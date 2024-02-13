@@ -196,10 +196,9 @@ blacklmm10="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/mm10/mm10.black
 
 # 3 Results
 
-![Analysis Overview](../Data/sheme.pdf){height=100%, width=100%}
+# ![Analysis Overview](../Data/sheme.pdf){height=100%, width=100%}
 
-![Analysis Overview](../Data/sheme.png){height=100%, width=100%}
-
+# ![Analysis Overview](../Data/sheme.png){height=100%, width=100%}
 
 ```{r method_overview2, echo = TRUE, include=TRUE, results='markup'}
 knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png")
@@ -411,9 +410,11 @@ peaks_overlap <- data.frame(peaks_overlap,ol.Std, ol.pe, ol.local, ol.chro5k, ol
 ```{r peak_numbers, echo=TRUE, message=TRUE, warning=TRUE, paged.print=TRUE}
 knitr::kable(npeak_numbers_table, format = "markdown") %>% 
   kable_styling("striped", full_width = F) %>% 
- scroll_box(height = "400px")
+  scroll_box(height = "400px")
 # datatable(npeak_numbers_table)
-knitr::kable(peaks_overlap)
+knitr::kable(peaks_overlap)  %>% 
+  kable_styling("striped", full_width = F) %>% 
+  scroll_box(height = "400px")
 # tibble::as.tibble(npeak_numbers_table)
 # tibble::as.tibble(peaks_overlap)
 print("hello")
@@ -431,7 +432,7 @@ for (run in names(hist_hits)){
      table <- subset(npeak_numbers_table, Mapping == run) %>% 
                 bind_rows(summarise_all(., ~if(is.numeric(.)) sum(.) else "Total"))
       l <- dim(table)[1]
-      t1 <- ttheme_default(base_size = 8,
+      t1 <- ttheme_default(base_size = 7,
                          core=list(
         fg_params=list(fontface=c(rep("plain", (l-1)), "bold.italic")),
         bg_params = list(fill=c(rep(c("white", "grey95"),
@@ -550,6 +551,53 @@ n <- names(npeak_combined_all[i])
 all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotation,pattern = " ", simplify = TRUE)[,1]
 
 # Annotated table
+top_hits <- all_npeaksAnno_table[order(all_npeaksAnno_table$signalValue, decreasing=T),]
+colnames(top_hits)
+kable(top_hits[1:40,c("seqnames","start","end","width","score","signalValue","hits","annotation","geneId","distanceToTSS","symbol","annotation_short")])  %>%
+ kable_styling("striped", full_width = F) %>% 
+ scroll_box(height = "400px")
+
+hits_lim <- max(all_npeaksAnno_table$hits)
+score_lim <- quantile(all_npeaksAnno_table$score, .99)
+signalValue_lim <- quantile(all_npeaksAnno_table$signalValue, .99)
+qValue_lim <- quantile(all_npeaksAnno_table$qValue, .90)
+
+g1 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=score, color=hits)) +
+  geom_point(size=1, alpha=0.5, position = "jitter") +
+  scale_color_viridis_c() +
+  coord_cartesian(ylim=c(0,score_lim)) +
+  ggtitle(paste("scores to signalValue"))
+
+g2 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=signalValue, color=hits)) +
+  geom_point(size=1, alpha=0.5, position = "jitter") +
+  scale_color_viridis_c() +
+  coord_cartesian(ylim=c(1,signalValue_lim)) +
+  ggtitle(paste("scores to signalValue"))
+
+g3 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS)) +
+      stat_bin(alpha=0.6, position = 'identity', binwidth=1000, fill=viridis(10)[3]) +
+      coord_cartesian(xlim = c(-50000,+50000))
+g4 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS)) +
+      stat_bin(alpha=0.6, position = 'identity', binwidth=200, fill=viridis(10)[5]) +
+      coord_cartesian(xlim = c(-10000,+10000)) 
+
+( (g1+g2) / 
+  (g1 + coord_cartesian(xlim=c(-500000,+500000),ylim=c(0,score_lim)) + 
+    g2 + coord_cartesian(xlim=c(-500000,+500000),ylim=c(1,signalValue_lim))) /
+  (g1 + coord_cartesian(xlim=c(-50000,+50000),ylim=c(0,score_lim)) + 
+    g2 + coord_cartesian(xlim=c(-50000,+50000),ylim=c(1,signalValue_lim))) /
+  (g3 + g4)
+  ) + plot_layout(guides = "collect", axis_titles="collect")
+
+
+
+
+
+
+
+top_hits <- top_hits[order(top_hits$score, decreasing=T),]
+
+
 top_hits <- subset(all_npeaksAnno_table, distanceToTSS > -2000 & distanceToTSS < 2000) 
 dim(top_hits)
 top_hits <- top_hits[order(top_hits$score, decreasing=T),]
