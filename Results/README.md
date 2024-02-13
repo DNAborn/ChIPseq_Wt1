@@ -40,9 +40,9 @@ txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
 
 # 3 Results
 
-# <embed src="../Data/sheme.pdf" style="width:100.0%" />
+’ <embed src="../Data/sheme.pdf" style="width:100.0%" />
 
-# <img src="../Data/sheme.png" style="width:100.0%"
+’ <img src="../Data/sheme.png" style="width:100.0%"
 alt="Analysis Overview" />
 
 ``` r
@@ -93,7 +93,7 @@ print("hello")
 
 #### Hists & Tables
 
-![](README_files/figure-gfm/hits_tables-1.png)<!-- -->![](README_files/figure-gfm/hits_tables-2.png)<!-- -->![](README_files/figure-gfm/hits_tables-3.png)<!-- -->![](README_files/figure-gfm/hits_tables-4.png)<!-- -->![](README_files/figure-gfm/hits_tables-5.png)<!-- -->
+<img src="README_files/figure-gfm/hits_tables-1.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-2.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-3.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-4.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-5.png" width="100%" />
 
 #### Venn Overlap Peaks
 
@@ -189,12 +189,12 @@ i <- "pe"
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
 ```
 
-    ## >> preparing features information...      2024-02-13 10:55:48 
-    ## >> identifying nearest features...        2024-02-13 10:55:48 
-    ## >> calculating distance from peak to TSS...   2024-02-13 10:55:49 
-    ## >> assigning genomic annotation...        2024-02-13 10:55:49 
-    ## >> assigning chromosome lengths           2024-02-13 10:56:04 
-    ## >> done...                    2024-02-13 10:56:04
+    ## >> preparing features information...      2024-02-13 11:12:08 
+    ## >> identifying nearest features...        2024-02-13 11:12:08 
+    ## >> calculating distance from peak to TSS...   2024-02-13 11:12:09 
+    ## >> assigning genomic annotation...        2024-02-13 11:12:09 
+    ## >> assigning chromosome lengths           2024-02-13 11:12:22 
+    ## >> done...                    2024-02-13 11:12:22
 
 ``` r
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
@@ -1924,13 +1924,13 @@ g1 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=score, color=hits)) +
   geom_point(size=1, alpha=0.5, position = "jitter") +
   scale_color_viridis_c() +
   coord_cartesian(ylim=c(0,score_lim)) +
-  ggtitle(paste("scores to signalValue"))
+  ggtitle(paste("scores to distance"))
 
 g2 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=signalValue, color=hits)) +
   geom_point(size=1, alpha=0.5, position = "jitter") +
   scale_color_viridis_c() +
   coord_cartesian(ylim=c(1,signalValue_lim)) +
-  ggtitle(paste("scores to signalValue"))
+  ggtitle(paste("signalValue to distance"))
 
 g3 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS)) +
       stat_bin(alpha=0.6, position = 'identity', binwidth=1000, fill=viridis(10)[3]) +
@@ -4079,6 +4079,10 @@ ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=score, color=hits)) +
 ``` r
 # xlim=c(-10000,10000)
 
+
+
+
+
 top_hits_list <- list()
 
 for (i in 1:length(npeak_combined_all)){
@@ -4156,36 +4160,36 @@ figures_annotated_peaks[[n]] <- g1+g2a+g3+g4+g5+g6+plot_layout(nrow = 2, ncol = 
 }
 ```
 
-    ## >> preparing features information...      2024-02-13 10:56:06 
-    ## >> identifying nearest features...        2024-02-13 10:56:06 
-    ## >> calculating distance from peak to TSS...   2024-02-13 10:56:07 
-    ## >> assigning genomic annotation...        2024-02-13 10:56:07 
-    ## >> assigning chromosome lengths           2024-02-13 10:56:08 
-    ## >> done...                    2024-02-13 10:56:08 
-    ## >> preparing features information...      2024-02-13 10:56:09 
-    ## >> identifying nearest features...        2024-02-13 10:56:09 
-    ## >> calculating distance from peak to TSS...   2024-02-13 10:56:09 
-    ## >> assigning genomic annotation...        2024-02-13 10:56:09 
-    ## >> assigning chromosome lengths           2024-02-13 10:56:12 
-    ## >> done...                    2024-02-13 10:56:12 
-    ## >> preparing features information...      2024-02-13 10:56:12 
-    ## >> identifying nearest features...        2024-02-13 10:56:12 
-    ## >> calculating distance from peak to TSS...   2024-02-13 10:56:12 
-    ## >> assigning genomic annotation...        2024-02-13 10:56:12 
-    ## >> assigning chromosome lengths           2024-02-13 10:56:14 
-    ## >> done...                    2024-02-13 10:56:14 
-    ## >> preparing features information...      2024-02-13 10:56:14 
-    ## >> identifying nearest features...        2024-02-13 10:56:14 
-    ## >> calculating distance from peak to TSS...   2024-02-13 10:56:14 
-    ## >> assigning genomic annotation...        2024-02-13 10:56:14 
-    ## >> assigning chromosome lengths           2024-02-13 10:56:16 
-    ## >> done...                    2024-02-13 10:56:16 
-    ## >> preparing features information...      2024-02-13 10:56:16 
-    ## >> identifying nearest features...        2024-02-13 10:56:16 
-    ## >> calculating distance from peak to TSS...   2024-02-13 10:56:16 
-    ## >> assigning genomic annotation...        2024-02-13 10:56:16 
-    ## >> assigning chromosome lengths           2024-02-13 10:56:18 
-    ## >> done...                    2024-02-13 10:56:18
+    ## >> preparing features information...      2024-02-13 11:12:25 
+    ## >> identifying nearest features...        2024-02-13 11:12:25 
+    ## >> calculating distance from peak to TSS...   2024-02-13 11:12:25 
+    ## >> assigning genomic annotation...        2024-02-13 11:12:25 
+    ## >> assigning chromosome lengths           2024-02-13 11:12:26 
+    ## >> done...                    2024-02-13 11:12:26 
+    ## >> preparing features information...      2024-02-13 11:12:26 
+    ## >> identifying nearest features...        2024-02-13 11:12:26 
+    ## >> calculating distance from peak to TSS...   2024-02-13 11:12:27 
+    ## >> assigning genomic annotation...        2024-02-13 11:12:27 
+    ## >> assigning chromosome lengths           2024-02-13 11:12:28 
+    ## >> done...                    2024-02-13 11:12:28 
+    ## >> preparing features information...      2024-02-13 11:12:28 
+    ## >> identifying nearest features...        2024-02-13 11:12:28 
+    ## >> calculating distance from peak to TSS...   2024-02-13 11:12:29 
+    ## >> assigning genomic annotation...        2024-02-13 11:12:29 
+    ## >> assigning chromosome lengths           2024-02-13 11:12:30 
+    ## >> done...                    2024-02-13 11:12:30 
+    ## >> preparing features information...      2024-02-13 11:12:30 
+    ## >> identifying nearest features...        2024-02-13 11:12:30 
+    ## >> calculating distance from peak to TSS...   2024-02-13 11:12:31 
+    ## >> assigning genomic annotation...        2024-02-13 11:12:31 
+    ## >> assigning chromosome lengths           2024-02-13 11:12:32 
+    ## >> done...                    2024-02-13 11:12:32 
+    ## >> preparing features information...      2024-02-13 11:12:32 
+    ## >> identifying nearest features...        2024-02-13 11:12:32 
+    ## >> calculating distance from peak to TSS...   2024-02-13 11:12:33 
+    ## >> assigning genomic annotation...        2024-02-13 11:12:33 
+    ## >> assigning chromosome lengths           2024-02-13 11:12:35 
+    ## >> done...                    2024-02-13 11:12:35
 
 ``` r
 figures_annotated_peaks

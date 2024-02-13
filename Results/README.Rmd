@@ -196,9 +196,9 @@ blacklmm10="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/mm10/mm10.black
 
 # 3 Results
 
-# ![Analysis Overview](../Data/sheme.pdf){height=100%, width=100%}
+' ![Analysis Overview](../Data/sheme.pdf){height=100%, width=100%}
 
-# ![Analysis Overview](../Data/sheme.png){height=100%, width=100%}
+' ![Analysis Overview](../Data/sheme.png){height=100%, width=100%}
 
 ```{r method_overview2, echo = TRUE, include=TRUE, results='markup'}
 knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png")
@@ -407,7 +407,7 @@ peaks_overlap <- data.frame(peaks_overlap,ol.Std, ol.pe, ol.local, ol.chro5k, ol
 ```
 
 #### Peak Tables
-```{r peak_numbers, echo=TRUE, message=TRUE, warning=TRUE, paged.print=TRUE}
+```{r peak_numbers, include=TRUE, results = "show"}
 knitr::kable(npeak_numbers_table, format = "markdown") %>% 
   kable_styling("striped", full_width = F) %>% 
   scroll_box(height = "400px")
@@ -421,8 +421,8 @@ print("hello")
 ```
 
 #### Hists & Tables
-```{r hits_tables, echo=FALSE, fig.height=8}
-# fig.height=10, fig.width=10, out.height="2000px", out.width="100%"
+```{r hits_tables, echo=FALSE, fig.height=8, out.width="100%"}
+# fig.height=10, fig.width=10, out.height="2000px", 
 
 # patchwork::wrap_plots(hist_hits) +plot_layout(nrow = 3, ncol = 2, axis_titles = "collect") # axes = "collect"
 
@@ -441,8 +441,8 @@ for (run in names(hist_hits)){
   
 df <- as.data.frame(npeak_combined_all[[run]])
 df$hits <- as.factor(df$hits)
-score_lim <- quantile(df$score, .95)
-signalValue_lim <- quantile(df$signalValue, .95)
+score_lim <- quantile(df$score, .98)
+signalValue_lim <- quantile(df$signalValue, .98)
 g <- ggplot(df,aes(x=score, y=signalValue, color=hits)) +
   # geom_violin(aes(fill=hits)) +
   geom_point(size=1.5, position ='jitter', alpha=0.4) +
@@ -484,7 +484,7 @@ i <- "pe"
 
 
 #### Venn Overlap Peaks
-```{r venn_overlaps, message=FALSE}
+```{r venn_overlaps, message=FALSE, include=FALSE}
 
 # Venns
 npeak_combined_1h <- list(npeak_combined_all[[1]][elementMetadata(npeak_combined_all[[1]])$hits > 1,],
@@ -566,13 +566,13 @@ g1 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=score, color=hits)) +
   geom_point(size=1, alpha=0.5, position = "jitter") +
   scale_color_viridis_c() +
   coord_cartesian(ylim=c(0,score_lim)) +
-  ggtitle(paste("scores to signalValue"))
+  ggtitle(paste("scores to distance"))
 
 g2 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=signalValue, color=hits)) +
   geom_point(size=1, alpha=0.5, position = "jitter") +
   scale_color_viridis_c() +
   coord_cartesian(ylim=c(1,signalValue_lim)) +
-  ggtitle(paste("scores to signalValue"))
+  ggtitle(paste("signalValue to distance"))
 
 g3 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS)) +
       stat_bin(alpha=0.6, position = 'identity', binwidth=1000, fill=viridis(10)[3]) +
@@ -665,6 +665,10 @@ ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=score, color=hits)) +
   coord_cartesian(ylim=c(0,score_lim)) +
   ggtitle(paste("scores to signalValue"))
 # xlim=c(-10000,10000)
+
+
+
+
 
 top_hits_list <- list()
 

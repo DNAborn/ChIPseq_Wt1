@@ -1,0 +1,59 @@
+#### Hists & Tables
+```{r hits_tables, echo=FALSE, fig.height=8, out.width="100%"}
+# fig.height=10, fig.width=10, out.height="2000px", 
+
+# patchwork::wrap_plots(hist_hits) +plot_layout(nrow = 3, ncol = 2, axis_titles = "collect") # axes = "collect"
+
+# add sum row to tables
+ht_list <- list()
+for (run in names(hist_hits)){
+     table <- subset(npeak_numbers_table, Mapping == run) %>% 
+                bind_rows(summarise_all(., ~if(is.numeric(.)) sum(.) else "Total"))
+      l <- dim(table)[1]
+      t1 <- ttheme_default(base_size = 7,
+                         core=list(
+        fg_params=list(fontface=c(rep("plain", (l-1)), "bold.italic")),
+        bg_params = list(fill=c(rep(c("white", "grey95"),
+                                    length.out=(l-1)), "lightyellow")
+        )))
+  
+df <- as.data.frame(npeak_combined_all[[run]])
+df$hits <- as.factor(df$hits)
+score_lim <- quantile(df$score, .98)
+signalValue_lim <- quantile(df$signalValue, .98)
+g <- ggplot(df,aes(x=score, y=signalValue, color=hits)) +
+  # geom_violin(aes(fill=hits)) +
+  geom_point(size=1.5, position ='jitter', alpha=0.4) +
+  scale_color_viridis_d(option ="viridis") +
+  coord_cartesian(xlim=c(0,score_lim), ylim = c(0,signalValue_lim)) +
+  ggtitle(paste("score to signalValue"))
+
+df2 <- df[df$hits == 1,]
+df2$replicate <- str_split(df2$name, pattern ="_", simplify = T)[,2]
+g2 <- ggplot(df2,aes(x=score, y=signalValue, color=replicate)) +
+  # geom_violin(aes(fill=hits)) +
+  geom_point(size=1.5, position ='jitter', alpha=0.4) +
+  scale_color_viridis_d(option ="turbo") +
+  coord_cartesian(xlim=c(0,score_lim), ylim = c(0,signalValue_lim)) +
+  ggtitle(paste("score to signalValue"))
+g2
+#  ht_list[[run]] <-  hist_hits[[run]] / gridExtra::tableGrob(table, theme = t1) +  plot_layout(heights = c(1,2))
+  ht_list[[run]] <-  (hist_hits[[run]] + g) / (g2 + gridExtra::tableGrob(table, theme = t1))
+
+}
+
+# patchwork::wrap_plots(ht_list[1:2]) + plot_layout(ncol = 2)
+# patchwork::wrap_plots(ht_list[3:4]) + plot_layout(ncol = 2)
+# patchwork::wrap_plots(ht_list[1:5]) + plot_layout(ncol = 1)
+for (i in 1:5) {plot(ht_list[[i]])}
+
+# plot peaks
+i <- "pe"
+
+
+
+
+
+#  bg_params = list(fill=c(rep("white",(l-1)), "skyblue1"))) 
+
+```
