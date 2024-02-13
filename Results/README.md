@@ -41,28 +41,13 @@ txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
 # 3 Results
 
 <a href="../Data/sheme.pdf" height="100%," width="100%">Analysis
-Overview</a> <img src="../Data/sheme.png" style="width:100.0%"
-alt="Analysis Overview" />
+Overview</a>
 
 ``` r
-knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png")
-```
+# write outside r code: ![Analysis Overview](../Data/sheme.png){height=100%, width=100%}
 
-![](https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png)<!-- -->
-
-``` r
-knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png?raw=true")
-```
-
-![](https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png?raw=true)<!-- -->
-
-``` r
-knitr::include_graphics("https://raw.githubusercontent.com/DNAborn/ChIPseq_Wt1/main/Results/sheme.png?token=GHSAT0AAAAAACMW7ZFWBU7F46KMZ6QEZYBGZOLMYTQ")
-```
-
-![](https://raw.githubusercontent.com/DNAborn/ChIPseq_Wt1/main/Results/sheme.png?token=GHSAT0AAAAAACMW7ZFWBU7F46KMZ6QEZYBGZOLMYTQ)<!-- -->
-
-``` r
+# knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png")
+# knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png?raw=true")
 knitr::include_graphics("../Data/sheme.png")
 ```
 
@@ -972,7 +957,7 @@ Online
 
 #### Venn Overlap Peaks
 
-![](README_files/figure-gfm/venn_overlaps-1.png)<!-- -->![](README_files/figure-gfm/venn_overlaps-2.png)<!-- -->
+![](README_files/figure-gfm/venn_overlaps-1.png)<!-- -->![](README_files/figure-gfm/venn_overlaps-2.png)<!-- -->![](README_files/figure-gfm/venn_overlaps-3.png)<!-- -->
 
 ## Annotate Peaks
 
@@ -1018,12 +1003,12 @@ i <- "pe"
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
 ```
 
-    ## >> preparing features information...      2024-02-13 14:07:09 
-    ## >> identifying nearest features...        2024-02-13 14:07:09 
-    ## >> calculating distance from peak to TSS...   2024-02-13 14:07:10 
-    ## >> assigning genomic annotation...        2024-02-13 14:07:10 
-    ## >> assigning chromosome lengths           2024-02-13 14:07:23 
-    ## >> done...                    2024-02-13 14:07:23
+    ## >> preparing features information...      2024-02-13 15:47:55 
+    ## >> identifying nearest features...        2024-02-13 15:47:55 
+    ## >> calculating distance from peak to TSS...   2024-02-13 15:47:56 
+    ## >> assigning genomic annotation...        2024-02-13 15:47:56 
+    ## >> assigning chromosome lengths           2024-02-13 15:48:12 
+    ## >> done...                    2024-02-13 15:48:12
 
 ``` r
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
@@ -2777,9 +2762,89 @@ g4 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS)) +
   ) + plot_layout(guides = "collect", axis_titles="collect")
 ```
 
-![](README_files/figure-gfm/annotated_peaks-1.png)<!-- -->
+<img src="README_files/figure-gfm/annotated_peaks-1.png" width="100%" />
 
 #### All runs
+
+``` r
+i <- 2
+top_hits_list <- list()
+for (i in 1:length(npeak_combined_all)){
+all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
+  all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
+  all_npeaksAnno_table$transcriptId2 <- sub("\\.\\d+$", "", all_npeaksAnno_table$transcriptId)
+  all_npeaksAnno_table$geneId <- mapIds(edb, keys = all_npeaksAnno_table$transcriptId2, column = "GENEID", keytype = "TXID")
+  all_npeaksAnno_table$symbol <- mapIds(edb, keys = all_npeaksAnno_table$transcriptId2, column = "SYMBOL", keytype = "TXID")
+  all_npeaksAnno_table$hits <- as.factor(all_npeaksAnno_table$hits)
+
+n <- names(npeak_combined_all[i])
+all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotation,pattern = " ", simplify = TRUE)[,1]
+
+hits_lim <- max(levels(all_npeaksAnno_table$hits))
+score_lim <- quantile(all_npeaksAnno_table$score, .95)
+peak_lim <- quantile(all_npeaksAnno_table$peak, .95)
+signalValue_lim <- quantile(all_npeaksAnno_table$signalValue, .95)
+qValue_lim <- quantile(all_npeaksAnno_table$qValue, .95)
+distanceToTSS_max <- quantile(all_npeaksAnno_table$distanceToTSS, .90)
+distanceToTSS_min <- quantile(all_npeaksAnno_table$distanceToTSS, .1)
+width_lim <- quantile(all_npeaksAnno_table$width, .95)
+
+df <- all_npeaksAnno_table
+
+g1a <- ggplot(df,aes(x=distanceToTSS, y=signalValue, color=hits)) +
+  geom_point(size=1.5, position ='jitter', alpha=0.4) +
+  scale_color_viridis_d(option ="viridis") +
+  coord_cartesian(xlim=c(distanceToTSS_min,distanceToTSS_max), ylim = c(signalValue_min,signalValue_lim)) +
+  ggtitle(paste("A: signalValue to distance"))
+
+g1b <- ggplot(df,aes(x=distanceToTSS, group=hits, fill=hits)) +
+      stat_bin(alpha=0.5, position = 'identity', binwidth=(distanceToTSS_max*0.2-distanceToTSS_min*0.2)/100) + 
+      # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
+      scale_fill_viridis_d() +
+      ggtitle(paste("B: hits per distance (",n,")",sep="")) + coord_cartesian(xlim = c(distanceToTSS_min*0.2, distanceToTSS_max*0.2))
+
+g2a <- ggplot(df,aes(x=width, y=signalValue, color=hits)) +
+  geom_point(size=1.5, position ='jitter', alpha=0.4) +
+  scale_color_viridis_d(option ="viridis") +
+  coord_cartesian(xlim=c(0,width_lim), ylim = c(signalValue_min,signalValue_lim)) +
+  ggtitle(paste("C: signalValue per peak width (hits)"))
+
+g2b <- ggplot(df,aes(x=width, y=signalValue, color=annotation_short)) +
+  geom_point(size=1.5, position ='jitter', alpha=0.4) +
+  scale_color_viridis_d(option ="viridis") +
+  coord_cartesian(xlim=c(0,width_lim), ylim = c(signalValue_min,signalValue_lim)) +
+  ggtitle(paste("D: signalValue per peak width (region)"))
+
+g2c <- ggplot(df,aes(x=width, y=signalValue, color=distanceToTSS)) +
+  geom_point(size=1.5, position ='jitter', alpha=0.4) +
+  scale_color_viridis_c(option ="turbo", limits = c(distanceToTSS_min*0.2, distanceToTSS_max*0.2)) +
+  coord_cartesian(xlim=c(0,width_lim), ylim = c(signalValue_min,signalValue_lim)) +
+  ggtitle(paste("E: signalValue per peak width (region)"))
+
+
+figures_annotated_peaks[[n]] <- g1a+g1b+g2a+g2b+
+                                  plot_layout(ncol = 2, axis_titles = "collect",guides = "collect") + 
+                                  plot_annotation(title = paste("Method:",n))
+
+
+top_hits <- subset(all_npeaksAnno_table, distanceToTSS > -2000 & distanceToTSS < 2000) 
+dim(top_hits)
+top_hits <- top_hits[order(top_hits$score, decreasing=T),]
+top_hits_list[[n]] <- top_hits
+
+options(kableExtra.auto_format = FALSE)
+knitr::kable(top_hits[c(0:20),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>%
+ kable_styling("striped", full_width = F) %>% 
+ scroll_box(height = "400px")
+
+}
+
+figures_annotated_peaks
+```
+
+<img src="README_files/figure-gfm/annotae_all_peaks-1.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks-2.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks-3.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks-4.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks-5.png" width="100%" />
+
+#### All runs old2
 
 ``` r
 top_hits_list <- list()
@@ -2801,7 +2866,7 @@ qValue_lim <- quantile(all_npeaksAnno_table$qValue, .95)
 g1 <- ggplot(all_npeaksAnno_table,aes(x=hits)) + # fill = cut(hits, 100)
       stat_bin(alpha=0.6, position = 'identity', binwidth=1, fill=viridis(10)[2]) + 
       stat_bin(position = 'identity', binwidth=1, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
-      ggtitle("peaks in replicates")
+      ggtitle("A: peaks in replicates")
 
 g2a <- ggplot(all_npeaksAnno_table,aes(x=score, group=annotation_short, fill=annotation_short)) +
       stat_bin(alpha=0.5, position = 'identity', binwidth=5) + 
@@ -2866,7 +2931,7 @@ figures_annotated_peaks[[n]] <- g1+g2a+g3+g4+g5+g6+plot_layout(nrow = 2, ncol = 
 figures_annotated_peaks
 ```
 
-<img src="README_files/figure-gfm/annotae_all_peaks-1.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks-2.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks-3.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks-4.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks-5.png" width="100%" />
+<img src="README_files/figure-gfm/annotae_all_peaks_old2-1.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks_old2-2.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks_old2-3.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks_old2-4.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks_old2-5.png" width="100%" />
 
 ``` r
 options(kableExtra.auto_format = FALSE)
@@ -2875,7 +2940,7 @@ knitr::kable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalV
 # datatable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalValue","qValue")])
 ```
 
-#### All peaks (old)
+#### All runs (old3)
 
 #### Venns
 
