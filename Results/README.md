@@ -40,34 +40,8 @@ txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
 
 # 3 Results
 
-’ <embed src="../Data/sheme.pdf" style="width:100.0%" />
-
-’ <img src="../Data/sheme.png" style="width:100.0%"
-alt="Analysis Overview" />
-
-``` r
-knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png")
-```
-
-![](https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png)<!-- -->
-
-``` r
-knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.pdf")
-```
-
-![](https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.pdf)<!-- -->
-
-``` r
-# knitr::include_graphics("./sheme.png")
-# knitr::include_graphics("./sheme.pdf")
-# knitr::include_graphics("../sheme.png")
-# knitr::include_graphics("../sheme.pdf")
-# knitr::include_graphics("/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/ChIPseq_Wt1_P3026/Results/sheme.png")
-# knitr::include_graphics("/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/ChIPseq_Wt1_P3026/Results/sheme.pdf")
-getwd()
-```
-
-    ## [1] "/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/ChIPseq_Wt1_P3026/Results"
+<a href="../Data/sheme.pdf" height="100%," width="100%">Analysis
+Overview</a>
 
 ``` r
 print("include figure in r chunk")
@@ -77,6 +51,12 @@ knitr::include_graphics("../Data/sheme.pdf") # doesn't show
 ### Generate combined peak list
 
 #### Peak Tables
+
+``` r
+dim(npeak_numbers_table)
+```
+
+    ## [1] 39  5
 
 ``` r
 knitr::kable(npeak_numbers_table, format = "markdown") %>% 
@@ -777,6 +757,7 @@ Online
 
 ``` r
 # datatable(npeak_numbers_table)
+
 knitr::kable(peaks_overlap)  %>% 
   kable_styling("striped", full_width = F) %>% 
   scroll_box(height = "400px")
@@ -948,30 +929,9 @@ Online
 
 </div>
 
-``` r
-# tibble::as.tibble(npeak_numbers_table)
-# tibble::as.tibble(peaks_overlap)
-print("hello")
-```
-
-    ## [1] "hello"
-
-``` r
-knitr::kable(npeak_numbers_table, format = "markdown") %>% 
-  kable_styling("striped", full_width = F) %>% 
-  scroll_box(height = "400px")
-# datatable(npeak_numbers_table)
-knitr::kable(peaks_overlap)  %>% 
-  kable_styling("striped", full_width = F) %>% 
-  scroll_box(height = "400px")
-# tibble::as.tibble(npeak_numbers_table)
-# tibble::as.tibble(peaks_overlap)
-print("hello")
-```
-
 #### Hists & Tables
 
-<img src="README_files/figure-gfm/hits_tables-1.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-2.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-3.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-4.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-5.png" width="100%" />
+<img src="README_files/figure-gfm/hits_tables-1.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-2.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-3.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-4.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-5.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-6.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-7.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-8.png" width="100%" />
 
 #### Venn Overlap Peaks
 
@@ -1021,12 +981,12 @@ i <- "pe"
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
 ```
 
-    ## >> preparing features information...      2024-02-13 12:45:13 
-    ## >> identifying nearest features...        2024-02-13 12:45:14 
-    ## >> calculating distance from peak to TSS...   2024-02-13 12:45:14 
-    ## >> assigning genomic annotation...        2024-02-13 12:45:14 
-    ## >> assigning chromosome lengths           2024-02-13 12:45:27 
-    ## >> done...                    2024-02-13 12:45:27
+    ## >> preparing features information...      2024-02-13 13:01:27 
+    ## >> identifying nearest features...        2024-02-13 13:01:27 
+    ## >> calculating distance from peak to TSS...   2024-02-13 13:01:27 
+    ## >> assigning genomic annotation...        2024-02-13 13:01:27 
+    ## >> assigning chromosome lengths           2024-02-13 13:01:39 
+    ## >> done...                    2024-02-13 13:01:39
 
 ``` r
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
@@ -2784,7 +2744,6 @@ g4 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS)) +
 
 ``` r
 top_hits_list <- list()
-
 for (i in 1:length(npeak_combined_all)){
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
@@ -2794,17 +2753,23 @@ all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3
 n <- names(npeak_combined_all[i])
 all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotation,pattern = " ", simplify = TRUE)[,1]
 
+hits_lim <- max(all_npeaksAnno_table$hits)
+score_lim <- quantile(all_npeaksAnno_table$score, .95)
+peak_lim <- quantile(all_npeaksAnno_table$peak, .95)
+signalValue_lim <- quantile(all_npeaksAnno_table$signalValue, .95)
+qValue_lim <- quantile(all_npeaksAnno_table$qValue, .95)
+
 g1 <- ggplot(all_npeaksAnno_table,aes(x=hits)) + # fill = cut(hits, 100)
-      stat_bin(alpha=0.6, position = 'identity', binwidth=1) + 
-      scale_fill_viridis_d() +
+      stat_bin(alpha=0.6, position = 'identity', binwidth=1, fill=viridis(10)[2]) + 
       stat_bin(position = 'identity', binwidth=1, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
       ggtitle("peaks in replicates")
 
 g2a <- ggplot(all_npeaksAnno_table,aes(x=score, group=annotation_short, fill=annotation_short)) +
       stat_bin(alpha=0.5, position = 'identity', binwidth=5) + 
-  # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
-  scale_fill_viridis_d() +
-  ggtitle(paste("genetic region per score (",n,")",sep="")) + coord_cartesian(xlim = c(0, 100))
+      # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
+      scale_fill_viridis_d() +
+      ggtitle(paste("genetic region per score (",n,")",sep="")) + coord_cartesian(xlim = c(0, score_lim))
+
 g2b <- ggplot(all_npeaksAnno_table,aes(x=signalValue, group=annotation_short, fill=annotation_short)) +
       stat_bin(alpha=0.5, position = 'identity', binwidth=1) + 
   # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
