@@ -2,7 +2,7 @@
 
 ## R update and load librarys
 
-BiocManager::install(““)
+BiocManager::install()
 
 ``` r
 # BiocManager::install(update = TRUE, ask = FALSE)
@@ -82,6 +82,884 @@ knitr::include_graphics("../Data/sheme.pdf") # doesn't show
 knitr::kable(npeak_numbers_table, format = "markdown") %>% 
   kable_styling("striped", full_width = F) %>% 
   scroll_box(height = "400px")
+```
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; ">
+
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+sample
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Mapping
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+all_peaks
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+filt_Std_Chrom
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+filt_bl
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Std_1463_1461
+</td>
+<td style="text-align:left;">
+Std
+</td>
+<td style="text-align:right;">
+379
+</td>
+<td style="text-align:right;">
+338
+</td>
+<td style="text-align:right;">
+200
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Std_1466_1464
+</td>
+<td style="text-align:left;">
+Std
+</td>
+<td style="text-align:right;">
+282
+</td>
+<td style="text-align:right;">
+241
+</td>
+<td style="text-align:right;">
+124
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Std_1499_1497
+</td>
+<td style="text-align:left;">
+Std
+</td>
+<td style="text-align:right;">
+411
+</td>
+<td style="text-align:right;">
+368
+</td>
+<td style="text-align:right;">
+236
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Std_1574_1572
+</td>
+<td style="text-align:left;">
+Std
+</td>
+<td style="text-align:right;">
+568
+</td>
+<td style="text-align:right;">
+523
+</td>
+<td style="text-align:right;">
+310
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Std_1577_1575
+</td>
+<td style="text-align:left;">
+Std
+</td>
+<td style="text-align:right;">
+224
+</td>
+<td style="text-align:right;">
+190
+</td>
+<td style="text-align:right;">
+107
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Std_1580_1578
+</td>
+<td style="text-align:left;">
+Std
+</td>
+<td style="text-align:right;">
+2063
+</td>
+<td style="text-align:right;">
+1997
+</td>
+<td style="text-align:right;">
+1562
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Std_1583_1581
+</td>
+<td style="text-align:left;">
+Std
+</td>
+<td style="text-align:right;">
+1131
+</td>
+<td style="text-align:right;">
+1072
+</td>
+<td style="text-align:right;">
+826
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Std_1586_1584
+</td>
+<td style="text-align:left;">
+Std
+</td>
+<td style="text-align:right;">
+184
+</td>
+<td style="text-align:right;">
+143
+</td>
+<td style="text-align:right;">
+48
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Std_1589_1587
+</td>
+<td style="text-align:left;">
+Std
+</td>
+<td style="text-align:right;">
+109
+</td>
+<td style="text-align:right;">
+106
+</td>
+<td style="text-align:right;">
+61
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pe_1463_1461
+</td>
+<td style="text-align:left;">
+pe
+</td>
+<td style="text-align:right;">
+2553
+</td>
+<td style="text-align:right;">
+2531
+</td>
+<td style="text-align:right;">
+1861
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pe_1466_1464
+</td>
+<td style="text-align:left;">
+pe
+</td>
+<td style="text-align:right;">
+3333
+</td>
+<td style="text-align:right;">
+3295
+</td>
+<td style="text-align:right;">
+2491
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pe_1499_1497
+</td>
+<td style="text-align:left;">
+pe
+</td>
+<td style="text-align:right;">
+2476
+</td>
+<td style="text-align:right;">
+2453
+</td>
+<td style="text-align:right;">
+1787
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pe_1574_1572
+</td>
+<td style="text-align:left;">
+pe
+</td>
+<td style="text-align:right;">
+2585
+</td>
+<td style="text-align:right;">
+2555
+</td>
+<td style="text-align:right;">
+1874
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pe_1577_1575
+</td>
+<td style="text-align:left;">
+pe
+</td>
+<td style="text-align:right;">
+1890
+</td>
+<td style="text-align:right;">
+1865
+</td>
+<td style="text-align:right;">
+1333
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pe_1580_1578
+</td>
+<td style="text-align:left;">
+pe
+</td>
+<td style="text-align:right;">
+3341
+</td>
+<td style="text-align:right;">
+3304
+</td>
+<td style="text-align:right;">
+2450
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pe_1583_1581
+</td>
+<td style="text-align:left;">
+pe
+</td>
+<td style="text-align:right;">
+2813
+</td>
+<td style="text-align:right;">
+2783
+</td>
+<td style="text-align:right;">
+2091
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pe_1586_1584
+</td>
+<td style="text-align:left;">
+pe
+</td>
+<td style="text-align:right;">
+4592
+</td>
+<td style="text-align:right;">
+4544
+</td>
+<td style="text-align:right;">
+3522
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pe_1589_1587
+</td>
+<td style="text-align:left;">
+pe
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+local_1463_1461
+</td>
+<td style="text-align:left;">
+local
+</td>
+<td style="text-align:right;">
+2666
+</td>
+<td style="text-align:right;">
+2634
+</td>
+<td style="text-align:right;">
+1916
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+local_1466_1464
+</td>
+<td style="text-align:left;">
+local
+</td>
+<td style="text-align:right;">
+3602
+</td>
+<td style="text-align:right;">
+3569
+</td>
+<td style="text-align:right;">
+2717
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+local_1499_1497
+</td>
+<td style="text-align:left;">
+local
+</td>
+<td style="text-align:right;">
+2452
+</td>
+<td style="text-align:right;">
+2430
+</td>
+<td style="text-align:right;">
+1769
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+local_1574_1572
+</td>
+<td style="text-align:left;">
+local
+</td>
+<td style="text-align:right;">
+2678
+</td>
+<td style="text-align:right;">
+2643
+</td>
+<td style="text-align:right;">
+1893
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+local_1577_1575
+</td>
+<td style="text-align:left;">
+local
+</td>
+<td style="text-align:right;">
+1910
+</td>
+<td style="text-align:right;">
+1882
+</td>
+<td style="text-align:right;">
+1334
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+local_1580_1578
+</td>
+<td style="text-align:left;">
+local
+</td>
+<td style="text-align:right;">
+3187
+</td>
+<td style="text-align:right;">
+3154
+</td>
+<td style="text-align:right;">
+2315
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+local_1583_1581
+</td>
+<td style="text-align:left;">
+local
+</td>
+<td style="text-align:right;">
+2657
+</td>
+<td style="text-align:right;">
+2626
+</td>
+<td style="text-align:right;">
+1905
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+local_1586_1584
+</td>
+<td style="text-align:left;">
+local
+</td>
+<td style="text-align:right;">
+5200
+</td>
+<td style="text-align:right;">
+5145
+</td>
+<td style="text-align:right;">
+3971
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+local_1589_1587
+</td>
+<td style="text-align:left;">
+local
+</td>
+<td style="text-align:right;">
+107
+</td>
+<td style="text-align:right;">
+95
+</td>
+<td style="text-align:right;">
+58
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chro5k_1463_1461
+</td>
+<td style="text-align:left;">
+chro5k
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chro5k_1466_1464
+</td>
+<td style="text-align:left;">
+chro5k
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chro5k_1499_1497
+</td>
+<td style="text-align:left;">
+chro5k
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chro5k_1574_1572
+</td>
+<td style="text-align:left;">
+chro5k
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chro5k_1577_1575
+</td>
+<td style="text-align:left;">
+chro5k
+</td>
+<td style="text-align:right;">
+38
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chro5k_1580_1578
+</td>
+<td style="text-align:left;">
+chro5k
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chro5k_1583_1581
+</td>
+<td style="text-align:left;">
+chro5k
+</td>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chro5k_1586_1584
+</td>
+<td style="text-align:left;">
+chro5k
+</td>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chro5k_1589_1587
+</td>
+<td style="text-align:left;">
+chro5k
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Online_SRR1703423_SRR1703426
+</td>
+<td style="text-align:left;">
+Online
+</td>
+<td style="text-align:right;">
+12870
+</td>
+<td style="text-align:right;">
+12869
+</td>
+<td style="text-align:right;">
+12698
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Online_SRR1703424_SRR1703427
+</td>
+<td style="text-align:left;">
+Online
+</td>
+<td style="text-align:right;">
+25304
+</td>
+<td style="text-align:right;">
+25288
+</td>
+<td style="text-align:right;">
+24757
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Online_SRR1703425_SRR1703428
+</td>
+<td style="text-align:left;">
+Online
+</td>
+<td style="text-align:right;">
+16322
+</td>
+<td style="text-align:right;">
+16309
+</td>
+<td style="text-align:right;">
+15963
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+``` r
+# datatable(npeak_numbers_table)
+knitr::kable(peaks_overlap)  %>% 
+  kable_styling("striped", full_width = F) %>% 
+  scroll_box(height = "400px")
+```
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; ">
+
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Sample
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Peaks
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+ol.Std
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+ol.pe
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+ol.local
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+ol.chro5k
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+ol.Online
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Std
+</td>
+<td style="text-align:left;">
+Std
+</td>
+<td style="text-align:right;">
+3381
+</td>
+<td style="text-align:right;">
+3387
+</td>
+<td style="text-align:right;">
+299
+</td>
+<td style="text-align:right;">
+326
+</td>
+<td style="text-align:right;">
+55
+</td>
+<td style="text-align:right;">
+36
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pe
+</td>
+<td style="text-align:left;">
+pe
+</td>
+<td style="text-align:right;">
+5928
+</td>
+<td style="text-align:right;">
+304
+</td>
+<td style="text-align:right;">
+6392
+</td>
+<td style="text-align:right;">
+4829
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+98
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+local
+</td>
+<td style="text-align:left;">
+local
+</td>
+<td style="text-align:right;">
+6955
+</td>
+<td style="text-align:right;">
+340
+</td>
+<td style="text-align:right;">
+4935
+</td>
+<td style="text-align:right;">
+7681
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+125
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chro5k
+</td>
+<td style="text-align:left;">
+chro5k
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+58
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Online
+</td>
+<td style="text-align:left;">
+Online
+</td>
+<td style="text-align:right;">
+26474
+</td>
+<td style="text-align:right;">
+47
+</td>
+<td style="text-align:right;">
+111
+</td>
+<td style="text-align:right;">
+135
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+33078
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+``` r
+# tibble::as.tibble(npeak_numbers_table)
+# tibble::as.tibble(peaks_overlap)
+print("hello")
+```
+
+    ## [1] "hello"
+
+``` r
+knitr::kable(npeak_numbers_table, format = "markdown") %>% 
+  kable_styling("striped", full_width = F) %>% 
+  scroll_box(height = "400px")
 # datatable(npeak_numbers_table)
 knitr::kable(peaks_overlap)  %>% 
   kable_styling("striped", full_width = F) %>% 
@@ -97,53 +975,7 @@ print("hello")
 
 #### Venn Overlap Peaks
 
-``` r
-# Venns
-npeak_combined_1h <- list(npeak_combined_all[[1]][elementMetadata(npeak_combined_all[[1]])$hits > 1,],
-                          npeak_combined_all[[2]][elementMetadata(npeak_combined_all[[2]])$hits > 1,],
-                          npeak_combined_all[[3]][elementMetadata(npeak_combined_all[[3]])$hits > 1,],
-                          npeak_combined_all[[4]][elementMetadata(npeak_combined_all[[4]])$hits > 1,],
-                          npeak_combined_all[[5]][elementMetadata(npeak_combined_all[[5]])$hits > 1,])
-names(npeak_combined_1h) <- names(npeak_combined_all)
-
-olvenn <- findOverlapsOfPeaks(npeak_combined_1h)
-
-length(npeak_combined_1h)
-# pdf(paste(csrundir,"Venn_Peaks2.pdf",sep="/"))
-makeVennDiagram(main="Overlap of combined & filtered (>1 hits) peak lists",
-                plot = TRUE, npeak_combined_1h,
-                NameOfPeaks = names(npeak_combined_1h),
-                fill=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise"),
-                cat.col=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise")
-                )
-```
-
-![](README_files/figure-gfm/venn_overlaps-1.png)<!-- -->
-
-``` r
-# Venns (with 1 hits)
-olvenn <- findOverlapsOfPeaks(npeak_combined_all[[1]],
-                          npeak_combined_all[[2]],
-                          npeak_combined_all[[3]],
-                          npeak_combined_all[[4]],
-                          npeak_combined_all[[5]])
-
-length(npeak_combined_all)
-# pdf(paste(csrundir,"Venn_Peaks2.pdf",sep="/"))
-makeVennDiagram(main="Overlap of combined & filtered (with 1 hits) peak lists",
-                plot = TRUE, npeak_combined_all,
-                NameOfPeaks = names(npeak_combined_all),
-                fill=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise"),
-                cat.col=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise")
-                )
-```
-
-![](README_files/figure-gfm/venn_overlaps-2.png)<!-- -->
-
-``` r
-# dev.off()
-# ggsave(peaks.venn,file=paste(pubfigdir,"Venn_Peaks.pdf",sep="/"), width = 8, height = 8, device = "pdf")
-```
+![](README_files/figure-gfm/venn_overlaps-1.png)<!-- -->![](README_files/figure-gfm/venn_overlaps-2.png)<!-- -->
 
 ## Annotate Peaks
 
@@ -189,12 +1021,12 @@ i <- "pe"
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
 ```
 
-    ## >> preparing features information...      2024-02-13 11:12:08 
-    ## >> identifying nearest features...        2024-02-13 11:12:08 
-    ## >> calculating distance from peak to TSS...   2024-02-13 11:12:09 
-    ## >> assigning genomic annotation...        2024-02-13 11:12:09 
-    ## >> assigning chromosome lengths           2024-02-13 11:12:22 
-    ## >> done...                    2024-02-13 11:12:22
+    ## >> preparing features information...      2024-02-13 12:45:13 
+    ## >> identifying nearest features...        2024-02-13 12:45:14 
+    ## >> calculating distance from peak to TSS...   2024-02-13 12:45:14 
+    ## >> assigning genomic annotation...        2024-02-13 12:45:14 
+    ## >> assigning chromosome lengths           2024-02-13 12:45:27 
+    ## >> done...                    2024-02-13 12:45:27
 
 ``` r
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
@@ -1951,2138 +2783,6 @@ g4 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS)) +
 ![](README_files/figure-gfm/annotated_peaks-1.png)<!-- -->
 
 ``` r
-top_hits <- top_hits[order(top_hits$score, decreasing=T),]
-
-
-top_hits <- subset(all_npeaksAnno_table, distanceToTSS > -2000 & distanceToTSS < 2000) 
-dim(top_hits)
-```
-
-    ## [1] 204  25
-
-``` r
-top_hits <- top_hits[order(top_hits$score, decreasing=T),]
-knitr::kable(top_hits[c(0:50),c("symbol","annotation","distanceToTSS","peak","score","signalValue","qValue","hits")],format = "markdown") %>%
- kable_styling("striped", full_width = F) %>% 
- scroll_box(height = "400px")
-```
-
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; ">
-
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-symbol
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-annotation
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-distanceToTSS
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-peak
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-score
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-signalValue
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-qValue
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-hits
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-4080
-</td>
-<td style="text-align:left;">
-Aoc1
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2904.29
-</td>
-<td style="text-align:right;">
-4118.86
-</td>
-<td style="text-align:right;">
-60.05
-</td>
-<td style="text-align:right;">
-411.94
-</td>
-<td style="text-align:right;">
-6
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5552
-</td>
-<td style="text-align:left;">
-Pgk1
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-213.00
-</td>
-<td style="text-align:right;">
-2703.00
-</td>
-<td style="text-align:right;">
-37.57
-</td>
-<td style="text-align:right;">
-270.35
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2534
-</td>
-<td style="text-align:left;">
-Gm32342
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-413.50
-</td>
-<td style="text-align:right;">
-1177.50
-</td>
-<td style="text-align:right;">
-22.15
-</td>
-<td style="text-align:right;">
-117.80
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4079
-</td>
-<td style="text-align:left;">
-Aoc1
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-297.00
-</td>
-<td style="text-align:right;">
-705.00
-</td>
-<td style="text-align:right;">
-17.60
-</td>
-<td style="text-align:right;">
-70.54
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5924
-</td>
-<td style="text-align:left;">
-Gm47283
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
--1452
-</td>
-<td style="text-align:right;">
-6224.00
-</td>
-<td style="text-align:right;">
-583.67
-</td>
-<td style="text-align:right;">
-6.48
-</td>
-<td style="text-align:right;">
-58.42
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2740
-</td>
-<td style="text-align:left;">
-Wt1
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-564.67
-</td>
-<td style="text-align:right;">
-531.67
-</td>
-<td style="text-align:right;">
-14.01
-</td>
-<td style="text-align:right;">
-53.24
-</td>
-<td style="text-align:right;">
-6
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2741
-</td>
-<td style="text-align:left;">
-Wt1
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
-1932
-</td>
-<td style="text-align:right;">
-166.00
-</td>
-<td style="text-align:right;">
-416.00
-</td>
-<td style="text-align:right;">
-13.48
-</td>
-<td style="text-align:right;">
-41.68
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1749
-</td>
-<td style="text-align:left;">
-Npr3
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1017.25
-</td>
-<td style="text-align:right;">
-313.00
-</td>
-<td style="text-align:right;">
-10.79
-</td>
-<td style="text-align:right;">
-31.33
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3584
-</td>
-<td style="text-align:left;">
-Prdm16os
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-975.00
-</td>
-<td style="text-align:right;">
-288.50
-</td>
-<td style="text-align:right;">
-9.22
-</td>
-<td style="text-align:right;">
-28.90
-</td>
-<td style="text-align:right;">
-2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5224
-</td>
-<td style="text-align:left;">
-4921528I07Rik
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
--1737
-</td>
-<td style="text-align:right;">
-3182.75
-</td>
-<td style="text-align:right;">
-269.62
-</td>
-<td style="text-align:right;">
-7.46
-</td>
-<td style="text-align:right;">
-27.02
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1854
-</td>
-<td style="text-align:left;">
-Gm23217
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
-1504
-</td>
-<td style="text-align:right;">
-2491.88
-</td>
-<td style="text-align:right;">
-174.62
-</td>
-<td style="text-align:right;">
-5.81
-</td>
-<td style="text-align:right;">
-17.51
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1885
-</td>
-<td style="text-align:left;">
-Aqp2
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-92
-</td>
-<td style="text-align:right;">
-98.00
-</td>
-<td style="text-align:right;">
-159.00
-</td>
-<td style="text-align:right;">
-6.73
-</td>
-<td style="text-align:right;">
-15.99
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3299
-</td>
-<td style="text-align:left;">
-Gm50470
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-8034.38
-</td>
-<td style="text-align:right;">
-137.75
-</td>
-<td style="text-align:right;">
-5.27
-</td>
-<td style="text-align:right;">
-13.82
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3296
-</td>
-<td style="text-align:left;">
-Gm3893
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1971.38
-</td>
-<td style="text-align:right;">
-135.00
-</td>
-<td style="text-align:right;">
-5.99
-</td>
-<td style="text-align:right;">
-13.55
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5925
-</td>
-<td style="text-align:left;">
-Gm47283
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2067.22
-</td>
-<td style="text-align:right;">
-125.56
-</td>
-<td style="text-align:right;">
-3.22
-</td>
-<td style="text-align:right;">
-12.61
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1877
-</td>
-<td style="text-align:left;">
-Smgc
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2703.25
-</td>
-<td style="text-align:right;">
-117.38
-</td>
-<td style="text-align:right;">
-5.67
-</td>
-<td style="text-align:right;">
-11.80
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4525
-</td>
-<td style="text-align:left;">
-Gm22909
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-11248.28
-</td>
-<td style="text-align:right;">
-116.52
-</td>
-<td style="text-align:right;">
-5.26
-</td>
-<td style="text-align:right;">
-11.71
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4516
-</td>
-<td style="text-align:left;">
-Gm25988
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-4274.27
-</td>
-<td style="text-align:right;">
-110.73
-</td>
-<td style="text-align:right;">
-5.43
-</td>
-<td style="text-align:right;">
-11.12
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1886
-</td>
-<td style="text-align:left;">
-Aqp5
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
--41
-</td>
-<td style="text-align:right;">
-434.75
-</td>
-<td style="text-align:right;">
-105.25
-</td>
-<td style="text-align:right;">
-5.49
-</td>
-<td style="text-align:right;">
-10.56
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1587
-</td>
-<td style="text-align:left;">
-Lrch1
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
-1311
-</td>
-<td style="text-align:right;">
-1437.50
-</td>
-<td style="text-align:right;">
-98.25
-</td>
-<td style="text-align:right;">
-5.09
-</td>
-<td style="text-align:right;">
-9.86
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3300
-</td>
-<td style="text-align:left;">
-Gm52989
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1521.22
-</td>
-<td style="text-align:right;">
-98.11
-</td>
-<td style="text-align:right;">
-4.92
-</td>
-<td style="text-align:right;">
-9.84
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4518
-</td>
-<td style="text-align:left;">
-Gm22524
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1626.60
-</td>
-<td style="text-align:right;">
-93.87
-</td>
-<td style="text-align:right;">
-4.80
-</td>
-<td style="text-align:right;">
-9.45
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4521
-</td>
-<td style="text-align:left;">
-Gm25098
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1504.10
-</td>
-<td style="text-align:right;">
-88.40
-</td>
-<td style="text-align:right;">
-4.89
-</td>
-<td style="text-align:right;">
-8.87
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4508
-</td>
-<td style="text-align:left;">
-Gm26488
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1298.25
-</td>
-<td style="text-align:right;">
-76.12
-</td>
-<td style="text-align:right;">
-4.45
-</td>
-<td style="text-align:right;">
-7.66
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5793
-</td>
-<td style="text-align:left;">
-Gm20826
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-978
-</td>
-<td style="text-align:right;">
-1046.88
-</td>
-<td style="text-align:right;">
-76.00
-</td>
-<td style="text-align:right;">
-4.74
-</td>
-<td style="text-align:right;">
-7.65
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2441
-</td>
-<td style="text-align:left;">
-Gm36718
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1852.24
-</td>
-<td style="text-align:right;">
-70.59
-</td>
-<td style="text-align:right;">
-4.12
-</td>
-<td style="text-align:right;">
-7.12
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1515
-</td>
-<td style="text-align:left;">
-Gm3287
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2021.42
-</td>
-<td style="text-align:right;">
-68.32
-</td>
-<td style="text-align:right;">
-4.10
-</td>
-<td style="text-align:right;">
-6.89
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2082
-</td>
-<td style="text-align:left;">
-Brwd1
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
-1025
-</td>
-<td style="text-align:right;">
-1668.00
-</td>
-<td style="text-align:right;">
-67.00
-</td>
-<td style="text-align:right;">
-4.68
-</td>
-<td style="text-align:right;">
-6.77
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5424
-</td>
-<td style="text-align:left;">
-Gm26125
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1561.12
-</td>
-<td style="text-align:right;">
-66.50
-</td>
-<td style="text-align:right;">
-4.37
-</td>
-<td style="text-align:right;">
-6.70
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2137
-</td>
-<td style="text-align:left;">
-Glo1
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1446.00
-</td>
-<td style="text-align:right;">
-66.38
-</td>
-<td style="text-align:right;">
-4.23
-</td>
-<td style="text-align:right;">
-6.71
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1952
-</td>
-<td style="text-align:left;">
-Fgf12
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
--1365
-</td>
-<td style="text-align:right;">
-914.12
-</td>
-<td style="text-align:right;">
-63.00
-</td>
-<td style="text-align:right;">
-4.20
-</td>
-<td style="text-align:right;">
-6.34
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4512
-</td>
-<td style="text-align:left;">
-Gm24528
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1950.56
-</td>
-<td style="text-align:right;">
-60.11
-</td>
-<td style="text-align:right;">
-4.00
-</td>
-<td style="text-align:right;">
-6.07
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-454
-</td>
-<td style="text-align:left;">
-E330020D12Rik
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1505.33
-</td>
-<td style="text-align:right;">
-58.50
-</td>
-<td style="text-align:right;">
-4.03
-</td>
-<td style="text-align:right;">
-5.91
-</td>
-<td style="text-align:right;">
-6
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4509
-</td>
-<td style="text-align:left;">
-Gm24969
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1887.22
-</td>
-<td style="text-align:right;">
-56.11
-</td>
-<td style="text-align:right;">
-4.07
-</td>
-<td style="text-align:right;">
-5.66
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4176
-</td>
-<td style="text-align:left;">
-Vmn1r48
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
-1202
-</td>
-<td style="text-align:right;">
-976.25
-</td>
-<td style="text-align:right;">
-53.62
-</td>
-<td style="text-align:right;">
-3.44
-</td>
-<td style="text-align:right;">
-5.42
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3424
-</td>
-<td style="text-align:left;">
-Ifnz
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2522.56
-</td>
-<td style="text-align:right;">
-52.15
-</td>
-<td style="text-align:right;">
-3.67
-</td>
-<td style="text-align:right;">
-5.27
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4513
-</td>
-<td style="text-align:left;">
-Gm24872
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1060.00
-</td>
-<td style="text-align:right;">
-51.00
-</td>
-<td style="text-align:right;">
-4.04
-</td>
-<td style="text-align:right;">
-5.17
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3538
-</td>
-<td style="text-align:left;">
-Cdca8
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
-1726
-</td>
-<td style="text-align:right;">
-768.14
-</td>
-<td style="text-align:right;">
-50.43
-</td>
-<td style="text-align:right;">
-3.73
-</td>
-<td style="text-align:right;">
-5.08
-</td>
-<td style="text-align:right;">
-7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5233
-</td>
-<td style="text-align:left;">
-Snrk
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
--1107
-</td>
-<td style="text-align:right;">
-1053.00
-</td>
-<td style="text-align:right;">
-49.00
-</td>
-<td style="text-align:right;">
-4.65
-</td>
-<td style="text-align:right;">
-4.98
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3716
-</td>
-<td style="text-align:left;">
-Ppargc1a
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-368.25
-</td>
-<td style="text-align:right;">
-48.00
-</td>
-<td style="text-align:right;">
-3.97
-</td>
-<td style="text-align:right;">
-4.83
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4407
-</td>
-<td style="text-align:left;">
-Arhgef1
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
-1428
-</td>
-<td style="text-align:right;">
-378.33
-</td>
-<td style="text-align:right;">
-45.33
-</td>
-<td style="text-align:right;">
-4.07
-</td>
-<td style="text-align:right;">
-4.60
-</td>
-<td style="text-align:right;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5258
-</td>
-<td style="text-align:left;">
-H2al1b
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-4255.92
-</td>
-<td style="text-align:right;">
-45.16
-</td>
-<td style="text-align:right;">
-3.94
-</td>
-<td style="text-align:right;">
-4.56
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4909
-</td>
-<td style="text-align:left;">
-Ap1m1
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
--1069
-</td>
-<td style="text-align:right;">
-1832.78
-</td>
-<td style="text-align:right;">
-43.78
-</td>
-<td style="text-align:right;">
-3.21
-</td>
-<td style="text-align:right;">
-4.44
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1889
-</td>
-<td style="text-align:left;">
-Itga5
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
--65
-</td>
-<td style="text-align:right;">
-428.00
-</td>
-<td style="text-align:right;">
-43.00
-</td>
-<td style="text-align:right;">
-3.91
-</td>
-<td style="text-align:right;">
-4.34
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1599
-</td>
-<td style="text-align:left;">
-Gm6999
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
--787
-</td>
-<td style="text-align:right;">
-459.33
-</td>
-<td style="text-align:right;">
-42.33
-</td>
-<td style="text-align:right;">
-3.29
-</td>
-<td style="text-align:right;">
-4.29
-</td>
-<td style="text-align:right;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1489
-</td>
-<td style="text-align:left;">
-1700087M22Rik
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
--1619
-</td>
-<td style="text-align:right;">
-1151.00
-</td>
-<td style="text-align:right;">
-42.25
-</td>
-<td style="text-align:right;">
-3.54
-</td>
-<td style="text-align:right;">
-4.27
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5234
-</td>
-<td style="text-align:left;">
-Gm35454
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
--924
-</td>
-<td style="text-align:right;">
-746.25
-</td>
-<td style="text-align:right;">
-42.12
-</td>
-<td style="text-align:right;">
-3.61
-</td>
-<td style="text-align:right;">
-4.28
-</td>
-<td style="text-align:right;">
-7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1336
-</td>
-<td style="text-align:left;">
-Gm26088
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
--1722
-</td>
-<td style="text-align:right;">
-670.00
-</td>
-<td style="text-align:right;">
-41.00
-</td>
-<td style="text-align:right;">
-4.36
-</td>
-<td style="text-align:right;">
-4.20
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4415
-</td>
-<td style="text-align:left;">
-Fcgbp
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:right;">
--1581
-</td>
-<td style="text-align:right;">
-617.80
-</td>
-<td style="text-align:right;">
-40.60
-</td>
-<td style="text-align:right;">
-3.60
-</td>
-<td style="text-align:right;">
-4.13
-</td>
-<td style="text-align:right;">
-5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5206
-</td>
-<td style="text-align:left;">
-Gm24641
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:right;">
-936
-</td>
-<td style="text-align:right;">
-773.38
-</td>
-<td style="text-align:right;">
-40.12
-</td>
-<td style="text-align:right;">
-3.49
-</td>
-<td style="text-align:right;">
-4.07
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-
-``` r
-# extraCols_narrowPeak <- c(signalValue = "numeric", pValue = "numeric",
-                          # qValue = "numeric", peak = "integer")
-
-# 5th: "score" = int(-10*log10qvalue)
-# 6th: "strand" = [empty]
-# 7th: fold-change at peak summit
-# 8th: "pValue" = -log10pvalue at peak summit
-# 9th: "qValue" = -log10qvalue at peak summit
-# 10th: "peak" = - relative summit position to peak start
-
-
-hits_lim <- max(all_npeaksAnno_table$hits)
-score_lim <- quantile(all_npeaksAnno_table$score, .90)
-peak_lim <- quantile(all_npeaksAnno_table$peak, .90)
-signalValue_lim <- quantile(all_npeaksAnno_table$signalValue, .90)
-qValue_lim <- quantile(all_npeaksAnno_table$qValue, .90)
-
-
-g1 <- ggplot(all_npeaksAnno_table,aes(x=score, y=peak, color=hits)) +
-  # geom_violin(aes(fill=hits)) +
-  geom_point(size=0.5, position ='jitter', alpha=0.5) +
-  scale_color_viridis_c() +
-  coord_cartesian(xlim=c(0,score_lim), ylim = c(0,peak_lim)) +
-  ggtitle(paste("score to peak"))
-
-g2 <- ggplot(all_npeaksAnno_table,aes(x=score, y=signalValue, color=hits)) +
-  # geom_violin(aes(fill=hits)) +
-  geom_point(size=0.5, position ='jitter', alpha=0.5) +
-  scale_color_viridis_c() +
-  coord_cartesian(xlim=c(0,score_lim), ylim = c(1.9,signalValue_lim)) +
-  ggtitle(paste("score to signalValue"))
-
-g3 <- ggplot(all_npeaksAnno_table,aes(x=score, y=qValue, color=hits)) +
-  # geom_violin(aes(fill=hits)) +
-  geom_point(size=0.5, position ='jitter', alpha=0.5) +
-  scale_color_viridis_c() +
-  coord_cartesian(xlim=c(0,score_lim), ylim = c(1.9,qValue_lim)) +
-  ggtitle(paste("score to qValue"))
-
-
-g4 <- ggplot(all_npeaksAnno_table,aes(x=peak, y=signalValue, color=hits)) +
-  # geom_violin(aes(fill=hits)) +
-  geom_point(size=0.5, position ='jitter', alpha=0.5) +
-  scale_color_viridis_c() +
-  coord_cartesian(xlim=c(0,peak_lim), ylim = c(1.9,signalValue_lim)) +
-  ggtitle(paste("peak to signalValue"))
-
-g1+g2+g3+g4+plot_layout(guides = "collect")
-```
-
-![](README_files/figure-gfm/annotated_peaks-2.png)<!-- -->
-
-``` r
-kable(head(all_npeaksAnno_table))  %>%
- kable_styling("striped", full_width = F) %>% 
- scroll_box(height = "400px")
-```
-
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; ">
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-seqnames
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-start
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-end
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-width
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-strand
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-name
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-score
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-signalValue
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-pValue
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-qValue
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-peak
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-id
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-hits
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-annotation
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-geneChr
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-geneStart
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-geneEnd
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-geneLength
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-geneStrand
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-geneId
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-transcriptId
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-distanceToTSS
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-transcriptId2
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-symbol
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-annotation_short
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-chr1
-</td>
-<td style="text-align:right;">
-3263510
-</td>
-<td style="text-align:right;">
-3264017
-</td>
-<td style="text-align:right;">
-508
-</td>
-<td style="text-align:left;">
-
-- </td>
-  <td style="text-align:left;">
-  pe_1580_1578_all_peak_1
-  </td>
-  <td style="text-align:right;">
-  1.00
-  </td>
-  <td style="text-align:right;">
-  2.27
-  </td>
-  <td style="text-align:right;">
-  2.78
-  </td>
-  <td style="text-align:right;">
-  0.13
-  </td>
-  <td style="text-align:right;">
-  36.00
-  </td>
-  <td style="text-align:right;">
-  1
-  </td>
-  <td style="text-align:right;">
-  1
-  </td>
-  <td style="text-align:left;">
-  Distal Intergenic
-  </td>
-  <td style="text-align:right;">
-  1
-  </td>
-  <td style="text-align:right;">
-  3276746
-  </td>
-  <td style="text-align:right;">
-  3285855
-  </td>
-  <td style="text-align:right;">
-  9110
-  </td>
-  <td style="text-align:right;">
-  2
-  </td>
-  <td style="text-align:left;">
-  ENSMUSG00000051951
-  </td>
-  <td style="text-align:left;">
-  ENSMUST00000159265.2
-  </td>
-  <td style="text-align:right;">
-  21838
-  </td>
-  <td style="text-align:left;">
-  ENSMUST00000159265
-  </td>
-  <td style="text-align:left;">
-  Xkr4
-  </td>
-  <td style="text-align:left;">
-  Distal
-  </td>
-  </tr>
-  <tr>
-  <td style="text-align:left;">
-  chr1
-  </td>
-  <td style="text-align:right;">
-  3377747
-  </td>
-  <td style="text-align:right;">
-  3378530
-  </td>
-  <td style="text-align:right;">
-  784
-  </td>
-  <td style="text-align:left;">
-
-  - </td>
-    <td style="text-align:left;">
-    pe_1586_1584_all_peak_1, pe_1583_1581_all_peak_1
-    </td>
-    <td style="text-align:right;">
-    29.50
-    </td>
-    <td style="text-align:right;">
-    3.36
-    </td>
-    <td style="text-align:right;">
-    5.89
-    </td>
-    <td style="text-align:right;">
-    3.00
-    </td>
-    <td style="text-align:right;">
-    231.00
-    </td>
-    <td style="text-align:right;">
-    2
-    </td>
-    <td style="text-align:right;">
-    2
-    </td>
-    <td style="text-align:left;">
-    Intron (ENSMUST00000070533.5/497097, intron 2 of 2)
-    </td>
-    <td style="text-align:right;">
-    1
-    </td>
-    <td style="text-align:right;">
-    3276124
-    </td>
-    <td style="text-align:right;">
-    3286567
-    </td>
-    <td style="text-align:right;">
-    10444
-    </td>
-    <td style="text-align:right;">
-    2
-    </td>
-    <td style="text-align:left;">
-    ENSMUSG00000051951
-    </td>
-    <td style="text-align:left;">
-    ENSMUST00000162897.2
-    </td>
-    <td style="text-align:right;">
-    -91180
-    </td>
-    <td style="text-align:left;">
-    ENSMUST00000162897
-    </td>
-    <td style="text-align:left;">
-    Xkr4
-    </td>
-    <td style="text-align:left;">
-    Intron
-    </td>
-    </tr>
-    <tr>
-    <td style="text-align:left;">
-    chr1
-    </td>
-    <td style="text-align:right;">
-    3916291
-    </td>
-    <td style="text-align:right;">
-    3916761
-    </td>
-    <td style="text-align:right;">
-    471
-    </td>
-    <td style="text-align:left;">
-
-    - </td>
-      <td style="text-align:left;">
-      pe_1574_1572_all_peak_1
-      </td>
-      <td style="text-align:right;">
-      19.00
-      </td>
-      <td style="text-align:right;">
-      3.20
-      </td>
-      <td style="text-align:right;">
-      4.90
-      </td>
-      <td style="text-align:right;">
-      1.96
-      </td>
-      <td style="text-align:right;">
-      270.00
-      </td>
-      <td style="text-align:right;">
-      3
-      </td>
-      <td style="text-align:right;">
-      1
-      </td>
-      <td style="text-align:left;">
-      Distal Intergenic
-      </td>
-      <td style="text-align:right;">
-      1
-      </td>
-      <td style="text-align:right;">
-      3284705
-      </td>
-      <td style="text-align:right;">
-      3741721
-      </td>
-      <td style="text-align:right;">
-      457017
-      </td>
-      <td style="text-align:right;">
-      2
-      </td>
-      <td style="text-align:left;">
-      ENSMUSG00000051951
-      </td>
-      <td style="text-align:left;">
-      ENSMUST00000070533.5
-      </td>
-      <td style="text-align:right;">
-      -174570
-      </td>
-      <td style="text-align:left;">
-      ENSMUST00000070533
-      </td>
-      <td style="text-align:left;">
-      Xkr4
-      </td>
-      <td style="text-align:left;">
-      Distal
-      </td>
-      </tr>
-      <tr>
-      <td style="text-align:left;">
-      chr1
-      </td>
-      <td style="text-align:right;">
-      4053954
-      </td>
-      <td style="text-align:right;">
-      4058423
-      </td>
-      <td style="text-align:right;">
-      4470
-      </td>
-      <td style="text-align:left;">
-
-      - </td>
-        <td style="text-align:left;">
-        pe_1463_1461_all_peak_1, pe_1577_1575_all_peak_1,
-        pe_1586_1584_all_peak_3, pe_1580_1578_all_peak_3,
-        pe_1586_1584_all_peak_2, pe_1580_1578_all_peak_2,
-        pe_1586_1584_all_peak_4
-        </td>
-        <td style="text-align:right;">
-        18.86
-        </td>
-        <td style="text-align:right;">
-        2.97
-        </td>
-        <td style="text-align:right;">
-        4.75
-        </td>
-        <td style="text-align:right;">
-        1.92
-        </td>
-        <td style="text-align:right;">
-        679.57
-        </td>
-        <td style="text-align:right;">
-        4
-        </td>
-        <td style="text-align:right;">
-        4
-        </td>
-        <td style="text-align:left;">
-        Exon (ENSMUST00000194643.2/ENSMUST00000194643.2, exon 1 of 3)
-        </td>
-        <td style="text-align:right;">
-        1
-        </td>
-        <td style="text-align:right;">
-        3284705
-        </td>
-        <td style="text-align:right;">
-        3741721
-        </td>
-        <td style="text-align:right;">
-        457017
-        </td>
-        <td style="text-align:right;">
-        2
-        </td>
-        <td style="text-align:left;">
-        ENSMUSG00000051951
-        </td>
-        <td style="text-align:left;">
-        ENSMUST00000070533.5
-        </td>
-        <td style="text-align:right;">
-        -312233
-        </td>
-        <td style="text-align:left;">
-        ENSMUST00000070533
-        </td>
-        <td style="text-align:left;">
-        Xkr4
-        </td>
-        <td style="text-align:left;">
-        Exon
-        </td>
-        </tr>
-        <tr>
-        <td style="text-align:left;">
-        chr1
-        </td>
-        <td style="text-align:right;">
-        4327318
-        </td>
-        <td style="text-align:right;">
-        4327933
-        </td>
-        <td style="text-align:right;">
-        616
-        </td>
-        <td style="text-align:left;">
-
-        - </td>
-          <td style="text-align:left;">
-          pe_1499_1497_all_peak_1
-          </td>
-          <td style="text-align:right;">
-          28.00
-          </td>
-          <td style="text-align:right;">
-          3.15
-          </td>
-          <td style="text-align:right;">
-          5.81
-          </td>
-          <td style="text-align:right;">
-          2.83
-          </td>
-          <td style="text-align:right;">
-          194.00
-          </td>
-          <td style="text-align:right;">
-          5
-          </td>
-          <td style="text-align:right;">
-          1
-          </td>
-          <td style="text-align:left;">
-          Intron (ENSMUST00000208660.2/19888, intron 8 of 29)
-          </td>
-          <td style="text-align:right;">
-          1
-          </td>
-          <td style="text-align:right;">
-          4414369
-          </td>
-          <td style="text-align:right;">
-          4430537
-          </td>
-          <td style="text-align:right;">
-          16169
-          </td>
-          <td style="text-align:right;">
-          2
-          </td>
-          <td style="text-align:left;">
-          ENSMUSG00000025900
-          </td>
-          <td style="text-align:left;">
-          ENSMUST00000027032.6
-          </td>
-          <td style="text-align:right;">
-          102604
-          </td>
-          <td style="text-align:left;">
-          ENSMUST00000027032
-          </td>
-          <td style="text-align:left;">
-          Rp1
-          </td>
-          <td style="text-align:left;">
-          Intron
-          </td>
-          </tr>
-          <tr>
-          <td style="text-align:left;">
-          chr1
-          </td>
-          <td style="text-align:right;">
-          4629910
-          </td>
-          <td style="text-align:right;">
-          4630575
-          </td>
-          <td style="text-align:right;">
-          666
-          </td>
-          <td style="text-align:left;">
-
-          - </td>
-            <td style="text-align:left;">
-            pe_1466_1464_all_peak_1, pe_1580_1578_all_peak_4
-            </td>
-            <td style="text-align:right;">
-            17.00
-            </td>
-            <td style="text-align:right;">
-            2.90
-            </td>
-            <td style="text-align:right;">
-            4.63
-            </td>
-            <td style="text-align:right;">
-            1.76
-            </td>
-            <td style="text-align:right;">
-            321.50
-            </td>
-            <td style="text-align:right;">
-            6
-            </td>
-            <td style="text-align:right;">
-            2
-            </td>
-            <td style="text-align:left;">
-            Distal Intergenic
-            </td>
-            <td style="text-align:right;">
-            1
-            </td>
-            <td style="text-align:right;">
-            4599240
-            </td>
-            <td style="text-align:right;">
-            4599346
-            </td>
-            <td style="text-align:right;">
-            107
-            </td>
-            <td style="text-align:right;">
-            1
-            </td>
-            <td style="text-align:left;">
-            ENSMUSG00000118917
-            </td>
-            <td style="text-align:left;">
-            ENSMUST00000240255.1
-            </td>
-            <td style="text-align:right;">
-            30670
-            </td>
-            <td style="text-align:left;">
-            ENSMUST00000240255
-            </td>
-            <td style="text-align:left;">
-            Gm22307
-            </td>
-            <td style="text-align:left;">
-            Distal
-            </td>
-            </tr>
-            </tbody>
-            </table>
-            </div>
-
-``` r
-ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=score, color=hits)) +
-  geom_point(size=1, alpha=0.5, position = "jitter") +
-  scale_color_viridis_c() +
-  coord_cartesian(ylim=c(0,score_lim)) +
-  ggtitle(paste("scores to signalValue"))
-```
-
-![](README_files/figure-gfm/annotated_peaks-3.png)<!-- -->
-
-``` r
-# xlim=c(-10000,10000)
-
-
-
-
-
 top_hits_list <- list()
 
 for (i in 1:length(npeak_combined_all)){
@@ -4158,126 +2858,16 @@ top_hits_list[[n]] <- top_hits
 
 figures_annotated_peaks[[n]] <- g1+g2a+g3+g4+g5+g6+plot_layout(nrow = 2, ncol = 3, axis_titles = "collect") + plot_annotation(title = paste("Method:",n))
 }
-```
 
-    ## >> preparing features information...      2024-02-13 11:12:25 
-    ## >> identifying nearest features...        2024-02-13 11:12:25 
-    ## >> calculating distance from peak to TSS...   2024-02-13 11:12:25 
-    ## >> assigning genomic annotation...        2024-02-13 11:12:25 
-    ## >> assigning chromosome lengths           2024-02-13 11:12:26 
-    ## >> done...                    2024-02-13 11:12:26 
-    ## >> preparing features information...      2024-02-13 11:12:26 
-    ## >> identifying nearest features...        2024-02-13 11:12:26 
-    ## >> calculating distance from peak to TSS...   2024-02-13 11:12:27 
-    ## >> assigning genomic annotation...        2024-02-13 11:12:27 
-    ## >> assigning chromosome lengths           2024-02-13 11:12:28 
-    ## >> done...                    2024-02-13 11:12:28 
-    ## >> preparing features information...      2024-02-13 11:12:28 
-    ## >> identifying nearest features...        2024-02-13 11:12:28 
-    ## >> calculating distance from peak to TSS...   2024-02-13 11:12:29 
-    ## >> assigning genomic annotation...        2024-02-13 11:12:29 
-    ## >> assigning chromosome lengths           2024-02-13 11:12:30 
-    ## >> done...                    2024-02-13 11:12:30 
-    ## >> preparing features information...      2024-02-13 11:12:30 
-    ## >> identifying nearest features...        2024-02-13 11:12:30 
-    ## >> calculating distance from peak to TSS...   2024-02-13 11:12:31 
-    ## >> assigning genomic annotation...        2024-02-13 11:12:31 
-    ## >> assigning chromosome lengths           2024-02-13 11:12:32 
-    ## >> done...                    2024-02-13 11:12:32 
-    ## >> preparing features information...      2024-02-13 11:12:32 
-    ## >> identifying nearest features...        2024-02-13 11:12:32 
-    ## >> calculating distance from peak to TSS...   2024-02-13 11:12:33 
-    ## >> assigning genomic annotation...        2024-02-13 11:12:33 
-    ## >> assigning chromosome lengths           2024-02-13 11:12:35 
-    ## >> done...                    2024-02-13 11:12:35
-
-``` r
 figures_annotated_peaks
 ```
 
-    ## $Std
-
-![](README_files/figure-gfm/annotated_peaks-4.png)<!-- -->
-
-    ## 
-    ## $pe
-
-![](README_files/figure-gfm/annotated_peaks-5.png)<!-- -->
-
-    ## 
-    ## $local
-
-![](README_files/figure-gfm/annotated_peaks-6.png)<!-- -->
-
-    ## 
-    ## $chro5k
-
-![](README_files/figure-gfm/annotated_peaks-7.png)<!-- -->
-
-    ## 
-    ## $Online
-
-![](README_files/figure-gfm/annotated_peaks-8.png)<!-- -->
+![](README_files/figure-gfm/annotae_all_peaks-1.png)<!-- -->![](README_files/figure-gfm/annotae_all_peaks-2.png)<!-- -->![](README_files/figure-gfm/annotae_all_peaks-3.png)<!-- -->![](README_files/figure-gfm/annotae_all_peaks-4.png)<!-- -->![](README_files/figure-gfm/annotae_all_peaks-5.png)<!-- -->
 
 ``` r
 options(kableExtra.auto_format = FALSE)
 knitr::kable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")
-```
 
-|       | symbol        | distanceToTSS | hits |   score | signalValue | qValue |
-|:------|:--------------|--------------:|:-----|--------:|------------:|-------:|
-| 2916  | Nab2          |             0 | 3    | 2945.00 |       64.20 | 294.56 |
-| 25750 | Plxnb1        |             0 | 3    | 2735.67 |       60.92 | 273.62 |
-| 25582 | Amotl2        |             0 | 3    | 2590.00 |       67.55 | 259.02 |
-| 295   | Nab1          |             0 | 3    | 2448.67 |       65.39 | 244.92 |
-| 7527  | Gm34934       |             0 | 3    | 2250.67 |       57.14 | 225.13 |
-| 7473  | Bmpr1a        |             0 | 3    | 2223.00 |       52.27 | 222.37 |
-| 12980 | Neurl1a       |             0 | 3    | 2214.33 |       60.62 | 221.48 |
-| 1124  | 1700025G04Rik |             0 | 3    | 2196.00 |       60.96 | 219.66 |
-| 25138 | Smad3         |             0 | 3    | 2171.67 |       59.41 | 217.23 |
-| 13717 | Gtdc1         |             0 | 3    | 2126.67 |       53.33 | 212.70 |
-| 14398 | Secisbp2l     |             0 | 3    | 2113.67 |       52.35 | 211.40 |
-| 7972  | Akap11        |             0 | 3    | 2099.00 |       54.49 | 209.95 |
-| 4700  | Mrc2          |             0 | 3    | 2020.00 |       54.80 | 202.05 |
-| 17727 | Gm12974       |         -1923 | 3    | 2017.00 |       48.00 | 201.74 |
-| 18518 | Fosl2         |             0 | 3    | 1960.40 |       52.20 | 196.10 |
-| 10637 | Pbx2          |             0 | 3    | 1950.33 |       43.08 | 195.09 |
-| 25022 | Nptn          |             0 | 3    | 1931.00 |       47.34 | 193.12 |
-| 7509  | Fermt2        |             0 | 3    | 1926.67 |       53.23 | 192.72 |
-| 18177 | Phf13         |             0 | 3    | 1926.33 |       51.42 | 192.66 |
-| 10306 | Nthl1         |           588 | 3    | 1893.33 |       53.95 | 189.39 |
-| 2917  | Nab2          |            27 | 3    | 1887.67 |       46.06 | 188.84 |
-| 18256 | Faap20        |             0 | 3    | 1887.33 |       47.96 | 188.79 |
-| 12893 | Gm28578       |          -318 | 3    | 1886.33 |       46.69 | 188.67 |
-| 8138  | BC037032      |             0 | 3    | 1876.00 |       48.44 | 187.68 |
-| 19950 | Pomp          |             0 | 3    | 1860.33 |       46.51 | 186.10 |
-| 15542 | Shox2         |             0 | 3    | 1850.67 |       50.98 | 185.10 |
-| 15010 | Pard6b        |             0 | 3    | 1846.33 |       44.95 | 184.69 |
-| 2161  | Sirt1         |             0 | 3    | 1832.00 |       47.49 | 183.26 |
-| 13402 | Rxra          |             0 | 3    | 1824.33 |       47.28 | 182.48 |
-| 19258 | Srsf9         |             0 | 3    | 1819.67 |       51.25 | 182.05 |
-| 3988  | Lyrm9         |           931 | 3    | 1816.33 |       50.46 | 181.72 |
-| 17366 | Slc2a1        |             0 | 3    | 1794.67 |       47.70 | 179.51 |
-| 6289  | 2610307P16Rik |           -75 | 3    | 1769.67 |       45.99 | 177.04 |
-| 16487 | Pip4p2        |             0 | 3    | 1763.00 |       45.78 | 176.34 |
-| 12227 | Tshz1         |             0 | 3    | 1762.33 |       45.00 | 176.31 |
-| 7654  | 2410022M11Rik |             0 | 3    | 1741.33 |       46.31 | 174.19 |
-| 330   | Hspd1         |             0 | 3    | 1737.00 |       45.15 | 173.77 |
-| 1461  | H3f3a         |             0 | 3    | 1725.33 |       48.35 | 172.57 |
-| 15418 | Maml3         |          1504 | 3    | 1712.00 |       44.86 | 171.23 |
-| 21920 | Dbp           |             0 | 3    | 1707.33 |       48.57 | 170.76 |
-| 4390  | Arhgap23      |          1407 | 3    | 1695.00 |       46.89 | 169.53 |
-| 7820  | Dock5         |             0 | 3    | 1689.67 |       43.95 | 169.01 |
-| 20290 | Casp2         |             0 | 3    | 1681.33 |       45.82 | 168.17 |
-| 24659 | Arhgap32      |         -1053 | 3    | 1680.00 |       42.18 | 168.06 |
-| 13833 | Rbms1         |             0 | 3    | 1677.33 |       45.54 | 167.81 |
-| 7656  | Zmym2         |             0 | 3    | 1675.33 |       42.57 | 167.57 |
-| 3791  | Mink1         |          -648 | 3    | 1668.67 |       43.03 | 166.90 |
-| 9565  | Hes1          |             0 | 3    | 1648.33 |       45.71 | 164.88 |
-| 12485 | Gm30042       |          -501 | 3    | 1641.00 |       47.38 | 164.16 |
-| 15420 | Maml3         |             0 | 3    | 1639.33 |       43.85 | 163.97 |
-
-``` r
 # datatable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalValue","qValue")])
 ```
 

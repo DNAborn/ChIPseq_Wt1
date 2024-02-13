@@ -17,7 +17,7 @@ options(kableExtra.auto_format = FALSE)
 
 # R Prepare System
 ## R update and load librarys
-BiocManager::install("")
+BiocManager::install()
 
 ```{r librarys}
 # BiocManager::install(update = TRUE, ask = FALSE)
@@ -201,6 +201,7 @@ blacklmm10="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/mm10/mm10.black
 ' ![Analysis Overview](../Data/sheme.png){height=100%, width=100%}
 
 ```{r method_overview2, echo = TRUE, include=TRUE, results='markup'}
+
 knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png")
 knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.pdf")
 # knitr::include_graphics("./sheme.png")
@@ -407,7 +408,7 @@ peaks_overlap <- data.frame(peaks_overlap,ol.Std, ol.pe, ol.local, ol.chro5k, ol
 ```
 
 #### Peak Tables
-```{r peak_numbers, include=TRUE, results = "show"}
+```{r peak_numbers, include=TRUE, echo = TRUE, results='markup'}
 knitr::kable(npeak_numbers_table, format = "markdown") %>% 
   kable_styling("striped", full_width = F) %>% 
   scroll_box(height = "400px")
@@ -418,7 +419,24 @@ knitr::kable(peaks_overlap)  %>%
 # tibble::as.tibble(npeak_numbers_table)
 # tibble::as.tibble(peaks_overlap)
 print("hello")
+
 ```
+
+```{r table2}
+knitr::kable(npeak_numbers_table, format = "markdown") %>% 
+  kable_styling("striped", full_width = F) %>% 
+  scroll_box(height = "400px")
+# datatable(npeak_numbers_table)
+knitr::kable(peaks_overlap)  %>% 
+  kable_styling("striped", full_width = F) %>% 
+  scroll_box(height = "400px")
+# tibble::as.tibble(npeak_numbers_table)
+# tibble::as.tibble(peaks_overlap)
+print("hello")
+
+```
+
+
 
 #### Hists & Tables
 ```{r hits_tables, echo=FALSE, fig.height=8, out.width="100%"}
@@ -432,7 +450,7 @@ for (run in names(hist_hits)){
      table <- subset(npeak_numbers_table, Mapping == run) %>% 
                 bind_rows(summarise_all(., ~if(is.numeric(.)) sum(.) else "Total"))
       l <- dim(table)[1]
-      t1 <- ttheme_default(base_size = 7,
+      t1 <- ttheme_default(base_size = 6,
                          core=list(
         fg_params=list(fontface=c(rep("plain", (l-1)), "bold.italic")),
         bg_params = list(fill=c(rep(c("white", "grey95"),
@@ -460,7 +478,7 @@ g2 <- ggplot(df2,aes(x=score, y=signalValue, color=replicate)) +
   ggtitle(paste("score to signalValue"))
 g2
 #  ht_list[[run]] <-  hist_hits[[run]] / gridExtra::tableGrob(table, theme = t1) +  plot_layout(heights = c(1,2))
-  ht_list[[run]] <-  (hist_hits[[run]] + g) / (g2 + gridExtra::tableGrob(table, theme = t1))
+  ht_list[[run]] <-  (hist_hits[[run]] + g) / (g2 + gridExtra::tableGrob(table, theme = t1)) + plot_layout(widths = 1)
 
 }
 
@@ -484,7 +502,7 @@ i <- "pe"
 
 
 #### Venn Overlap Peaks
-```{r venn_overlaps, message=FALSE, include=FALSE}
+```{r venn_overlaps, echo=FALSE}
 
 # Venns
 npeak_combined_1h <- list(npeak_combined_all[[1]][elementMetadata(npeak_combined_all[[1]])$hits > 1,],
@@ -589,11 +607,11 @@ g4 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS)) +
   (g3 + g4)
   ) + plot_layout(guides = "collect", axis_titles="collect")
 
+```
 
 
 
-
-
+```{r annotae_peak1_old, eval=FALSE, include=FALSE}
 
 top_hits <- top_hits[order(top_hits$score, decreasing=T),]
 
@@ -667,11 +685,14 @@ ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=score, color=hits)) +
 # xlim=c(-10000,10000)
 
 
+```
 
+
+
+```{r annotae_all_peaks}
 
 
 top_hits_list <- list()
-
 for (i in 1:length(npeak_combined_all)){
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
@@ -681,17 +702,23 @@ all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3
 n <- names(npeak_combined_all[i])
 all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotation,pattern = " ", simplify = TRUE)[,1]
 
+hits_lim <- max(all_npeaksAnno_table$hits)
+score_lim <- quantile(all_npeaksAnno_table$score, .95)
+peak_lim <- quantile(all_npeaksAnno_table$peak, .95)
+signalValue_lim <- quantile(all_npeaksAnno_table$signalValue, .95)
+qValue_lim <- quantile(all_npeaksAnno_table$qValue, .95)
+
 g1 <- ggplot(all_npeaksAnno_table,aes(x=hits)) + # fill = cut(hits, 100)
-      stat_bin(alpha=0.6, position = 'identity', binwidth=1) + 
-      scale_fill_viridis_d() +
+      stat_bin(alpha=0.6, position = 'identity', binwidth=1, fill=viridis(10)[2]) + 
       stat_bin(position = 'identity', binwidth=1, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
       ggtitle("peaks in replicates")
 
 g2a <- ggplot(all_npeaksAnno_table,aes(x=score, group=annotation_short, fill=annotation_short)) +
       stat_bin(alpha=0.5, position = 'identity', binwidth=5) + 
-  # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
-  scale_fill_viridis_d() +
-  ggtitle(paste("genetic region per score (",n,")",sep="")) + coord_cartesian(xlim = c(0, 100))
+      # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
+      scale_fill_viridis_d() +
+      ggtitle(paste("genetic region per score (",n,")",sep="")) + coord_cartesian(xlim = c(0, score_lim))
+
 g2b <- ggplot(all_npeaksAnno_table,aes(x=signalValue, group=annotation_short, fill=annotation_short)) +
       stat_bin(alpha=0.5, position = 'identity', binwidth=1) + 
   # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
