@@ -41,7 +41,8 @@ txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
 # 3 Results
 
 <a href="../Data/sheme.pdf" height="100%," width="100%">Analysis
-Overview</a>
+Overview</a> <img src="../Data/sheme.png" style="width:100.0%"
+alt="Analysis Overview" />
 
 ``` r
 knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png")
@@ -50,10 +51,22 @@ knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Result
 ![](https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png)<!-- -->
 
 ``` r
-knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.pdf")
+knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png?raw=true")
 ```
 
-![](https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.pdf)<!-- -->
+![](https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png?raw=true)<!-- -->
+
+``` r
+knitr::include_graphics("https://raw.githubusercontent.com/DNAborn/ChIPseq_Wt1/main/Results/sheme.png?token=GHSAT0AAAAAACMW7ZFWBU7F46KMZ6QEZYBGZOLMYTQ")
+```
+
+![](https://raw.githubusercontent.com/DNAborn/ChIPseq_Wt1/main/Results/sheme.png?token=GHSAT0AAAAAACMW7ZFWBU7F46KMZ6QEZYBGZOLMYTQ)<!-- -->
+
+``` r
+knitr::include_graphics("../Data/sheme.png")
+```
+
+<img src="../Data/sheme.png" width="1280" />
 
 ``` r
 # knitr::include_graphics("./sheme.png")
@@ -1005,12 +1018,12 @@ i <- "pe"
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
 ```
 
-    ## >> preparing features information...      2024-02-13 13:44:42 
-    ## >> identifying nearest features...        2024-02-13 13:44:42 
-    ## >> calculating distance from peak to TSS...   2024-02-13 13:44:43 
-    ## >> assigning genomic annotation...        2024-02-13 13:44:43 
-    ## >> assigning chromosome lengths           2024-02-13 13:44:56 
-    ## >> done...                    2024-02-13 13:44:56
+    ## >> preparing features information...      2024-02-13 14:07:09 
+    ## >> identifying nearest features...        2024-02-13 14:07:09 
+    ## >> calculating distance from peak to TSS...   2024-02-13 14:07:10 
+    ## >> assigning genomic annotation...        2024-02-13 14:07:10 
+    ## >> assigning chromosome lengths           2024-02-13 14:07:23 
+    ## >> done...                    2024-02-13 14:07:23
 
 ``` r
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
@@ -2766,6 +2779,8 @@ g4 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS)) +
 
 ![](README_files/figure-gfm/annotated_peaks-1.png)<!-- -->
 
+#### All runs
+
 ``` r
 top_hits_list <- list()
 for (i in 1:length(npeak_combined_all)){
@@ -2851,7 +2866,7 @@ figures_annotated_peaks[[n]] <- g1+g2a+g3+g4+g5+g6+plot_layout(nrow = 2, ncol = 
 figures_annotated_peaks
 ```
 
-![](README_files/figure-gfm/annotae_all_peaks-1.png)<!-- -->![](README_files/figure-gfm/annotae_all_peaks-2.png)<!-- -->![](README_files/figure-gfm/annotae_all_peaks-3.png)<!-- -->![](README_files/figure-gfm/annotae_all_peaks-4.png)<!-- -->![](README_files/figure-gfm/annotae_all_peaks-5.png)<!-- -->
+<img src="README_files/figure-gfm/annotae_all_peaks-1.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks-2.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks-3.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks-4.png" width="100%" /><img src="README_files/figure-gfm/annotae_all_peaks-5.png" width="100%" />
 
 ``` r
 options(kableExtra.auto_format = FALSE)
@@ -2860,7 +2875,7 @@ knitr::kable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalV
 # datatable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalValue","qValue")])
 ```
 
-#### All peaks
+#### All peaks (old)
 
 #### Venns
 
