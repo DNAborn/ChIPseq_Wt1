@@ -422,7 +422,7 @@ knitr::kable(peaks_overlap)  %>%
 
 
 #### Hists & Tables
-```{r hits_tables, echo=FALSE, fig.height=8, out.width="100%"}
+```{r hits_tables, echo=FALSE, fig.width=12, out.width="100%"}
 # fig.height=10, fig.width=10, out.height="2000px", 
 
 # patchwork::wrap_plots(hist_hits) +plot_layout(nrow = 3, ncol = 2, axis_titles = "collect") # axes = "collect"
@@ -678,7 +678,7 @@ ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=score, color=hits)) +
 
 
 
-```{r annotae_all_peaks}
+```{r annotae_all_peaks, fig.width=12, fig}
 
 
 top_hits_list <- list()
