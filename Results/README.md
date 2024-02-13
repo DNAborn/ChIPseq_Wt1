@@ -44,6 +44,30 @@ txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
 Overview</a>
 
 ``` r
+knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png")
+```
+
+![](https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png)<!-- -->
+
+``` r
+knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.pdf")
+```
+
+![](https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.pdf)<!-- -->
+
+``` r
+# knitr::include_graphics("./sheme.png")
+# knitr::include_graphics("./sheme.pdf")
+# knitr::include_graphics("../sheme.png")
+# knitr::include_graphics("../sheme.pdf")
+# knitr::include_graphics("/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/ChIPseq_Wt1_P3026/Results/sheme.png")
+# knitr::include_graphics("/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/ChIPseq_Wt1_P3026/Results/sheme.pdf")
+getwd()
+```
+
+    ## [1] "/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/ChIPseq_Wt1_P3026/Results"
+
+``` r
 print("include figure in r chunk")
 knitr::include_graphics("../Data/sheme.pdf") # doesn't show
 ```
@@ -931,7 +955,7 @@ Online
 
 #### Hists & Tables
 
-<img src="README_files/figure-gfm/hits_tables-1.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-2.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-3.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-4.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-5.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-6.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-7.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-8.png" width="100%" />
+<img src="README_files/figure-gfm/hits_tables-1.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-2.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-3.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-4.png" width="100%" /><img src="README_files/figure-gfm/hits_tables-5.png" width="100%" />
 
 #### Venn Overlap Peaks
 
@@ -981,12 +1005,12 @@ i <- "pe"
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
 ```
 
-    ## >> preparing features information...      2024-02-13 13:01:27 
-    ## >> identifying nearest features...        2024-02-13 13:01:27 
-    ## >> calculating distance from peak to TSS...   2024-02-13 13:01:27 
-    ## >> assigning genomic annotation...        2024-02-13 13:01:27 
-    ## >> assigning chromosome lengths           2024-02-13 13:01:39 
-    ## >> done...                    2024-02-13 13:01:39
+    ## >> preparing features information...      2024-02-13 13:23:25 
+    ## >> identifying nearest features...        2024-02-13 13:23:25 
+    ## >> calculating distance from peak to TSS...   2024-02-13 13:23:25 
+    ## >> assigning genomic annotation...        2024-02-13 13:23:25 
+    ## >> assigning chromosome lengths           2024-02-13 13:23:40 
+    ## >> done...                    2024-02-13 13:23:40
 
 ``` r
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)

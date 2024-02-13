@@ -198,7 +198,7 @@ blacklmm10="/mnt/s/AG/AG-Scholz-NGS/Daten/Simon/Genomic_data/Mus/mm10/mm10.black
 
 [Analysis Overview](../Data/sheme.pdf){height=100%, width=100%}
 
-```{r method_overview2, echo = TRUE, include=FALSE, results='markup'}
+```{r method_overview2, echo = TRUE, include=TRUE, results='markup'}
 
 knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.png")
 knitr::include_graphics("https://github.com/DNAborn/ChIPseq_Wt1/blob/main/Results/sheme.pdf")
@@ -446,7 +446,7 @@ score_lim <- quantile(df$score, .98)
 signalValue_lim <- quantile(df$signalValue, .98)
 signalValue_min <- min(df$signalValue)
 
-g <- ggplot(df,aes(x=score, y=signalValue, color=hits)) +
+g2 <- ggplot(df,aes(x=score, y=signalValue, color=hits)) +
   # geom_violin(aes(fill=hits)) +
   geom_point(size=1.5, position ='jitter', alpha=0.4) +
   scale_color_viridis_d(option ="viridis") +
@@ -455,34 +455,33 @@ g <- ggplot(df,aes(x=score, y=signalValue, color=hits)) +
 
 df2 <- df[df$hits == 1,]
 df2$replicate <- str_split(df2$name, pattern ="_", simplify = T)[,2]
-g2 <- ggplot(df2,aes(x=score, y=signalValue, color=replicate)) +
+g3 <- ggplot(df2,aes(x=score, y=signalValue, color=replicate)) +
   # geom_violin(aes(fill=hits)) +
   geom_point(size=1.5, position ='jitter', alpha=0.4) +
   scale_color_viridis_d(option ="turbo") +
   coord_cartesian(xlim=c(0,score_lim), ylim = c(signalValue_min,signalValue_lim)) +
-  ggtitle(paste("score to signalValue"))
+  ggtitle(paste("1 hits"))
 
 #  ht_list[[run]] <-  hist_hits[[run]] / gridExtra::tableGrob(table, theme = t1) +  plot_layout(heights = c(1,2))
-  ht_list[[run]] <-  (hist_hits[[run]] + g) / (g2 + gridExtra::tableGrob(table, theme = t1)) + plot_layout(widths = 1)
+  
+g1 <- hist_hits[[run]]
+g4 <- gridExtra::tableGrob(table, theme = t1)
 
+plot(g1+g2+g3+g4)
+
+ht_list[[run]] <-  (hist_hits[[run]] + g) / (g2 + gridExtra::tableGrob(table, theme = t1) + plot_layout(widths = c(1,1)))
+ (hist_hits[[run]] + g) / (g2 + gridExtra::tableGrob(table, theme = t1) + plot_layout(widths = c(1,1)))
+  
 }
 
 # patchwork::wrap_plots(ht_list[1:2]) + plot_layout(ncol = 2)
 # patchwork::wrap_plots(ht_list[3:4]) + plot_layout(ncol = 2)
 # patchwork::wrap_plots(ht_list[1:5]) + plot_layout(ncol = 1)
 
-ht_list[[1]]
-wrap_plots(ht_list[1])
-(hist_hits[[1]] + g) / (g2 + gridExtra::tableGrob(table, theme = t1))
-
-for (i in 1:5) {plot(ht_list[[i]])}
+# for (i in 1:5) {plot(ht_list[[i]])}
 
 # plot peaks
 i <- "pe"
-
-
-
-
 
 #  bg_params = list(fill=c(rep("white",(l-1)), "skyblue1"))) 
 
