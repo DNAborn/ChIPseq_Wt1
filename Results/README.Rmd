@@ -39,10 +39,15 @@ library(patchwork)
 library(gridExtra)
 library(foreach)
 library(doParallel)
+library(tidyGenomeBrowser)
+library(Gviz)
+library(magrittr)
+
 # library()
 
 library(TxDb.Mmusculus.UCSC.mm39.knownGene)
 txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
+library(org.Mm.eg.db)
 
 ```
 
@@ -88,14 +93,14 @@ txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
 # library(ChIPQC)
 # library(rtracklayer)
 
-# library(trackViewer)
-# library(Gviz)
+# 
+# 
 
 # library(GenomicFeatures)
 # library(UpSetR)
 # library(grid)
 # library(plyr)
-# library(tidyGenomeBrowser)
+
 # library(rentrez)
 # library("GenomicFeatures")
 # library("Gviz")
@@ -426,7 +431,7 @@ knitr::kable(peaks_overlap)  %>%
 
 
 #### Hists & Tables
-```{r hits_tables, echo=FALSE, results = "show", fig.width=12, out.width="100%"}
+```{r hits_tables, echo=FALSE, results = "show", fig.width=12, fig.height=8, out.width="100%"}
 # fig.height=10, fig.width=10, out.height="2000px", 
 
 # patchwork::wrap_plots(hist_hits) +plot_layout(nrow = 3, ncol = 2, axis_titles = "collect") # axes = "collect"
@@ -546,7 +551,7 @@ makeVennDiagram(main="Overlap of 3 Bowtie2 mapper",
 
 ## Annotate Peaks
 #### 1 Run
-```{r annotated_peaks, fig.width=12, include=TRUE, results="show", out.width="100%"}
+```{r annotated_peaks, fig.width=12, fig.height=10, include=TRUE, results="show", out.width="100%"}
 
 # Add Gene names
 ah = AnnotationHub()
@@ -569,7 +574,7 @@ all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotat
 # Annotated table
 top_hits <- all_npeaksAnno_table[order(all_npeaksAnno_table$signalValue, decreasing=T),]
 colnames(top_hits)
-kable(top_hits[1:40,c("seqnames","start","end","width","score","signalValue","hits","annotation","geneId","distanceToTSS","symbol","annotation_short")])  %>%
+kable(top_hits[1:15,c("seqnames","start","end","width","score","signalValue","hits","annotation","geneId","distanceToTSS","symbol","annotation_short")])  %>%
  kable_styling("striped", full_width = F) %>% 
  scroll_box(height = "400px")
 
@@ -686,7 +691,7 @@ ggplot(all_npeaksAnno_table,aes(x=distanceToTSS, y=score, color=hits)) +
 ```
 
 #### All runs
-```{r annotae_all_peaks, fig.width=12, out.width="100%"}
+```{r annotae_all_peaks, results="show", fig.width=12, out.width="100%", fig.height=9}
 i <- 2
 top_hits_list <- list()
 for (i in 1:length(npeak_combined_all)){
@@ -701,13 +706,13 @@ n <- names(npeak_combined_all[i])
 all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotation,pattern = " ", simplify = TRUE)[,1]
 
 hits_lim <- max(levels(all_npeaksAnno_table$hits))
-score_lim <- quantile(all_npeaksAnno_table$score, .95)
-peak_lim <- quantile(all_npeaksAnno_table$peak, .95)
-signalValue_lim <- quantile(all_npeaksAnno_table$signalValue, .95)
-qValue_lim <- quantile(all_npeaksAnno_table$qValue, .95)
+score_lim <- quantile(all_npeaksAnno_table$score, .99)
+peak_lim <- quantile(all_npeaksAnno_table$peak, .99)
+signalValue_lim <- quantile(all_npeaksAnno_table$signalValue, .99)
+qValue_lim <- quantile(all_npeaksAnno_table$qValue, .99)
 distanceToTSS_max <- quantile(all_npeaksAnno_table$distanceToTSS, .90)
 distanceToTSS_min <- quantile(all_npeaksAnno_table$distanceToTSS, .1)
-width_lim <- quantile(all_npeaksAnno_table$width, .95)
+width_lim <- quantile(all_npeaksAnno_table$width, .99)
 
 df <- all_npeaksAnno_table
 
@@ -718,21 +723,21 @@ g1a <- ggplot(df,aes(x=distanceToTSS, y=signalValue, color=hits)) +
   ggtitle(paste("A: signalValue to distance"))
 
 g1b <- ggplot(df,aes(x=distanceToTSS, group=hits, fill=hits)) +
-      stat_bin(alpha=0.5, position = 'identity', binwidth=(distanceToTSS_max*0.2-distanceToTSS_min*0.2)/100) + 
+      stat_bin(alpha=0.5, position = 'identity', binwidth=c(10000/100)) + 
       # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
       scale_fill_viridis_d() +
-      ggtitle(paste("B: hits per distance (",n,")",sep="")) + coord_cartesian(xlim = c(distanceToTSS_min*0.2, distanceToTSS_max*0.2))
+      ggtitle(paste("B: hits per distance (",n,")",sep="")) + coord_cartesian(xlim = c(-5000, 5000))
 
 g2a <- ggplot(df,aes(x=width, y=signalValue, color=hits)) +
   geom_point(size=1.5, position ='jitter', alpha=0.4) +
   scale_color_viridis_d(option ="viridis") +
-  coord_cartesian(xlim=c(0,width_lim), ylim = c(signalValue_min,signalValue_lim)) +
+  coord_cartesian(xlim=c(180,width_lim), ylim = c(signalValue_min,signalValue_lim)) +
   ggtitle(paste("C: signalValue per peak width (hits)"))
 
 g2b <- ggplot(df,aes(x=width, y=signalValue, color=annotation_short)) +
   geom_point(size=1.5, position ='jitter', alpha=0.4) +
-  scale_color_viridis_d(option ="viridis") +
-  coord_cartesian(xlim=c(0,width_lim), ylim = c(signalValue_min,signalValue_lim)) +
+  scale_color_viridis_d(option ="turbo") +
+  coord_cartesian(xlim=c(180,width_lim), ylim = c(signalValue_min,signalValue_lim)) +
   ggtitle(paste("D: signalValue per peak width (region)"))
 
 g2c <- ggplot(df,aes(x=width, y=signalValue, color=distanceToTSS)) +
@@ -743,9 +748,10 @@ g2c <- ggplot(df,aes(x=width, y=signalValue, color=distanceToTSS)) +
 
 
 figures_annotated_peaks[[n]] <- g1a+g1b+g2a+g2b+
-                                  plot_layout(ncol = 2, axis_titles = "collect",guides = "collect") + 
+                                  plot_layout(ncol = 2) + 
                                   plot_annotation(title = paste("Method:",n))
 
+# axis_titles = "collect",guides = "collect"
 
 top_hits <- subset(all_npeaksAnno_table, distanceToTSS > -2000 & distanceToTSS < 2000) 
 dim(top_hits)
@@ -753,13 +759,24 @@ top_hits <- top_hits[order(top_hits$score, decreasing=T),]
 top_hits_list[[n]] <- top_hits
 
 options(kableExtra.auto_format = FALSE)
-knitr::kable(top_hits[c(0:20),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>%
+
+header = 7 
+names(header) = paste("Method: ",n)
+
+print(knitr::kable(top_hits[c(0:20),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>%
  kable_styling("striped", full_width = F) %>% 
- scroll_box(height = "400px")
+ add_header_above( header = header) %>%
+  scroll_box(height = "400px"))
+cat("\n")
+ 
+plot(figures_annotated_peaks[[n]])
 
 }
 
-figures_annotated_peaks
+# top_hits_list
+# figures_annotated_peaks
+
+
 
 
 
@@ -769,7 +786,7 @@ figures_annotated_peaks
 
 
 #### All runs old2
-```{r annotae_all_peaks_old2, fig.width=12, out.width="100%"}
+```{r annotae_all_peaks_old2, eval=FALSE, fig.width=12, include=FALSE, out.width="100%"}
 
 
 top_hits_list <- list()
@@ -862,8 +879,8 @@ knitr::kable(top_hits[c(0:50),c("symbol","distanceToTSS","hits","score","signalV
 
 ```
 
-#### All runs (old3)
-```{r eval=TRUE, include=FALSE}
+#### All runs (generate lists)
+```{r all_peaks_old3, eval=TRUE, include=FALSE}
 
 ## All peaks
   
@@ -961,7 +978,7 @@ dev.off()
 # ggsave(file=paste(pubfigdir,"/Heatmap.png",sep=""), width = 8, height = 8)
 
 heat.data <- subset(id_com_table,Std == 1 | chro5k == 1 | pe == 1 & local ==1)[,3:8]
-ggplot(heat.data, aes(x=c(colnames(heat.data)),y=rownmaes(), fill= Z)) + 
+ggplot(heat.data, aes(x=c(colnames(heat.data)),y=rownames(), fill= Z)) + 
   geom_tile()
 
 lapply(gene_ids_all_list,length)
@@ -1077,11 +1094,241 @@ beep()
 
 
 # Visualize Peaks
-```{r}
 
+### prepare bams
+
+```{r, eval=TRUE, include=FALSE}
+# bams
+bdir <- paste(ddir,"Bowtie2",sep="/")
+sbdirs <- list.dirs(bdir)[-c(1,2)]
+bams <- {}
+bamfiles_list <- list()
+for (d in sbdirs) {
+  n <- basename(d)
+  bamfiles <- list.files(d,pattern=".bam$")
+  bamfiles <- paste(d,bamfiles,sep="/")
+  bams <- c(bams,bamfiles)
+  bamfiles_list[[n]] <- bamfiles
+}
+bamfiles_list
+bamfiles
+bams
+
+# peaks
+# npeak_combined_all
+
+# Genes
+# npeakAnnoList[[1]]@anno
+
+# Gene Table
 
 
 
 
 ```
+
+### prepare bigwigs
+
+```{r}
+# bigwigs
+bigwigdir <- paste(ddir,"deeptools/bigwig",sep="/")
+sbwdirs <- list.dirs(bigwigdir)[-1]
+bigwigs <- {}
+bwfiles_list <- list()
+for (d in sbwdirs) {
+  n <- basename(d)
+  bwfiles <- list.files(d,pattern=".bw$")
+  bwfiles <- paste(d,bwfiles,sep="/")
+  bigwigs <- c(bigwigs,bwfiles)
+  bwfiles_list[[n]] <- bwfiles
+}
+bwfiles_list
+bigwigs
+
+```
+
+
+## prepare txdb data
+```{r}
+
+browseIntervals(npeak_combined_all[["Std"]][1:5])
+
+
+# 
+txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
+gene_models <- genes(txdb)
+colnames(edb)
+keytypes(edb)
+gene_models$ensembl <- mapIds(edb, keys = gene_models$gene_id, column = "GENEID", keytype = "ENTREZID")
+gene_models$symbol <- mapIds(edb, keys = gene_models$gene_id, column = "SYMBOL", keytype = "ENTREZID")
+AOC1 <- gene_models["76507"]
+# Plotting window: 500 bp around AKAP2
+gene_window <- AOC1 + 500
+# Window around promoter for second examples
+promoter_window <- promoters(AOC1, upstream=500, downstream=500)
+tx_models <- exonsBy(txdb, by="tx", use.names=TRUE)
+meta_models <- exonsBy(txdb, by="gene")
+
+```
+
+
+## trackViewer
+#### example
+```{r example, eval=FALSE}
+## trackViewer example
+extdata <- system.file("extdata", package="trackViewer",
+                       mustWork=TRUE)
+gr <- GRanges("chr11", IRanges(122929275, 122930122), strand="-")
+fox2 <- importScore(file.path(extdata, "fox2.bed"), format="BED",
+                    ranges=gr)
+fox2$dat <- coverageGR(fox2$dat)
+
+viewTracks(trackList(fox2), gr=gr, autoOptimizeStyle=TRUE, newpage=TRUE)
+
+dt <- DataTrack(range=fox2$dat[strand(fox2$dat)=="-"] , 
+                genome="hg19", type="hist", name="fox2", 
+                window=-1, chromosome="chr11", 
+                fill.histogram="black", col.histogram="NA",
+                background.title="white",
+                col.frame="white", col.axis="black",
+                col="black", col.title="black")
+plotTracks(dt, from=122929275, to=122930122, strand="-")
+
+
+# Maunals
+## tidyGenomeBrowser
+## https://github.com/MalteThodberg/tidyGenomeBrowser/blob/master/README.Rmd
+
+## trackViewer
+## https://bioconductor.org/packages/release/bioc/vignettes/trackViewer/inst/doc/trackViewer.html
+
+## Generate bigwig
+## https://hbctraining.github.io/Intro-to-ChIPseq-flipped/lessons/08_creating_bigwig_files.html
+
+## Normalize bigwig
+## https://www.biostars.org/p/394434/
+
+```
+#### own data
+```{r plot_tracks_1, results="show"}
+# # Step 1. Import data
+# ## example
+# repA <- importScore(file.path(extdata, "cpsf160.repA_-.wig"),
+#                     file.path(extdata, "cpsf160.repA_+.wig"),
+#                     format="WIG")
+# ## Because the wig file does not contain any strand info, 
+# ## we need to set it manually.
+# strand(repA$dat) <- "-"
+# strand(repA$dat2) <- "+"
+# 
+# # Step 2. Build the gene model
+# library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+# library(org.Hs.eg.db)
+# gr <- GRanges("chr11", IRanges(122929275, 122930122), strand="-")
+# trs <- geneModelFromTxdb(TxDb.Hsapiens.UCSC.hg19.knownGene,
+#                          org.Hs.eg.db,
+#                          gr=gr)
+# # Step 3. View the tracks
+# viewerStyle <- trackViewerStyle()
+# setTrackViewerStyleParam(viewerStyle, "margin", c(.1, .05, .02, .02))
+# trackList <- trackList(trs)
+# trackList <- trackList(repA, trs)
+# vp <- viewTracks(trackList, 
+#                  gr=gr, viewerStyle=viewerStyle, 
+#                  autoOptimizeStyle=TRUE)
+
+# own data
+# get Peak info
+
+top_hits_genes <- subset(top_hits_list[["pe"]], distanceToTSS > -2000 & distanceToTSS < 2000, hits > 1) 
+
+peak <- top_hits_genes[2,]
+gr <- GRanges(peak[,1:3])+1000
+gr$peak <- peak$start+peak$peak
+trs <- geneModelFromTxdb(txdb,
+                         org.Mm.eg.db,
+                         gr=gr)
+
+bw_pe_1580 <- importScore(bigwigs[1],
+                          ranges = gr,
+                    format="BigWig")
+
+bw_pe_1580_1578 <- importScore(bigwigs[3],
+                          ranges = gr,
+                    format="BigWig")
+
+bw_pe_1580_2 <- importScore(bigwigs[2],
+                          ranges = gr,
+                    format="BigWig")
+
+bw_pe_1580_1578_4 <- importScore(bigwigs[4],
+                          ranges = gr,
+                    format="BigWig")
+
+
+bam_track_list <- list()
+for (i in bams[25:42]){
+  bam_track <- importBam(i,
+                          ranges = gr)
+  bam_track_list[[i]] <- bam_track
+}
+# bam_track_list
+
+# Step 3. View the tracks
+viewerStyle <- trackViewerStyle()
+setTrackViewerStyleParam(viewerStyle, "margin", c(.1, .05, .02, .02))
+trackList <- trackList(trs)
+trackList <- trackList(bam_track_list,trs)
+vp <- viewTracks(trackList, 
+                 gr=gr, viewerStyle=viewerStyle, 
+                 autoOptimizeStyle=TRUE)
+addGuideLine(gr$peak, vp=vp, col="red")
+
+
+```
+
+### plot all peaks
+```{r eval=FALSE, include=FALSE}
+
+for (i in 1:4){
+  
+peak <- top_hits_genes[i,]
+gr <- GRanges(peak[,1:3])+1000
+gr$peak <- peak$start+peak$peak
+trs <- geneModelFromTxdb(txdb,
+                         org.Mm.eg.db,
+                         gr=gr)
+bam_track_list <- list()
+for (i in bams[25:42]){
+  bam_track <- importBam(i,
+                          ranges = gr)
+  bam_track_list[[i]] <- bam_track
+}
+
+# Step 3. View the tracks
+viewerStyle <- trackViewerStyle()
+setTrackViewerStyleParam(viewerStyle, "margin", c(.1, .05, .02, .02))
+trackList <- trackList(trs)
+trackList <- trackList(bam_track_list,trs)
+vp <- viewTracks(trackList, 
+                 gr=gr, viewerStyle=viewerStyle, 
+                 autoOptimizeStyle=TRUE)
+addGuideLine(gr$peak, vp=vp, col="red")
+plot(vp)
+}
+
+
+
+```
+
+
+
+```{bash eval=FALSE, include=FALSE}
+
+cd /mnt/s/AG/AG-Scholz-NGS/Daten/Simon/P3026_ChIP-Seq_epiSVF/deeptools$ 
+
+
+```
+
+
 
