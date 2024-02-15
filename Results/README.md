@@ -2,7 +2,7 @@
 
 ## R update and load librarys
 
-BiocManager::install()
+BiocManager::install() BiocManager::install(“plyranges”)
 
 ``` r
 # BiocManager::install(update = TRUE, ask = FALSE)
@@ -27,6 +27,7 @@ library(doParallel)
 library(tidyGenomeBrowser)
 library(Gviz)
 library(magrittr)
+library(plyranges)
 
 # library()
 
@@ -213,7 +214,7 @@ Std
 1997
 </td>
 <td style="text-align:right;">
-1562
+1561
 </td>
 </tr>
 <tr>
@@ -230,7 +231,7 @@ Std
 1072
 </td>
 <td style="text-align:right;">
-826
+825
 </td>
 </tr>
 <tr>
@@ -281,7 +282,7 @@ pe
 2531
 </td>
 <td style="text-align:right;">
-1861
+1846
 </td>
 </tr>
 <tr>
@@ -298,7 +299,7 @@ pe
 3295
 </td>
 <td style="text-align:right;">
-2491
+2465
 </td>
 </tr>
 <tr>
@@ -315,7 +316,7 @@ pe
 2453
 </td>
 <td style="text-align:right;">
-1787
+1770
 </td>
 </tr>
 <tr>
@@ -332,7 +333,7 @@ pe
 2555
 </td>
 <td style="text-align:right;">
-1874
+1856
 </td>
 </tr>
 <tr>
@@ -349,7 +350,7 @@ pe
 1865
 </td>
 <td style="text-align:right;">
-1333
+1322
 </td>
 </tr>
 <tr>
@@ -366,7 +367,7 @@ pe
 3304
 </td>
 <td style="text-align:right;">
-2450
+2426
 </td>
 </tr>
 <tr>
@@ -383,7 +384,7 @@ pe
 2783
 </td>
 <td style="text-align:right;">
-2091
+2073
 </td>
 </tr>
 <tr>
@@ -400,7 +401,7 @@ pe
 4544
 </td>
 <td style="text-align:right;">
-3522
+3468
 </td>
 </tr>
 <tr>
@@ -434,7 +435,7 @@ local
 2634
 </td>
 <td style="text-align:right;">
-1916
+1888
 </td>
 </tr>
 <tr>
@@ -451,7 +452,7 @@ local
 3569
 </td>
 <td style="text-align:right;">
-2717
+2679
 </td>
 </tr>
 <tr>
@@ -468,7 +469,7 @@ local
 2430
 </td>
 <td style="text-align:right;">
-1769
+1746
 </td>
 </tr>
 <tr>
@@ -485,7 +486,7 @@ local
 2643
 </td>
 <td style="text-align:right;">
-1893
+1875
 </td>
 </tr>
 <tr>
@@ -502,7 +503,7 @@ local
 1882
 </td>
 <td style="text-align:right;">
-1334
+1318
 </td>
 </tr>
 <tr>
@@ -519,7 +520,7 @@ local
 3154
 </td>
 <td style="text-align:right;">
-2315
+2296
 </td>
 </tr>
 <tr>
@@ -536,7 +537,7 @@ local
 2626
 </td>
 <td style="text-align:right;">
-1905
+1881
 </td>
 </tr>
 <tr>
@@ -553,7 +554,7 @@ local
 5145
 </td>
 <td style="text-align:right;">
-3971
+3916
 </td>
 </tr>
 <tr>
@@ -570,7 +571,7 @@ local
 95
 </td>
 <td style="text-align:right;">
-58
+55
 </td>
 </tr>
 <tr>
@@ -740,7 +741,7 @@ Online
 12869
 </td>
 <td style="text-align:right;">
-12698
+12693
 </td>
 </tr>
 <tr>
@@ -757,7 +758,7 @@ Online
 25288
 </td>
 <td style="text-align:right;">
-24757
+24742
 </td>
 </tr>
 <tr>
@@ -774,7 +775,7 @@ Online
 16309
 </td>
 <td style="text-align:right;">
-15963
+15956
 </td>
 </tr>
 </tbody>
@@ -829,13 +830,13 @@ Std
 Std
 </td>
 <td style="text-align:right;">
-3381
+3379
 </td>
 <td style="text-align:right;">
-3387
+3385
 </td>
 <td style="text-align:right;">
-299
+298
 </td>
 <td style="text-align:right;">
 326
@@ -855,22 +856,22 @@ pe
 pe
 </td>
 <td style="text-align:right;">
-5928
+5863
 </td>
 <td style="text-align:right;">
-304
+303
 </td>
 <td style="text-align:right;">
-6392
+6323
 </td>
 <td style="text-align:right;">
-4829
+4787
 </td>
 <td style="text-align:right;">
 29
 </td>
 <td style="text-align:right;">
-98
+97
 </td>
 </tr>
 <tr>
@@ -881,16 +882,16 @@ local
 local
 </td>
 <td style="text-align:right;">
-6955
+6888
 </td>
 <td style="text-align:right;">
 340
 </td>
 <td style="text-align:right;">
-4935
+4891
 </td>
 <td style="text-align:right;">
-7681
+7616
 </td>
 <td style="text-align:right;">
 34
@@ -933,22 +934,22 @@ Online
 Online
 </td>
 <td style="text-align:right;">
-26474
+26460
 </td>
 <td style="text-align:right;">
 47
 </td>
 <td style="text-align:right;">
-111
+110
 </td>
 <td style="text-align:right;">
-135
+136
 </td>
 <td style="text-align:right;">
 14
 </td>
 <td style="text-align:right;">
-33078
+33058
 </td>
 </tr>
 </tbody>
@@ -1008,12 +1009,12 @@ i <- "pe"
 all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
 ```
 
-    ## >> preparing features information...      2024-02-14 14:18:18 
-    ## >> identifying nearest features...        2024-02-14 14:18:19 
-    ## >> calculating distance from peak to TSS...   2024-02-14 14:18:19 
-    ## >> assigning genomic annotation...        2024-02-14 14:18:19 
-    ## >> assigning chromosome lengths           2024-02-14 14:18:32 
-    ## >> done...                    2024-02-14 14:18:32
+    ## >> preparing features information...      2024-02-15 11:36:17 
+    ## >> identifying nearest features...        2024-02-15 11:36:17 
+    ## >> calculating distance from peak to TSS...   2024-02-15 11:36:18 
+    ## >> assigning genomic annotation...        2024-02-15 11:36:18 
+    ## >> assigning chromosome lengths           2024-02-15 11:36:30 
+    ## >> done...                    2024-02-15 11:36:30
 
 ``` r
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
@@ -1031,10 +1032,11 @@ colnames(top_hits)
     ##  [1] "seqnames"         "start"            "end"              "width"           
     ##  [5] "strand"           "name"             "score"            "signalValue"     
     ##  [9] "pValue"           "qValue"           "peak"             "id"              
-    ## [13] "hits"             "annotation"       "geneChr"          "geneStart"       
-    ## [17] "geneEnd"          "geneLength"       "geneStrand"       "geneId"          
-    ## [21] "transcriptId"     "distanceToTSS"    "transcriptId2"    "symbol"          
-    ## [25] "annotation_short"
+    ## [13] "name_list"        "max.center"       "max.start"        "max.end"         
+    ## [17] "max.width"        "hits"             "annotation"       "geneChr"         
+    ## [21] "geneStart"        "geneEnd"          "geneLength"       "geneStrand"      
+    ## [25] "geneId"           "transcriptId"     "distanceToTSS"    "transcriptId2"   
+    ## [29] "symbol"           "annotation_short"
 
 ``` r
 kable(top_hits[1:15,c("seqnames","start","end","width","score","signalValue","hits","annotation","geneId","distanceToTSS","symbol","annotation_short")])  %>%
@@ -1090,7 +1092,7 @@ annotation_short
 <tbody>
 <tr>
 <td style="text-align:left;">
-2084
+2061
 </td>
 <td style="text-align:left;">
 chr17
@@ -1105,10 +1107,10 @@ chr17
 447
 </td>
 <td style="text-align:right;">
-10464.86
+35985
 </td>
 <td style="text-align:right;">
-98.17
+315.2330
 </td>
 <td style="text-align:right;">
 7
@@ -1131,7 +1133,7 @@ Distal
 </tr>
 <tr>
 <td style="text-align:left;">
-4080
+4038
 </td>
 <td style="text-align:left;">
 chr6
@@ -1146,10 +1148,10 @@ chr6
 4022
 </td>
 <td style="text-align:right;">
-4118.86
+8634
 </td>
 <td style="text-align:right;">
-60.05
+136.0690
 </td>
 <td style="text-align:right;">
 6
@@ -1172,130 +1174,7 @@ Promoter
 </tr>
 <tr>
 <td style="text-align:left;">
-5552
-</td>
-<td style="text-align:left;">
-chrX
-</td>
-<td style="text-align:right;">
-105230323
-</td>
-<td style="text-align:right;">
-105230844
-</td>
-<td style="text-align:right;">
-522
-</td>
-<td style="text-align:right;">
-2703.00
-</td>
-<td style="text-align:right;">
-37.57
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:left;">
-ENSMUSG00000062070
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-Pgk1
-</td>
-<td style="text-align:left;">
-Promoter
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-771
-</td>
-<td style="text-align:left;">
-chr11
-</td>
-<td style="text-align:right;">
-5956234
-</td>
-<td style="text-align:right;">
-5956613
-</td>
-<td style="text-align:right;">
-380
-</td>
-<td style="text-align:right;">
-2341.00
-</td>
-<td style="text-align:right;">
-36.44
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-Intron (ENSMUST00000109813.9/12323, intron 3 of 20)
-</td>
-<td style="text-align:left;">
-ENSMUSG00000057897
-</td>
-<td style="text-align:right;">
--5786
-</td>
-<td style="text-align:left;">
-Camk2b
-</td>
-<td style="text-align:left;">
-Intron
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4281
-</td>
-<td style="text-align:left;">
-chr6
-</td>
-<td style="text-align:right;">
-132440307
-</td>
-<td style="text-align:right;">
-132440774
-</td>
-<td style="text-align:right;">
-468
-</td>
-<td style="text-align:right;">
-1271.00
-</td>
-<td style="text-align:right;">
-28.61
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-Distal Intergenic
-</td>
-<td style="text-align:left;">
-ENSMUSG00000108041
-</td>
-<td style="text-align:right;">
--21622
-</td>
-<td style="text-align:left;">
-Gm5154
-</td>
-<td style="text-align:left;">
-Distal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2534
+2506
 </td>
 <td style="text-align:left;">
 chr19
@@ -1310,10 +1189,10 @@ chr19
 1174
 </td>
 <td style="text-align:right;">
-1177.50
+3201
 </td>
 <td style="text-align:right;">
-22.15
+49.4350
 </td>
 <td style="text-align:right;">
 4
@@ -1336,7 +1215,130 @@ Promoter
 </tr>
 <tr>
 <td style="text-align:left;">
-4079
+5486
+</td>
+<td style="text-align:left;">
+chrX
+</td>
+<td style="text-align:right;">
+105230323
+</td>
+<td style="text-align:right;">
+105230844
+</td>
+<td style="text-align:right;">
+522
+</td>
+<td style="text-align:right;">
+2703
+</td>
+<td style="text-align:right;">
+37.5665
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Promoter (\<=1kb)
+</td>
+<td style="text-align:left;">
+ENSMUSG00000062070
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Pgk1
+</td>
+<td style="text-align:left;">
+Promoter
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+761
+</td>
+<td style="text-align:left;">
+chr11
+</td>
+<td style="text-align:right;">
+5956234
+</td>
+<td style="text-align:right;">
+5956613
+</td>
+<td style="text-align:right;">
+380
+</td>
+<td style="text-align:right;">
+2341
+</td>
+<td style="text-align:right;">
+36.4437
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Intron (ENSMUST00000109813.9/12323, intron 3 of 20)
+</td>
+<td style="text-align:left;">
+ENSMUSG00000057897
+</td>
+<td style="text-align:right;">
+-5786
+</td>
+<td style="text-align:left;">
+Camk2b
+</td>
+<td style="text-align:left;">
+Intron
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4234
+</td>
+<td style="text-align:left;">
+chr6
+</td>
+<td style="text-align:right;">
+132440307
+</td>
+<td style="text-align:right;">
+132440774
+</td>
+<td style="text-align:right;">
+468
+</td>
+<td style="text-align:right;">
+1271
+</td>
+<td style="text-align:right;">
+28.6134
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Distal Intergenic
+</td>
+<td style="text-align:left;">
+ENSMUSG00000108041
+</td>
+<td style="text-align:right;">
+-21622
+</td>
+<td style="text-align:left;">
+Gm5154
+</td>
+<td style="text-align:left;">
+Distal
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4037
 </td>
 <td style="text-align:left;">
 chr6
@@ -1351,10 +1353,10 @@ chr6
 576
 </td>
 <td style="text-align:right;">
-705.00
+705
 </td>
 <td style="text-align:right;">
-17.60
+17.6038
 </td>
 <td style="text-align:right;">
 1
@@ -1377,130 +1379,7 @@ Promoter
 </tr>
 <tr>
 <td style="text-align:left;">
-2740
-</td>
-<td style="text-align:left;">
-chr2
-</td>
-<td style="text-align:right;">
-104956433
-</td>
-<td style="text-align:right;">
-104958215
-</td>
-<td style="text-align:right;">
-1783
-</td>
-<td style="text-align:right;">
-531.67
-</td>
-<td style="text-align:right;">
-14.01
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:left;">
-Promoter (\<=1kb)
-</td>
-<td style="text-align:left;">
-ENSMUSG00000016458
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-Wt1
-</td>
-<td style="text-align:left;">
-Promoter
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2741
-</td>
-<td style="text-align:left;">
-chr2
-</td>
-<td style="text-align:right;">
-104963160
-</td>
-<td style="text-align:right;">
-104964205
-</td>
-<td style="text-align:right;">
-1046
-</td>
-<td style="text-align:right;">
-416.00
-</td>
-<td style="text-align:right;">
-13.48
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-Promoter (1-2kb)
-</td>
-<td style="text-align:left;">
-ENSMUSG00000016458
-</td>
-<td style="text-align:right;">
-1932
-</td>
-<td style="text-align:left;">
-Wt1
-</td>
-<td style="text-align:left;">
-Promoter
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2815
-</td>
-<td style="text-align:left;">
-chr2
-</td>
-<td style="text-align:right;">
-146838103
-</td>
-<td style="text-align:right;">
-146846920
-</td>
-<td style="text-align:right;">
-8818
-</td>
-<td style="text-align:right;">
-676.62
-</td>
-<td style="text-align:right;">
-12.43
-</td>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:left;">
-Distal Intergenic
-</td>
-<td style="text-align:left;">
-ENSMUSG00000027433
-</td>
-<td style="text-align:right;">
--7996
-</td>
-<td style="text-align:left;">
-Xrn2
-</td>
-<td style="text-align:left;">
-Distal
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5276
+5216
 </td>
 <td style="text-align:left;">
 chrX
@@ -1515,10 +1394,10 @@ chrX
 8256
 </td>
 <td style="text-align:right;">
-649.38
+1301
 </td>
 <td style="text-align:right;">
-12.41
+17.5793
 </td>
 <td style="text-align:right;">
 8
@@ -1541,7 +1420,48 @@ Distal
 </tr>
 <tr>
 <td style="text-align:left;">
-3103
+2708
+</td>
+<td style="text-align:left;">
+chr2
+</td>
+<td style="text-align:right;">
+104956433
+</td>
+<td style="text-align:right;">
+104958215
+</td>
+<td style="text-align:right;">
+1783
+</td>
+<td style="text-align:right;">
+843
+</td>
+<td style="text-align:right;">
+17.2436
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+Promoter (\<=1kb)
+</td>
+<td style="text-align:left;">
+ENSMUSG00000016458
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Wt1
+</td>
+<td style="text-align:left;">
+Promoter
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3068
 </td>
 <td style="text-align:left;">
 chr3
@@ -1556,10 +1476,10 @@ chr3
 7660
 </td>
 <td style="text-align:right;">
-726.50
+1352
 </td>
 <td style="text-align:right;">
-12.12
+17.0189
 </td>
 <td style="text-align:right;">
 8
@@ -1582,7 +1502,7 @@ Distal
 </tr>
 <tr>
 <td style="text-align:left;">
-5342
+5281
 </td>
 <td style="text-align:left;">
 chrX
@@ -1597,10 +1517,10 @@ chrX
 8404
 </td>
 <td style="text-align:right;">
-732.62
+1234
 </td>
 <td style="text-align:right;">
-12.02
+14.9230
 </td>
 <td style="text-align:right;">
 8
@@ -1623,7 +1543,48 @@ Intron
 </tr>
 <tr>
 <td style="text-align:left;">
-1661
+1363
+</td>
+<td style="text-align:left;">
+chr13
+</td>
+<td style="text-align:right;">
+88045393
+</td>
+<td style="text-align:right;">
+88052367
+</td>
+<td style="text-align:right;">
+6975
+</td>
+<td style="text-align:right;">
+1006
+</td>
+<td style="text-align:right;">
+14.5826
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+Distal Intergenic
+</td>
+<td style="text-align:left;">
+ENSMUSG00000114273
+</td>
+<td style="text-align:right;">
+-616942
+</td>
+<td style="text-align:left;">
+Gm34585
+</td>
+<td style="text-align:left;">
+Distal
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1646
 </td>
 <td style="text-align:left;">
 chr14
@@ -1638,10 +1599,10 @@ chr14
 7438
 </td>
 <td style="text-align:right;">
-709.00
+1088
 </td>
 <td style="text-align:right;">
-11.93
+14.5554
 </td>
 <td style="text-align:right;">
 8
@@ -1664,43 +1625,84 @@ Distal
 </tr>
 <tr>
 <td style="text-align:left;">
-4362
+2783
 </td>
 <td style="text-align:left;">
-chr7
+chr2
 </td>
 <td style="text-align:right;">
-7800198
+146838103
 </td>
 <td style="text-align:right;">
-7813532
+146846920
 </td>
 <td style="text-align:right;">
-13335
+8818
 </td>
 <td style="text-align:right;">
-703.75
+1028
 </td>
 <td style="text-align:right;">
-10.97
+14.3899
 </td>
 <td style="text-align:right;">
 8
 </td>
 <td style="text-align:left;">
-Intron (ENSMUST00000169683.2/625353, intron 4 of 5)
+Distal Intergenic
 </td>
 <td style="text-align:left;">
-ENSMUSG00000096399
+ENSMUSG00000027433
 </td>
 <td style="text-align:right;">
-9334
+-7996
 </td>
 <td style="text-align:left;">
-Vmn2r35
+Xrn2
 </td>
 <td style="text-align:left;">
-Intron
+Distal
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2709
+</td>
+<td style="text-align:left;">
+chr2
+</td>
+<td style="text-align:right;">
+104963160
+</td>
+<td style="text-align:right;">
+104964205
+</td>
+<td style="text-align:right;">
+1046
+</td>
+<td style="text-align:right;">
+416
+</td>
+<td style="text-align:right;">
+13.4797
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Promoter (1-2kb)
+</td>
+<td style="text-align:left;">
+ENSMUSG00000016458
+</td>
+<td style="text-align:right;">
+1932
+</td>
+<td style="text-align:left;">
+Wt1
+</td>
+<td style="text-align:left;">
+Promoter
 </td>
 </tr>
 </tbody>
@@ -1829,12 +1831,12 @@ plot(figures_annotated_peaks[[n]])
 }
 ```
 
-    ## >> preparing features information...      2024-02-14 14:18:34 
-    ## >> identifying nearest features...        2024-02-14 14:18:34 
-    ## >> calculating distance from peak to TSS...   2024-02-14 14:18:35 
-    ## >> assigning genomic annotation...        2024-02-14 14:18:35 
-    ## >> assigning chromosome lengths           2024-02-14 14:18:36 
-    ## >> done...                    2024-02-14 14:18:36 
+    ## >> preparing features information...      2024-02-15 11:36:32 
+    ## >> identifying nearest features...        2024-02-15 11:36:32 
+    ## >> calculating distance from peak to TSS...   2024-02-15 11:36:32 
+    ## >> assigning genomic annotation...        2024-02-15 11:36:32 
+    ## >> assigning chromosome lengths           2024-02-15 11:36:34 
+    ## >> done...                    2024-02-15 11:36:34 
     ## <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; "><table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
     ##  <thead>
     ## <tr><th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="7"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Method:  Std</div></th></tr>
@@ -1850,196 +1852,196 @@ plot(figures_annotated_peaks[[n]])
     ##  </thead>
     ## <tbody>
     ##   <tr>
-    ##    <td style="text-align:left;"> 2548 </td>
+    ##    <td style="text-align:left;"> 2547 </td>
     ##    <td style="text-align:left;"> Aoc1 </td>
     ##    <td style="text-align:right;"> 872 </td>
     ##    <td style="text-align:left;"> 6 </td>
-    ##    <td style="text-align:right;"> 5699.83 </td>
-    ##    <td style="text-align:right;"> 112.94 </td>
-    ##    <td style="text-align:right;"> 570.04 </td>
+    ##    <td style="text-align:right;"> 9404 </td>
+    ##    <td style="text-align:right;"> 177.44000 </td>
+    ##    <td style="text-align:right;"> 940.48600 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 3326 </td>
+    ##    <td style="text-align:left;"> 3324 </td>
     ##    <td style="text-align:left;"> Pgk1 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 2 </td>
-    ##    <td style="text-align:right;"> 1971.00 </td>
-    ##    <td style="text-align:right;"> 46.23 </td>
-    ##    <td style="text-align:right;"> 197.16 </td>
+    ##    <td style="text-align:right;"> 3268 </td>
+    ##    <td style="text-align:right;"> 60.69470 </td>
+    ##    <td style="text-align:right;"> 326.84900 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 1508 </td>
+    ##    <td style="text-align:left;"> 1507 </td>
     ##    <td style="text-align:left;"> Gm32342 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 5 </td>
-    ##    <td style="text-align:right;"> 972.00 </td>
-    ##    <td style="text-align:right;"> 23.58 </td>
-    ##    <td style="text-align:right;"> 97.25 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 1662 </td>
-    ##    <td style="text-align:left;"> Wt1 </td>
-    ##    <td style="text-align:right;"> 1932 </td>
-    ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 913.00 </td>
-    ##    <td style="text-align:right;"> 40.09 </td>
-    ##    <td style="text-align:right;"> 91.36 </td>
+    ##    <td style="text-align:right;"> 3238 </td>
+    ##    <td style="text-align:right;"> 62.51200 </td>
+    ##    <td style="text-align:right;"> 323.87100 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 2544 </td>
     ##    <td style="text-align:left;"> Aoc1 </td>
-    ##    <td style="text-align:right;"> -6 </td>
-    ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 803.00 </td>
-    ##    <td style="text-align:right;"> 23.41 </td>
-    ##    <td style="text-align:right;"> 80.34 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 2545 </td>
-    ##    <td style="text-align:left;"> Aoc1 </td>
     ##    <td style="text-align:right;"> 200 </td>
     ##    <td style="text-align:left;"> 6 </td>
-    ##    <td style="text-align:right;"> 696.83 </td>
-    ##    <td style="text-align:right;"> 22.93 </td>
-    ##    <td style="text-align:right;"> 69.73 </td>
+    ##    <td style="text-align:right;"> 1266 </td>
+    ##    <td style="text-align:right;"> 36.85590 </td>
+    ##    <td style="text-align:right;"> 126.68500 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 1660 </td>
+    ##    <td style="text-align:left;"> Wt1 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 6 </td>
+    ##    <td style="text-align:right;"> 970 </td>
+    ##    <td style="text-align:right;"> 23.40940 </td>
+    ##    <td style="text-align:right;"> 97.01340 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 1661 </td>
     ##    <td style="text-align:left;"> Wt1 </td>
+    ##    <td style="text-align:right;"> 1932 </td>
+    ##    <td style="text-align:left;"> 1 </td>
+    ##    <td style="text-align:right;"> 913 </td>
+    ##    <td style="text-align:right;"> 40.09450 </td>
+    ##    <td style="text-align:right;"> 91.36210 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 2543 </td>
+    ##    <td style="text-align:left;"> Aoc1 </td>
+    ##    <td style="text-align:right;"> -6 </td>
+    ##    <td style="text-align:left;"> 1 </td>
+    ##    <td style="text-align:right;"> 803 </td>
+    ##    <td style="text-align:right;"> 23.40860 </td>
+    ##    <td style="text-align:right;"> 80.33710 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 2210 </td>
+    ##    <td style="text-align:left;"> Prdm16os </td>
     ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 6 </td>
-    ##    <td style="text-align:right;"> 622.17 </td>
-    ##    <td style="text-align:right;"> 19.37 </td>
-    ##    <td style="text-align:right;"> 62.27 </td>
+    ##    <td style="text-align:left;"> 2 </td>
+    ##    <td style="text-align:right;"> 570 </td>
+    ##    <td style="text-align:right;"> 17.83880 </td>
+    ##    <td style="text-align:right;"> 57.09940 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 1026 </td>
     ##    <td style="text-align:left;"> Npr3 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 5 </td>
-    ##    <td style="text-align:right;"> 294.00 </td>
-    ##    <td style="text-align:right;"> 12.51 </td>
-    ##    <td style="text-align:right;"> 29.46 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 2211 </td>
-    ##    <td style="text-align:left;"> Prdm16os </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 2 </td>
-    ##    <td style="text-align:right;"> 242.33 </td>
-    ##    <td style="text-align:right;"> 9.91 </td>
-    ##    <td style="text-align:right;"> 24.28 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 2547 </td>
-    ##    <td style="text-align:left;"> Aoc1 </td>
-    ##    <td style="text-align:right;"> 258 </td>
-    ##    <td style="text-align:left;"> 4 </td>
-    ##    <td style="text-align:right;"> 210.25 </td>
-    ##    <td style="text-align:right;"> 11.08 </td>
-    ##    <td style="text-align:right;"> 21.10 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 1118 </td>
-    ##    <td style="text-align:left;"> Aqp2 </td>
-    ##    <td style="text-align:right;"> 91 </td>
-    ##    <td style="text-align:left;"> 2 </td>
-    ##    <td style="text-align:right;"> 120.00 </td>
-    ##    <td style="text-align:right;"> 8.04 </td>
-    ##    <td style="text-align:right;"> 12.05 </td>
+    ##    <td style="text-align:right;"> 438 </td>
+    ##    <td style="text-align:right;"> 15.93290 </td>
+    ##    <td style="text-align:right;"> 43.88880 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 1119 </td>
     ##    <td style="text-align:left;"> Aqp5 </td>
     ##    <td style="text-align:right;"> -39 </td>
     ##    <td style="text-align:left;"> 4 </td>
-    ##    <td style="text-align:right;"> 115.25 </td>
-    ##    <td style="text-align:right;"> 6.83 </td>
-    ##    <td style="text-align:right;"> 11.57 </td>
+    ##    <td style="text-align:right;"> 269 </td>
+    ##    <td style="text-align:right;"> 11.79040 </td>
+    ##    <td style="text-align:right;"> 26.92200 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 2546 </td>
+    ##    <td style="text-align:left;"> Aoc1 </td>
+    ##    <td style="text-align:right;"> 258 </td>
+    ##    <td style="text-align:left;"> 4 </td>
+    ##    <td style="text-align:right;"> 227 </td>
+    ##    <td style="text-align:right;"> 11.21200 </td>
+    ##    <td style="text-align:right;"> 22.76380 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 1118 </td>
+    ##    <td style="text-align:left;"> Aqp2 </td>
+    ##    <td style="text-align:right;"> 91 </td>
+    ##    <td style="text-align:left;"> 2 </td>
+    ##    <td style="text-align:right;"> 219 </td>
+    ##    <td style="text-align:right;"> 12.23900 </td>
+    ##    <td style="text-align:right;"> 21.90920 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 252 </td>
     ##    <td style="text-align:left;"> Pbx1 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 109.00 </td>
-    ##    <td style="text-align:right;"> 7.33 </td>
-    ##    <td style="text-align:right;"> 10.92 </td>
+    ##    <td style="text-align:right;"> 109 </td>
+    ##    <td style="text-align:right;"> 7.32916 </td>
+    ##    <td style="text-align:right;"> 10.92410 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 2125 </td>
-    ##    <td style="text-align:left;"> Gm12610 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 76.00 </td>
-    ##    <td style="text-align:right;"> 6.00 </td>
-    ##    <td style="text-align:right;"> 7.65 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 2546 </td>
-    ##    <td style="text-align:left;"> Aoc1 </td>
-    ##    <td style="text-align:right;"> -14 </td>
-    ##    <td style="text-align:left;"> 2 </td>
-    ##    <td style="text-align:right;"> 71.50 </td>
-    ##    <td style="text-align:right;"> 5.89 </td>
-    ##    <td style="text-align:right;"> 7.22 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 2316 </td>
-    ##    <td style="text-align:left;"> Kit </td>
-    ##    <td style="text-align:right;"> -112 </td>
-    ##    <td style="text-align:left;"> 2 </td>
-    ##    <td style="text-align:right;"> 56.50 </td>
-    ##    <td style="text-align:right;"> 6.20 </td>
-    ##    <td style="text-align:right;"> 5.69 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 2278 </td>
+    ##    <td style="text-align:left;"> 2277 </td>
     ##    <td style="text-align:left;"> Ppargc1a </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 4 </td>
-    ##    <td style="text-align:right;"> 52.75 </td>
-    ##    <td style="text-align:right;"> 5.10 </td>
-    ##    <td style="text-align:right;"> 5.32 </td>
+    ##    <td style="text-align:right;"> 104 </td>
+    ##    <td style="text-align:right;"> 6.81414 </td>
+    ##    <td style="text-align:right;"> 10.42860 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 2545 </td>
+    ##    <td style="text-align:left;"> Aoc1 </td>
+    ##    <td style="text-align:right;"> -14 </td>
+    ##    <td style="text-align:left;"> 2 </td>
+    ##    <td style="text-align:right;"> 82 </td>
+    ##    <td style="text-align:right;"> 6.30733 </td>
+    ##    <td style="text-align:right;"> 8.23839 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 2124 </td>
+    ##    <td style="text-align:left;"> Gm12610 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 1 </td>
+    ##    <td style="text-align:right;"> 76 </td>
+    ##    <td style="text-align:right;"> 6.00147 </td>
+    ##    <td style="text-align:right;"> 7.64712 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 2315 </td>
+    ##    <td style="text-align:left;"> Kit </td>
+    ##    <td style="text-align:right;"> -112 </td>
+    ##    <td style="text-align:left;"> 2 </td>
+    ##    <td style="text-align:right;"> 70 </td>
+    ##    <td style="text-align:right;"> 7.40557 </td>
+    ##    <td style="text-align:right;"> 7.01991 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 1124 </td>
     ##    <td style="text-align:left;"> Itga5 </td>
     ##    <td style="text-align:right;"> -56 </td>
     ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 51.00 </td>
-    ##    <td style="text-align:right;"> 5.25 </td>
-    ##    <td style="text-align:right;"> 5.16 </td>
+    ##    <td style="text-align:right;"> 51 </td>
+    ##    <td style="text-align:right;"> 5.25024 </td>
+    ##    <td style="text-align:right;"> 5.15759 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 2449 </td>
+    ##    <td style="text-align:left;"> 2448 </td>
     ##    <td style="text-align:left;"> Eif3b </td>
     ##    <td style="text-align:right;"> -505 </td>
     ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 42.00 </td>
-    ##    <td style="text-align:right;"> 6.05 </td>
-    ##    <td style="text-align:right;"> 4.29 </td>
+    ##    <td style="text-align:right;"> 42 </td>
+    ##    <td style="text-align:right;"> 6.05199 </td>
+    ##    <td style="text-align:right;"> 4.28883 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 2605 </td>
+    ##    <td style="text-align:left;"> 2604 </td>
     ##    <td style="text-align:left;"> 1700009C05Rik </td>
     ##    <td style="text-align:right;"> -1752 </td>
     ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 39.00 </td>
-    ##    <td style="text-align:right;"> 4.91 </td>
-    ##    <td style="text-align:right;"> 3.90 </td>
+    ##    <td style="text-align:right;"> 39 </td>
+    ##    <td style="text-align:right;"> 4.90555 </td>
+    ##    <td style="text-align:right;"> 3.90468 </td>
     ##   </tr>
     ## </tbody>
     ## </table></div>
 
 <img src="README_files/figure-gfm/annotae_all_peaks-1.png" width="100%" />
 
-    ## >> preparing features information...      2024-02-14 14:18:39 
-    ## >> identifying nearest features...        2024-02-14 14:18:39 
-    ## >> calculating distance from peak to TSS...   2024-02-14 14:18:39 
-    ## >> assigning genomic annotation...        2024-02-14 14:18:39 
-    ## >> assigning chromosome lengths           2024-02-14 14:18:41 
-    ## >> done...                    2024-02-14 14:18:41 
+    ## >> preparing features information...      2024-02-15 11:36:37 
+    ## >> identifying nearest features...        2024-02-15 11:36:37 
+    ## >> calculating distance from peak to TSS...   2024-02-15 11:36:37 
+    ## >> assigning genomic annotation...        2024-02-15 11:36:37 
+    ## >> assigning chromosome lengths           2024-02-15 11:36:38 
+    ## >> done...                    2024-02-15 11:36:38 
     ## <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; "><table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
     ##  <thead>
     ## <tr><th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="7"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Method:  pe</div></th></tr>
@@ -2055,196 +2057,196 @@ plot(figures_annotated_peaks[[n]])
     ##  </thead>
     ## <tbody>
     ##   <tr>
-    ##    <td style="text-align:left;"> 4080 </td>
+    ##    <td style="text-align:left;"> 4038 </td>
     ##    <td style="text-align:left;"> Aoc1 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 6 </td>
-    ##    <td style="text-align:right;"> 4118.86 </td>
-    ##    <td style="text-align:right;"> 60.05 </td>
-    ##    <td style="text-align:right;"> 411.94 </td>
+    ##    <td style="text-align:right;"> 8634 </td>
+    ##    <td style="text-align:right;"> 136.06900 </td>
+    ##    <td style="text-align:right;"> 863.4900 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 5552 </td>
-    ##    <td style="text-align:left;"> Pgk1 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 2703.00 </td>
-    ##    <td style="text-align:right;"> 37.57 </td>
-    ##    <td style="text-align:right;"> 270.35 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 2534 </td>
+    ##    <td style="text-align:left;"> 2506 </td>
     ##    <td style="text-align:left;"> Gm32342 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 4 </td>
-    ##    <td style="text-align:right;"> 1177.50 </td>
-    ##    <td style="text-align:right;"> 22.15 </td>
-    ##    <td style="text-align:right;"> 117.80 </td>
+    ##    <td style="text-align:right;"> 3201 </td>
+    ##    <td style="text-align:right;"> 49.43500 </td>
+    ##    <td style="text-align:right;"> 320.1680 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 4079 </td>
-    ##    <td style="text-align:left;"> Aoc1 </td>
+    ##    <td style="text-align:left;"> 5486 </td>
+    ##    <td style="text-align:left;"> Pgk1 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 705.00 </td>
-    ##    <td style="text-align:right;"> 17.60 </td>
-    ##    <td style="text-align:right;"> 70.54 </td>
+    ##    <td style="text-align:right;"> 2703 </td>
+    ##    <td style="text-align:right;"> 37.56650 </td>
+    ##    <td style="text-align:right;"> 270.3460 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 5924 </td>
+    ##    <td style="text-align:left;"> 5859 </td>
     ##    <td style="text-align:left;"> Gm47283 </td>
     ##    <td style="text-align:right;"> -1452 </td>
     ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 583.67 </td>
-    ##    <td style="text-align:right;"> 6.48 </td>
-    ##    <td style="text-align:right;"> 58.42 </td>
+    ##    <td style="text-align:right;"> 916 </td>
+    ##    <td style="text-align:right;"> 7.18823 </td>
+    ##    <td style="text-align:right;"> 91.6929 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 2740 </td>
+    ##    <td style="text-align:left;"> 2708 </td>
     ##    <td style="text-align:left;"> Wt1 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 6 </td>
-    ##    <td style="text-align:right;"> 531.67 </td>
-    ##    <td style="text-align:right;"> 14.01 </td>
-    ##    <td style="text-align:right;"> 53.24 </td>
+    ##    <td style="text-align:right;"> 843 </td>
+    ##    <td style="text-align:right;"> 17.24360 </td>
+    ##    <td style="text-align:right;"> 84.3646 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 2741 </td>
-    ##    <td style="text-align:left;"> Wt1 </td>
-    ##    <td style="text-align:right;"> 1932 </td>
+    ##    <td style="text-align:left;"> 4037 </td>
+    ##    <td style="text-align:left;"> Aoc1 </td>
+    ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 416.00 </td>
-    ##    <td style="text-align:right;"> 13.48 </td>
-    ##    <td style="text-align:right;"> 41.68 </td>
+    ##    <td style="text-align:right;"> 705 </td>
+    ##    <td style="text-align:right;"> 17.60380 </td>
+    ##    <td style="text-align:right;"> 70.5450 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 1749 </td>
-    ##    <td style="text-align:left;"> Npr3 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 4 </td>
-    ##    <td style="text-align:right;"> 313.00 </td>
-    ##    <td style="text-align:right;"> 10.79 </td>
-    ##    <td style="text-align:right;"> 31.33 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 3584 </td>
-    ##    <td style="text-align:left;"> Prdm16os </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 2 </td>
-    ##    <td style="text-align:right;"> 288.50 </td>
-    ##    <td style="text-align:right;"> 9.22 </td>
-    ##    <td style="text-align:right;"> 28.90 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 5224 </td>
+    ##    <td style="text-align:left;"> 5165 </td>
     ##    <td style="text-align:left;"> 4921528I07Rik </td>
     ##    <td style="text-align:right;"> -1737 </td>
     ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 269.62 </td>
-    ##    <td style="text-align:right;"> 7.46 </td>
-    ##    <td style="text-align:right;"> 27.02 </td>
+    ##    <td style="text-align:right;"> 622 </td>
+    ##    <td style="text-align:right;"> 11.94810 </td>
+    ##    <td style="text-align:right;"> 62.2213 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 1854 </td>
-    ##    <td style="text-align:left;"> Gm23217 </td>
-    ##    <td style="text-align:right;"> 1504 </td>
-    ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 174.62 </td>
-    ##    <td style="text-align:right;"> 5.81 </td>
-    ##    <td style="text-align:right;"> 17.51 </td>
+    ##    <td style="text-align:left;"> 3545 </td>
+    ##    <td style="text-align:left;"> Prdm16os </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 2 </td>
+    ##    <td style="text-align:right;"> 460 </td>
+    ##    <td style="text-align:right;"> 12.27010 </td>
+    ##    <td style="text-align:right;"> 46.0280 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 1885 </td>
-    ##    <td style="text-align:left;"> Aqp2 </td>
-    ##    <td style="text-align:right;"> 92 </td>
+    ##    <td style="text-align:left;"> 2709 </td>
+    ##    <td style="text-align:left;"> Wt1 </td>
+    ##    <td style="text-align:right;"> 1932 </td>
     ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 159.00 </td>
-    ##    <td style="text-align:right;"> 6.73 </td>
-    ##    <td style="text-align:right;"> 15.99 </td>
+    ##    <td style="text-align:right;"> 416 </td>
+    ##    <td style="text-align:right;"> 13.47970 </td>
+    ##    <td style="text-align:right;"> 41.6804 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 3299 </td>
-    ##    <td style="text-align:left;"> Gm50470 </td>
+    ##    <td style="text-align:left;"> 1732 </td>
+    ##    <td style="text-align:left;"> Npr3 </td>
     ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 137.75 </td>
-    ##    <td style="text-align:right;"> 5.27 </td>
-    ##    <td style="text-align:right;"> 13.82 </td>
+    ##    <td style="text-align:left;"> 4 </td>
+    ##    <td style="text-align:right;"> 390 </td>
+    ##    <td style="text-align:right;"> 12.11120 </td>
+    ##    <td style="text-align:right;"> 39.0284 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 3296 </td>
-    ##    <td style="text-align:left;"> Gm3893 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 135.00 </td>
-    ##    <td style="text-align:right;"> 5.99 </td>
-    ##    <td style="text-align:right;"> 13.55 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 5925 </td>
-    ##    <td style="text-align:left;"> Gm47283 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 125.56 </td>
-    ##    <td style="text-align:right;"> 3.22 </td>
-    ##    <td style="text-align:right;"> 12.61 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 1877 </td>
-    ##    <td style="text-align:left;"> Smgc </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 117.38 </td>
-    ##    <td style="text-align:right;"> 5.67 </td>
-    ##    <td style="text-align:right;"> 11.80 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 4525 </td>
+    ##    <td style="text-align:left;"> 4477 </td>
     ##    <td style="text-align:left;"> Gm22909 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 116.52 </td>
-    ##    <td style="text-align:right;"> 5.26 </td>
-    ##    <td style="text-align:right;"> 11.71 </td>
+    ##    <td style="text-align:right;"> 330 </td>
+    ##    <td style="text-align:right;"> 7.65158 </td>
+    ##    <td style="text-align:right;"> 33.0658 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 4516 </td>
+    ##    <td style="text-align:left;"> 1837 </td>
+    ##    <td style="text-align:left;"> Gm23217 </td>
+    ##    <td style="text-align:right;"> 1504 </td>
+    ##    <td style="text-align:left;"> 8 </td>
+    ##    <td style="text-align:right;"> 286 </td>
+    ##    <td style="text-align:right;"> 7.55328 </td>
+    ##    <td style="text-align:right;"> 28.6636 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 1502 </td>
+    ##    <td style="text-align:left;"> Gm3287 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 8 </td>
+    ##    <td style="text-align:right;"> 269 </td>
+    ##    <td style="text-align:right;"> 8.17194 </td>
+    ##    <td style="text-align:right;"> 26.9895 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 4470 </td>
+    ##    <td style="text-align:left;"> Gm22524 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 8 </td>
+    ##    <td style="text-align:right;"> 227 </td>
+    ##    <td style="text-align:right;"> 7.87793 </td>
+    ##    <td style="text-align:right;"> 22.7759 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 4468 </td>
     ##    <td style="text-align:left;"> Gm25988 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 110.73 </td>
-    ##    <td style="text-align:right;"> 5.43 </td>
-    ##    <td style="text-align:right;"> 11.12 </td>
+    ##    <td style="text-align:right;"> 224 </td>
+    ##    <td style="text-align:right;"> 8.49820 </td>
+    ##    <td style="text-align:right;"> 22.4549 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 1886 </td>
+    ##    <td style="text-align:left;"> 5860 </td>
+    ##    <td style="text-align:left;"> Gm47283 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 8 </td>
+    ##    <td style="text-align:right;"> 224 </td>
+    ##    <td style="text-align:right;"> 5.15066 </td>
+    ##    <td style="text-align:right;"> 22.4810 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 1868 </td>
     ##    <td style="text-align:left;"> Aqp5 </td>
     ##    <td style="text-align:right;"> -41 </td>
     ##    <td style="text-align:left;"> 4 </td>
-    ##    <td style="text-align:right;"> 105.25 </td>
-    ##    <td style="text-align:right;"> 5.49 </td>
-    ##    <td style="text-align:right;"> 10.56 </td>
+    ##    <td style="text-align:right;"> 213 </td>
+    ##    <td style="text-align:right;"> 8.45498 </td>
+    ##    <td style="text-align:right;"> 21.3134 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 1587 </td>
+    ##    <td style="text-align:left;"> 3259 </td>
+    ##    <td style="text-align:left;"> Gm3893 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 8 </td>
+    ##    <td style="text-align:right;"> 202 </td>
+    ##    <td style="text-align:right;"> 6.95414 </td>
+    ##    <td style="text-align:right;"> 20.2641 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 3262 </td>
+    ##    <td style="text-align:left;"> Gm50470 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 8 </td>
+    ##    <td style="text-align:right;"> 198 </td>
+    ##    <td style="text-align:right;"> 5.94587 </td>
+    ##    <td style="text-align:right;"> 19.8130 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 1574 </td>
     ##    <td style="text-align:left;"> Lrch1 </td>
     ##    <td style="text-align:right;"> 1311 </td>
     ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 98.25 </td>
-    ##    <td style="text-align:right;"> 5.09 </td>
-    ##    <td style="text-align:right;"> 9.86 </td>
+    ##    <td style="text-align:right;"> 193 </td>
+    ##    <td style="text-align:right;"> 6.96827 </td>
+    ##    <td style="text-align:right;"> 19.3912 </td>
     ##   </tr>
     ## </tbody>
     ## </table></div>
 
 <img src="README_files/figure-gfm/annotae_all_peaks-2.png" width="100%" />
 
-    ## >> preparing features information...      2024-02-14 14:18:43 
-    ## >> identifying nearest features...        2024-02-14 14:18:43 
-    ## >> calculating distance from peak to TSS...   2024-02-14 14:18:45 
-    ## >> assigning genomic annotation...        2024-02-14 14:18:45 
-    ## >> assigning chromosome lengths           2024-02-14 14:18:46 
-    ## >> done...                    2024-02-14 14:18:46 
+    ## >> preparing features information...      2024-02-15 11:36:42 
+    ## >> identifying nearest features...        2024-02-15 11:36:42 
+    ## >> calculating distance from peak to TSS...   2024-02-15 11:36:42 
+    ## >> assigning genomic annotation...        2024-02-15 11:36:42 
+    ## >> assigning chromosome lengths           2024-02-15 11:36:44 
+    ## >> done...                    2024-02-15 11:36:44 
     ## <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; "><table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
     ##  <thead>
     ## <tr><th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="7"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Method:  local</div></th></tr>
@@ -2260,196 +2262,196 @@ plot(figures_annotated_peaks[[n]])
     ##  </thead>
     ## <tbody>
     ##   <tr>
-    ##    <td style="text-align:left;"> 4803 </td>
+    ##    <td style="text-align:left;"> 4758 </td>
     ##    <td style="text-align:left;"> Aoc1 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 7 </td>
-    ##    <td style="text-align:right;"> 5655.50 </td>
-    ##    <td style="text-align:right;"> 73.64 </td>
-    ##    <td style="text-align:right;"> 565.59 </td>
+    ##    <td style="text-align:right;"> 13265 </td>
+    ##    <td style="text-align:right;"> 191.20300 </td>
+    ##    <td style="text-align:right;"> 1326.5200 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 6530 </td>
-    ##    <td style="text-align:left;"> Pgk1 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 4045.00 </td>
-    ##    <td style="text-align:right;"> 55.56 </td>
-    ##    <td style="text-align:right;"> 404.60 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 1809 </td>
-    ##    <td style="text-align:left;"> Npm2 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 6 </td>
-    ##    <td style="text-align:right;"> 2941.33 </td>
-    ##    <td style="text-align:right;"> 44.51 </td>
-    ##    <td style="text-align:right;"> 294.18 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 1080 </td>
-    ##    <td style="text-align:left;"> Ncoa1 </td>
-    ##    <td style="text-align:right;"> -894 </td>
-    ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 2549.00 </td>
-    ##    <td style="text-align:right;"> 37.38 </td>
-    ##    <td style="text-align:right;"> 255.00 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 1233 </td>
-    ##    <td style="text-align:left;"> Gm54610 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 5 </td>
-    ##    <td style="text-align:right;"> 2450.80 </td>
-    ##    <td style="text-align:right;"> 38.59 </td>
-    ##    <td style="text-align:right;"> 245.16 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 1232 </td>
+    ##    <td style="text-align:left;"> 1220 </td>
     ##    <td style="text-align:left;"> Rn7s1 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 5 </td>
-    ##    <td style="text-align:right;"> 2306.80 </td>
-    ##    <td style="text-align:right;"> 33.16 </td>
-    ##    <td style="text-align:right;"> 230.73 </td>
+    ##    <td style="text-align:right;"> 5125 </td>
+    ##    <td style="text-align:right;"> 69.98830 </td>
+    ##    <td style="text-align:right;"> 512.5720 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 263 </td>
-    ##    <td style="text-align:left;"> 5730419F03Rik </td>
+    ##    <td style="text-align:left;"> 1795 </td>
+    ##    <td style="text-align:left;"> Npm2 </td>
     ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 9 </td>
-    ##    <td style="text-align:right;"> 2122.33 </td>
-    ##    <td style="text-align:right;"> 4.34 </td>
-    ##    <td style="text-align:right;"> 212.29 </td>
+    ##    <td style="text-align:left;"> 6 </td>
+    ##    <td style="text-align:right;"> 4937 </td>
+    ##    <td style="text-align:right;"> 73.74740 </td>
+    ##    <td style="text-align:right;"> 493.7670 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 2934 </td>
+    ##    <td style="text-align:left;"> 1221 </td>
+    ##    <td style="text-align:left;"> Gm54610 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 5 </td>
+    ##    <td style="text-align:right;"> 4844 </td>
+    ##    <td style="text-align:right;"> 71.10660 </td>
+    ##    <td style="text-align:right;"> 484.4700 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 6465 </td>
+    ##    <td style="text-align:left;"> Pgk1 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 1 </td>
+    ##    <td style="text-align:right;"> 4045 </td>
+    ##    <td style="text-align:right;"> 55.56440 </td>
+    ##    <td style="text-align:right;"> 404.5970 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 2905 </td>
     ##    <td style="text-align:left;"> Gm32342 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 4 </td>
-    ##    <td style="text-align:right;"> 1373.75 </td>
-    ##    <td style="text-align:right;"> 24.62 </td>
-    ##    <td style="text-align:right;"> 137.43 </td>
+    ##    <td style="text-align:right;"> 3643 </td>
+    ##    <td style="text-align:right;"> 53.17130 </td>
+    ##    <td style="text-align:right;"> 364.3430 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 4802 </td>
-    ##    <td style="text-align:left;"> Aoc1 </td>
-    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 1071 </td>
+    ##    <td style="text-align:left;"> Ncoa1 </td>
+    ##    <td style="text-align:right;"> -894 </td>
     ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 900.00 </td>
-    ##    <td style="text-align:right;"> 20.70 </td>
-    ##    <td style="text-align:right;"> 90.05 </td>
+    ##    <td style="text-align:right;"> 2549 </td>
+    ##    <td style="text-align:right;"> 37.37940 </td>
+    ##    <td style="text-align:right;"> 254.9960 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 6949 </td>
+    ##    <td style="text-align:left;"> 6882 </td>
     ##    <td style="text-align:left;"> Gm47283 </td>
     ##    <td style="text-align:right;"> -1338 </td>
     ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 818.78 </td>
-    ##    <td style="text-align:right;"> 6.48 </td>
-    ##    <td style="text-align:right;"> 81.92 </td>
+    ##    <td style="text-align:right;"> 1252 </td>
+    ##    <td style="text-align:right;"> 7.89086 </td>
+    ##    <td style="text-align:right;"> 125.2300 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 3179 </td>
-    ##    <td style="text-align:left;"> Wt1 </td>
-    ##    <td style="text-align:right;"> 1932 </td>
-    ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 597.00 </td>
-    ##    <td style="text-align:right;"> 16.80 </td>
-    ##    <td style="text-align:right;"> 59.77 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 3178 </td>
-    ##    <td style="text-align:left;"> Wt1 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 7 </td>
-    ##    <td style="text-align:right;"> 554.86 </td>
-    ##    <td style="text-align:right;"> 13.90 </td>
-    ##    <td style="text-align:right;"> 55.53 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 4675 </td>
-    ##    <td style="text-align:left;"> Gm29264 </td>
-    ##    <td style="text-align:right;"> -254 </td>
-    ##    <td style="text-align:left;"> 5 </td>
-    ##    <td style="text-align:right;"> 526.60 </td>
-    ##    <td style="text-align:right;"> 12.08 </td>
-    ##    <td style="text-align:right;"> 52.72 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 5420 </td>
+    ##    <td style="text-align:left;"> 5368 </td>
     ##    <td style="text-align:left;"> Crebzf </td>
     ##    <td style="text-align:right;"> -599 </td>
     ##    <td style="text-align:left;"> 9 </td>
-    ##    <td style="text-align:right;"> 403.67 </td>
-    ##    <td style="text-align:right;"> 3.48 </td>
-    ##    <td style="text-align:right;"> 40.43 </td>
+    ##    <td style="text-align:right;"> 1239 </td>
+    ##    <td style="text-align:right;"> 6.02429 </td>
+    ##    <td style="text-align:right;"> 123.9730 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 1988 </td>
-    ##    <td style="text-align:left;"> Npr3 </td>
+    ##    <td style="text-align:left;"> 4633 </td>
+    ##    <td style="text-align:left;"> Gm29264 </td>
+    ##    <td style="text-align:right;"> -254 </td>
+    ##    <td style="text-align:left;"> 5 </td>
+    ##    <td style="text-align:right;"> 1229 </td>
+    ##    <td style="text-align:right;"> 18.10300 </td>
+    ##    <td style="text-align:right;"> 122.9860 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 3144 </td>
+    ##    <td style="text-align:left;"> Wt1 </td>
     ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 4 </td>
-    ##    <td style="text-align:right;"> 398.50 </td>
-    ##    <td style="text-align:right;"> 12.57 </td>
-    ##    <td style="text-align:right;"> 39.89 </td>
+    ##    <td style="text-align:left;"> 7 </td>
+    ##    <td style="text-align:right;"> 1043 </td>
+    ##    <td style="text-align:right;"> 20.09840 </td>
+    ##    <td style="text-align:right;"> 104.3940 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 4220 </td>
-    ##    <td style="text-align:left;"> Prdm16os </td>
+    ##    <td style="text-align:left;"> 4757 </td>
+    ##    <td style="text-align:left;"> Aoc1 </td>
     ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 2 </td>
-    ##    <td style="text-align:right;"> 262.33 </td>
-    ##    <td style="text-align:right;"> 8.58 </td>
-    ##    <td style="text-align:right;"> 26.30 </td>
+    ##    <td style="text-align:left;"> 1 </td>
+    ##    <td style="text-align:right;"> 900 </td>
+    ##    <td style="text-align:right;"> 20.70300 </td>
+    ##    <td style="text-align:right;"> 90.0544 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 4618 </td>
+    ##    <td style="text-align:left;"> 4576 </td>
     ##    <td style="text-align:left;"> Tyw1 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 251.12 </td>
-    ##    <td style="text-align:right;"> 3.57 </td>
-    ##    <td style="text-align:right;"> 25.17 </td>
+    ##    <td style="text-align:right;"> 599 </td>
+    ##    <td style="text-align:right;"> 5.47804 </td>
+    ##    <td style="text-align:right;"> 59.9543 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 5857 </td>
-    ##    <td style="text-align:left;"> Dpep2 </td>
-    ##    <td style="text-align:right;"> 1643 </td>
+    ##    <td style="text-align:left;"> 3145 </td>
+    ##    <td style="text-align:left;"> Wt1 </td>
+    ##    <td style="text-align:right;"> 1932 </td>
     ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 238.00 </td>
-    ##    <td style="text-align:right;"> 9.53 </td>
-    ##    <td style="text-align:right;"> 23.86 </td>
+    ##    <td style="text-align:right;"> 597 </td>
+    ##    <td style="text-align:right;"> 16.79600 </td>
+    ##    <td style="text-align:right;"> 59.7743 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 2111 </td>
+    ##    <td style="text-align:left;"> 4178 </td>
+    ##    <td style="text-align:left;"> Prdm16os </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 2 </td>
+    ##    <td style="text-align:right;"> 571 </td>
+    ##    <td style="text-align:right;"> 14.04930 </td>
+    ##    <td style="text-align:right;"> 57.1984 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 1973 </td>
+    ##    <td style="text-align:left;"> Npr3 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 4 </td>
+    ##    <td style="text-align:right;"> 484 </td>
+    ##    <td style="text-align:right;"> 13.72700 </td>
+    ##    <td style="text-align:right;"> 48.4835 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 915 </td>
+    ##    <td style="text-align:left;"> Commd1 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 8 </td>
+    ##    <td style="text-align:right;"> 392 </td>
+    ##    <td style="text-align:right;"> 4.47803 </td>
+    ##    <td style="text-align:right;"> 39.2011 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 2137 </td>
+    ##    <td style="text-align:left;"> Aqp2 </td>
+    ##    <td style="text-align:right;"> 98 </td>
+    ##    <td style="text-align:left;"> 2 </td>
+    ##    <td style="text-align:right;"> 385 </td>
+    ##    <td style="text-align:right;"> 11.39040 </td>
+    ##    <td style="text-align:right;"> 38.5351 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 2106 </td>
+    ##    <td style="text-align:left;"> Mfng </td>
+    ##    <td style="text-align:right;"> 105 </td>
+    ##    <td style="text-align:left;"> 9 </td>
+    ##    <td style="text-align:right;"> 357 </td>
+    ##    <td style="text-align:right;"> 5.28860 </td>
+    ##    <td style="text-align:right;"> 35.7248 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 2095 </td>
     ##    <td style="text-align:left;"> Gm23217 </td>
     ##    <td style="text-align:right;"> 1388 </td>
     ##    <td style="text-align:left;"> 8 </td>
-    ##    <td style="text-align:right;"> 210.75 </td>
-    ##    <td style="text-align:right;"> 6.73 </td>
-    ##    <td style="text-align:right;"> 21.12 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 2500 </td>
-    ##    <td style="text-align:left;"> Neu1 </td>
-    ##    <td style="text-align:right;"> 1969 </td>
-    ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 174.00 </td>
-    ##    <td style="text-align:right;"> 8.03 </td>
-    ##    <td style="text-align:right;"> 17.43 </td>
+    ##    <td style="text-align:right;"> 346 </td>
+    ##    <td style="text-align:right;"> 8.25493 </td>
+    ##    <td style="text-align:right;"> 34.6762 </td>
     ##   </tr>
     ## </tbody>
     ## </table></div>
 
 <img src="README_files/figure-gfm/annotae_all_peaks-3.png" width="100%" />
 
-    ## >> preparing features information...      2024-02-14 14:18:50 
-    ## >> identifying nearest features...        2024-02-14 14:18:50 
-    ## >> calculating distance from peak to TSS...   2024-02-14 14:18:50 
-    ## >> assigning genomic annotation...        2024-02-14 14:18:50 
-    ## >> assigning chromosome lengths           2024-02-14 14:18:53 
-    ## >> done...                    2024-02-14 14:18:53 
+    ## >> preparing features information...      2024-02-15 11:36:48 
+    ## >> identifying nearest features...        2024-02-15 11:36:48 
+    ## >> calculating distance from peak to TSS...   2024-02-15 11:36:48 
+    ## >> assigning genomic annotation...        2024-02-15 11:36:48 
+    ## >> assigning chromosome lengths           2024-02-15 11:36:51 
+    ## >> done...                    2024-02-15 11:36:51 
     ## <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; "><table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
     ##  <thead>
     ## <tr><th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="7"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Method:  chro5k</div></th></tr>
@@ -2465,121 +2467,121 @@ plot(figures_annotated_peaks[[n]])
     ##  </thead>
     ## <tbody>
     ##   <tr>
-    ##    <td style="text-align:left;"> 56 </td>
+    ##    <td style="text-align:left;"> 53 </td>
     ##    <td style="text-align:left;"> Aoc1 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 6 </td>
-    ##    <td style="text-align:right;"> 4314.88 </td>
-    ##    <td style="text-align:right;"> 89.63 </td>
-    ##    <td style="text-align:right;"> 431.52 </td>
+    ##    <td style="text-align:right;"> 9112 </td>
+    ##    <td style="text-align:right;"> 179.47000 </td>
+    ##    <td style="text-align:right;"> 911.21900 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 38 </td>
     ##    <td style="text-align:left;"> Pgk1 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 2 </td>
-    ##    <td style="text-align:right;"> 2399.50 </td>
-    ##    <td style="text-align:right;"> 55.91 </td>
-    ##    <td style="text-align:right;"> 240.04 </td>
+    ##    <td style="text-align:right;"> 3852 </td>
+    ##    <td style="text-align:right;"> 70.94000 </td>
+    ##    <td style="text-align:right;"> 385.28600 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 17 </td>
     ##    <td style="text-align:left;"> Gm32342 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 5 </td>
-    ##    <td style="text-align:right;"> 1085.80 </td>
-    ##    <td style="text-align:right;"> 24.32 </td>
-    ##    <td style="text-align:right;"> 108.61 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 55 </td>
-    ##    <td style="text-align:left;"> Aoc1 </td>
-    ##    <td style="text-align:right;"> -21 </td>
-    ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 826.00 </td>
-    ##    <td style="text-align:right;"> 24.79 </td>
-    ##    <td style="text-align:right;"> 82.63 </td>
+    ##    <td style="text-align:right;"> 3649 </td>
+    ##    <td style="text-align:right;"> 65.99710 </td>
+    ##    <td style="text-align:right;"> 364.93700 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 19 </td>
     ##    <td style="text-align:left;"> Wt1 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 6 </td>
-    ##    <td style="text-align:right;"> 686.33 </td>
-    ##    <td style="text-align:right;"> 21.33 </td>
-    ##    <td style="text-align:right;"> 68.67 </td>
+    ##    <td style="text-align:right;"> 1037 </td>
+    ##    <td style="text-align:right;"> 24.89610 </td>
+    ##    <td style="text-align:right;"> 103.71600 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 10 </td>
-    ##    <td style="text-align:left;"> Npr3 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 5 </td>
-    ##    <td style="text-align:right;"> 330.60 </td>
-    ##    <td style="text-align:right;"> 12.95 </td>
-    ##    <td style="text-align:right;"> 33.10 </td>
+    ##    <td style="text-align:left;"> 52 </td>
+    ##    <td style="text-align:left;"> Aoc1 </td>
+    ##    <td style="text-align:right;"> -21 </td>
+    ##    <td style="text-align:left;"> 1 </td>
+    ##    <td style="text-align:right;"> 826 </td>
+    ##    <td style="text-align:right;"> 24.79430 </td>
+    ##    <td style="text-align:right;"> 82.63300 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 26 </td>
     ##    <td style="text-align:left;"> Prdm16os </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 2 </td>
-    ##    <td style="text-align:right;"> 259.00 </td>
-    ##    <td style="text-align:right;"> 9.45 </td>
-    ##    <td style="text-align:right;"> 25.94 </td>
+    ##    <td style="text-align:right;"> 588 </td>
+    ##    <td style="text-align:right;"> 15.52920 </td>
+    ##    <td style="text-align:right;"> 58.82650 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 10 </td>
+    ##    <td style="text-align:left;"> Npr3 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 5 </td>
+    ##    <td style="text-align:right;"> 529 </td>
+    ##    <td style="text-align:right;"> 17.96080 </td>
+    ##    <td style="text-align:right;"> 52.90670 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 12 </td>
     ##    <td style="text-align:left;"> Aqp2 </td>
     ##    <td style="text-align:right;"> 89 </td>
     ##    <td style="text-align:left;"> 2 </td>
-    ##    <td style="text-align:right;"> 206.00 </td>
-    ##    <td style="text-align:right;"> 10.97 </td>
-    ##    <td style="text-align:right;"> 20.65 </td>
+    ##    <td style="text-align:right;"> 363 </td>
+    ##    <td style="text-align:right;"> 17.26800 </td>
+    ##    <td style="text-align:right;"> 36.31530 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 14 </td>
     ##    <td style="text-align:left;"> Aqp5 </td>
     ##    <td style="text-align:right;"> -44 </td>
     ##    <td style="text-align:left;"> 4 </td>
-    ##    <td style="text-align:right;"> 152.50 </td>
-    ##    <td style="text-align:right;"> 7.95 </td>
-    ##    <td style="text-align:right;"> 15.31 </td>
+    ##    <td style="text-align:right;"> 284 </td>
+    ##    <td style="text-align:right;"> 12.05460 </td>
+    ##    <td style="text-align:right;"> 28.43490 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 27 </td>
     ##    <td style="text-align:left;"> Ppargc1a </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 85.50 </td>
-    ##    <td style="text-align:right;"> 6.30 </td>
-    ##    <td style="text-align:right;"> 8.61 </td>
+    ##    <td style="text-align:right;"> 117 </td>
+    ##    <td style="text-align:right;"> 7.13174 </td>
+    ##    <td style="text-align:right;"> 11.79440 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 15 </td>
     ##    <td style="text-align:left;"> Itga5 </td>
     ##    <td style="text-align:right;"> -75 </td>
     ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 63.00 </td>
-    ##    <td style="text-align:right;"> 5.35 </td>
-    ##    <td style="text-align:right;"> 6.33 </td>
+    ##    <td style="text-align:right;"> 63 </td>
+    ##    <td style="text-align:right;"> 5.35243 </td>
+    ##    <td style="text-align:right;"> 6.33353 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 24 </td>
     ##    <td style="text-align:left;"> Wnt4 </td>
     ##    <td style="text-align:right;"> -876 </td>
     ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 35.00 </td>
-    ##    <td style="text-align:right;"> 4.71 </td>
-    ##    <td style="text-align:right;"> 3.50 </td>
+    ##    <td style="text-align:right;"> 35 </td>
+    ##    <td style="text-align:right;"> 4.71048 </td>
+    ##    <td style="text-align:right;"> 3.50175 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 34 </td>
     ##    <td style="text-align:left;"> Or52h1 </td>
     ##    <td style="text-align:right;"> -1376 </td>
     ##    <td style="text-align:left;"> 1 </td>
-    ##    <td style="text-align:right;"> 26.00 </td>
-    ##    <td style="text-align:right;"> 4.57 </td>
-    ##    <td style="text-align:right;"> 2.68 </td>
+    ##    <td style="text-align:right;"> 26 </td>
+    ##    <td style="text-align:right;"> 4.57307 </td>
+    ##    <td style="text-align:right;"> 2.68125 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> NA </td>
@@ -2649,12 +2651,12 @@ plot(figures_annotated_peaks[[n]])
 
 <img src="README_files/figure-gfm/annotae_all_peaks-4.png" width="100%" />
 
-    ## >> preparing features information...      2024-02-14 14:18:53 
-    ## >> identifying nearest features...        2024-02-14 14:18:53 
-    ## >> calculating distance from peak to TSS...   2024-02-14 14:18:54 
-    ## >> assigning genomic annotation...        2024-02-14 14:18:54 
-    ## >> assigning chromosome lengths           2024-02-14 14:18:57 
-    ## >> done...                    2024-02-14 14:18:57 
+    ## >> preparing features information...      2024-02-15 11:36:52 
+    ## >> identifying nearest features...        2024-02-15 11:36:52 
+    ## >> calculating distance from peak to TSS...   2024-02-15 11:36:52 
+    ## >> assigning genomic annotation...        2024-02-15 11:36:52 
+    ## >> assigning chromosome lengths           2024-02-15 11:36:54 
+    ## >> done...                    2024-02-15 11:36:54 
     ## <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; "><table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
     ##  <thead>
     ## <tr><th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="7"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Method:  Online</div></th></tr>
@@ -2670,184 +2672,184 @@ plot(figures_annotated_peaks[[n]])
     ##  </thead>
     ## <tbody>
     ##   <tr>
+    ##    <td style="text-align:left;"> 25738 </td>
+    ##    <td style="text-align:left;"> Plxnb1 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 3 </td>
+    ##    <td style="text-align:right;"> 3913 </td>
+    ##    <td style="text-align:right;"> 94.1196 </td>
+    ##    <td style="text-align:right;"> 391.391 </td>
+    ##   </tr>
+    ##   <tr>
     ##    <td style="text-align:left;"> 2916 </td>
     ##    <td style="text-align:left;"> Nab2 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2945.00 </td>
-    ##    <td style="text-align:right;"> 64.20 </td>
-    ##    <td style="text-align:right;"> 294.56 </td>
+    ##    <td style="text-align:right;"> 3616 </td>
+    ##    <td style="text-align:right;"> 88.6813 </td>
+    ##    <td style="text-align:right;"> 361.600 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 25750 </td>
-    ##    <td style="text-align:left;"> Plxnb1 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2735.67 </td>
-    ##    <td style="text-align:right;"> 60.92 </td>
-    ##    <td style="text-align:right;"> 273.62 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 25582 </td>
+    ##    <td style="text-align:left;"> 25570 </td>
     ##    <td style="text-align:left;"> Amotl2 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2590.00 </td>
-    ##    <td style="text-align:right;"> 67.55 </td>
-    ##    <td style="text-align:right;"> 259.02 </td>
+    ##    <td style="text-align:right;"> 3551 </td>
+    ##    <td style="text-align:right;"> 90.9816 </td>
+    ##    <td style="text-align:right;"> 355.102 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 7522 </td>
+    ##    <td style="text-align:left;"> Gm34934 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 3 </td>
+    ##    <td style="text-align:right;"> 3497 </td>
+    ##    <td style="text-align:right;"> 88.1578 </td>
+    ##    <td style="text-align:right;"> 349.739 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 18509 </td>
+    ##    <td style="text-align:left;"> Fosl2 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 3 </td>
+    ##    <td style="text-align:right;"> 3440 </td>
+    ##    <td style="text-align:right;"> 82.3431 </td>
+    ##    <td style="text-align:right;"> 344.063 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 4697 </td>
+    ##    <td style="text-align:left;"> Mrc2 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 3 </td>
+    ##    <td style="text-align:right;"> 3336 </td>
+    ##    <td style="text-align:right;"> 86.8477 </td>
+    ##    <td style="text-align:right;"> 333.665 </td>
     ##   </tr>
     ##   <tr>
     ##    <td style="text-align:left;"> 295 </td>
     ##    <td style="text-align:left;"> Nab1 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2448.67 </td>
-    ##    <td style="text-align:right;"> 65.39 </td>
-    ##    <td style="text-align:right;"> 244.92 </td>
+    ##    <td style="text-align:right;"> 3293 </td>
+    ##    <td style="text-align:right;"> 84.2842 </td>
+    ##    <td style="text-align:right;"> 329.331 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 7527 </td>
-    ##    <td style="text-align:left;"> Gm34934 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2250.67 </td>
-    ##    <td style="text-align:right;"> 57.14 </td>
-    ##    <td style="text-align:right;"> 225.13 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 7473 </td>
-    ##    <td style="text-align:left;"> Bmpr1a </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2223.00 </td>
-    ##    <td style="text-align:right;"> 52.27 </td>
-    ##    <td style="text-align:right;"> 222.37 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 12980 </td>
+    ##    <td style="text-align:left;"> 12972 </td>
     ##    <td style="text-align:left;"> Neurl1a </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2214.33 </td>
-    ##    <td style="text-align:right;"> 60.62 </td>
-    ##    <td style="text-align:right;"> 221.48 </td>
+    ##    <td style="text-align:right;"> 3272 </td>
+    ##    <td style="text-align:right;"> 85.1942 </td>
+    ##    <td style="text-align:right;"> 327.238 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 1124 </td>
-    ##    <td style="text-align:left;"> 1700025G04Rik </td>
+    ##    <td style="text-align:left;"> 7468 </td>
+    ##    <td style="text-align:left;"> Bmpr1a </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2196.00 </td>
-    ##    <td style="text-align:right;"> 60.96 </td>
-    ##    <td style="text-align:right;"> 219.66 </td>
+    ##    <td style="text-align:right;"> 3270 </td>
+    ##    <td style="text-align:right;"> 69.7882 </td>
+    ##    <td style="text-align:right;"> 327.032 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 25138 </td>
-    ##    <td style="text-align:left;"> Smad3 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2171.67 </td>
-    ##    <td style="text-align:right;"> 59.41 </td>
-    ##    <td style="text-align:right;"> 217.23 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 13717 </td>
-    ##    <td style="text-align:left;"> Gtdc1 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2126.67 </td>
-    ##    <td style="text-align:right;"> 53.33 </td>
-    ##    <td style="text-align:right;"> 212.70 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 14398 </td>
-    ##    <td style="text-align:left;"> Secisbp2l </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2113.67 </td>
-    ##    <td style="text-align:right;"> 52.35 </td>
-    ##    <td style="text-align:right;"> 211.40 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 7972 </td>
-    ##    <td style="text-align:left;"> Akap11 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2099.00 </td>
-    ##    <td style="text-align:right;"> 54.49 </td>
-    ##    <td style="text-align:right;"> 209.95 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 4700 </td>
-    ##    <td style="text-align:left;"> Mrc2 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2020.00 </td>
-    ##    <td style="text-align:right;"> 54.80 </td>
-    ##    <td style="text-align:right;"> 202.05 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 17727 </td>
-    ##    <td style="text-align:left;"> Gm12974 </td>
-    ##    <td style="text-align:right;"> -1923 </td>
-    ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 2017.00 </td>
-    ##    <td style="text-align:right;"> 48.00 </td>
-    ##    <td style="text-align:right;"> 201.74 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 18518 </td>
-    ##    <td style="text-align:left;"> Fosl2 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 1960.40 </td>
-    ##    <td style="text-align:right;"> 52.20 </td>
-    ##    <td style="text-align:right;"> 196.10 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 10637 </td>
-    ##    <td style="text-align:left;"> Pbx2 </td>
-    ##    <td style="text-align:right;"> 0 </td>
-    ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 1950.33 </td>
-    ##    <td style="text-align:right;"> 43.08 </td>
-    ##    <td style="text-align:right;"> 195.09 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> 25022 </td>
+    ##    <td style="text-align:left;"> 25011 </td>
     ##    <td style="text-align:left;"> Nptn </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 1931.00 </td>
-    ##    <td style="text-align:right;"> 47.34 </td>
-    ##    <td style="text-align:right;"> 193.12 </td>
+    ##    <td style="text-align:right;"> 3237 </td>
+    ##    <td style="text-align:right;"> 81.4874 </td>
+    ##    <td style="text-align:right;"> 323.759 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 7509 </td>
-    ##    <td style="text-align:left;"> Fermt2 </td>
+    ##    <td style="text-align:left;"> 18363 </td>
+    ##    <td style="text-align:left;"> Ptpn12 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 1926.67 </td>
-    ##    <td style="text-align:right;"> 53.23 </td>
-    ##    <td style="text-align:right;"> 192.72 </td>
+    ##    <td style="text-align:right;"> 3229 </td>
+    ##    <td style="text-align:right;"> 84.3674 </td>
+    ##    <td style="text-align:right;"> 322.952 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 18177 </td>
-    ##    <td style="text-align:left;"> Phf13 </td>
+    ##    <td style="text-align:left;"> 15409 </td>
+    ##    <td style="text-align:left;"> Maml3 </td>
+    ##    <td style="text-align:right;"> 1504 </td>
+    ##    <td style="text-align:left;"> 3 </td>
+    ##    <td style="text-align:right;"> 3204 </td>
+    ##    <td style="text-align:right;"> 82.8916 </td>
+    ##    <td style="text-align:right;"> 320.436 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 25126 </td>
+    ##    <td style="text-align:left;"> Smad3 </td>
     ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 1926.33 </td>
-    ##    <td style="text-align:right;"> 51.42 </td>
-    ##    <td style="text-align:right;"> 192.66 </td>
+    ##    <td style="text-align:right;"> 3100 </td>
+    ##    <td style="text-align:right;"> 81.8871 </td>
+    ##    <td style="text-align:right;"> 310.062 </td>
     ##   </tr>
     ##   <tr>
-    ##    <td style="text-align:left;"> 10306 </td>
-    ##    <td style="text-align:left;"> Nthl1 </td>
-    ##    <td style="text-align:right;"> 588 </td>
+    ##    <td style="text-align:left;"> 7967 </td>
+    ##    <td style="text-align:left;"> Akap11 </td>
+    ##    <td style="text-align:right;"> 0 </td>
     ##    <td style="text-align:left;"> 3 </td>
-    ##    <td style="text-align:right;"> 1893.33 </td>
-    ##    <td style="text-align:right;"> 53.95 </td>
-    ##    <td style="text-align:right;"> 189.39 </td>
+    ##    <td style="text-align:right;"> 3044 </td>
+    ##    <td style="text-align:right;"> 73.7539 </td>
+    ##    <td style="text-align:right;"> 304.456 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 13709 </td>
+    ##    <td style="text-align:left;"> Gtdc1 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 3 </td>
+    ##    <td style="text-align:right;"> 3043 </td>
+    ##    <td style="text-align:right;"> 70.5342 </td>
+    ##    <td style="text-align:right;"> 304.304 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 10622 </td>
+    ##    <td style="text-align:left;"> Brd2 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 3 </td>
+    ##    <td style="text-align:right;"> 3036 </td>
+    ##    <td style="text-align:right;"> 80.2336 </td>
+    ##    <td style="text-align:right;"> 303.627 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 15078 </td>
+    ##    <td style="text-align:left;"> Pmepa1os </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 3 </td>
+    ##    <td style="text-align:right;"> 3019 </td>
+    ##    <td style="text-align:right;"> 74.7292 </td>
+    ##    <td style="text-align:right;"> 301.929 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 13268 </td>
+    ##    <td style="text-align:left;"> Mir7655 </td>
+    ##    <td style="text-align:right;"> -549 </td>
+    ##    <td style="text-align:left;"> 3 </td>
+    ##    <td style="text-align:right;"> 3000 </td>
+    ##    <td style="text-align:right;"> 77.3203 </td>
+    ##    <td style="text-align:right;"> 300.021 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 15533 </td>
+    ##    <td style="text-align:left;"> Shox2 </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 3 </td>
+    ##    <td style="text-align:right;"> 3000 </td>
+    ##    <td style="text-align:right;"> 77.7166 </td>
+    ##    <td style="text-align:right;"> 300.021 </td>
+    ##   </tr>
+    ##   <tr>
+    ##    <td style="text-align:left;"> 14390 </td>
+    ##    <td style="text-align:left;"> Secisbp2l </td>
+    ##    <td style="text-align:right;"> 0 </td>
+    ##    <td style="text-align:left;"> 3 </td>
+    ##    <td style="text-align:right;"> 2954 </td>
+    ##    <td style="text-align:right;"> 64.5868 </td>
+    ##    <td style="text-align:right;"> 295.405 </td>
     ##   </tr>
     ## </tbody>
     ## </table></div>

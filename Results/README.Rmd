@@ -18,6 +18,7 @@ options(kableExtra.auto_format = FALSE)
 # R Prepare System
 ## R update and load librarys
 BiocManager::install()
+BiocManager::install("plyranges")
 
 ```{r librarys}
 # BiocManager::install(update = TRUE, ask = FALSE)
@@ -42,6 +43,7 @@ library(doParallel)
 library(tidyGenomeBrowser)
 library(Gviz)
 library(magrittr)
+library(plyranges)
 
 # library()
 
@@ -255,14 +257,15 @@ hist_hits <- list()
 for (beddir in macssubdir){
   print(beddir)
   run <- basename(beddir)
-  print(run)
+  cat("##########\n#",run)
 
 beds <- list.files(beddir, pattern=".narrowPeak")
 beds <- file.path(beddir,beds)
+paste("Number of replicates:",length(beds))
 name <- paste(run,"_",sep="")
 
 npeak_list <- list()
-i <- beds[1]
+i <- beds[8]
 # inside loop thourgh each replicate
 for (i in beds) {
   npeak_numbers <- {}
@@ -270,18 +273,19 @@ for (i in beds) {
   # npeak <- readPeakFile(i)
 npeak <- import(i, format = "BED",extraCols = extraCols_narrowPeak)
 n <- basename(i) %>% str_remove(pattern="_all_peaks.narrowPeak")
-print(paste("Run: ",run,", Sample: ",n," Peaks: ",length(npeak), sep=""))
+print(paste("# Run: ",run,", Sample: ",n," Peaks: ",length(npeak), sep=""))
 npeak_numbers <- rbind(npeak_numbers,data.frame(sample = paste(n,sep="_"), Mapping = run, all_peaks = length(npeak)))
 assign(paste(run,"npeaks",sep="_"),npeak_numbers)
 
-print(c("Total peaks",length(npeak)))
+print(c("## Total peaks",length(npeak)))
 npeak <- keepStandardChromosomes(npeak, pruning.mode="coarse")
-print(c("Peaks on Std Chromosomes",length(npeak)))
+print(c("## Peaks on Std Chromosomes",length(npeak)))
 npeak_numbers <- cbind(npeak_numbers, filt_Std_Chrom = length(npeak))
-filtered <- GenomicRanges::setdiff(npeak, bl)
+filtered2 <- findOverlaps(npeak,bl, type = 'any')
+queryHits(filtered2) %>% duplicated() %>% summary
+filtered <- npeak[-(queryHits(filtered2)),]
 revmap <- findOverlaps(filtered, npeak, select="arbitrary")
-mcols(filtered) <- mcols(npeak)[revmap, , drop=FALSE]
-print(c("Peaks filtered from blacklist:",length(filtered)))
+print(c("## Peaks filtered from blacklist:",length(npeak)-length(filtered),"Remaining:",length(filtered)))
 npeak_numbers <- cbind(npeak_numbers, filt_bl = length(filtered))
 npeak_list[[n]] <- filtered
 npeak_list_all[[n]] <- filtered
@@ -304,7 +308,7 @@ revmap_h <- findOverlaps(npeak_combined, ul, select="all") # "first"
 
 
 # set-up parallel
-n.cores <- parallel::detectCores() - 30
+n.cores <- parallel::detectCores()/2
 my.cluster <- parallel::makeCluster(
   n.cores, 
   type = "FORK")
@@ -314,6 +318,7 @@ foreach::getDoParRegistered()
 foreach::getDoParWorkers()
 
 # parallel loop
+i <- 5549
 stats <- {}
 stats_t <- foreach(
   i = 1:length(npeak_combined), 
@@ -321,9 +326,17 @@ stats_t <- foreach(
 ) %dopar% {
   op <- revmap_h[queryHits(revmap_h)==i] %>% to()
   op_df <- mcols(ul)[op,] %>% as.data.frame()
-  stats <- summarize_all(op_df, mean) %>% round(digits = 2)
+  max.row <- which.max(op_df$score)
+  stats <- op_df[max.row,]
+  # stats <- summarize_all(op_df[,2:4], max)
   stats$id <- i
-  stats$name <- paste(op_df$name, collapse =", ")
+  stats$name_list <- paste(op_df$name, collapse =", ")
+  o <- subset(ul,name==stats$name)
+  max.center <- start(o)+o$peak
+  stats$max.center <- max.center
+  stats$max.start <- start(o)
+  stats$max.end <- end(o)
+  stats$max.width <- width(o)
   stats
 }
 parallel::stopCluster(cl = my.cluster)
@@ -374,9 +387,9 @@ g <- ggplot(as.data.frame(npeak_combined),aes(x=hits, colours=hits)) +
     coord_cartesian(xlim = c(1, 9), ylim=c(0,ymax*1.05)) +
     stat_bin(position = 'identity', binwidth=1, geom='text', size=3,  vjust=-0.2, aes(label=after_stat(count)), colour=c("red",rep("blue",nu_bins-1))) +
     scale_x_continuous(n.breaks= 9) +
-    ggtitle(paste("Method:",run,"Peaks per replicate. Total peaks (>1 hit):",summary(elementMetadata(npeak_combined)$hits > 1)["TRUE"]))
+    ggtitle(paste("A) Method:",run,"Peaks per replicate. Total peaks (>1 hit):",summary(elementMetadata(npeak_combined)$hits > 1)["TRUE"]))
 # 
-print(paste(run,": generate ggplot"))
+print(paste("# finished",run,"- generate ggplot"))
 hist_hits[[run]] <- g
 
 summary(elementMetadata(npeak_combined)$hits > 1)[2]
@@ -451,16 +464,19 @@ for (run in names(hist_hits)){
   
 df <- as.data.frame(npeak_combined_all[[run]])
 df$hits <- as.factor(df$hits)
-score_lim <- quantile(df$score, .98)
+score_lim <- quantile(df$score, .99)
 signalValue_lim <- quantile(df$signalValue, .98)
 signalValue_min <- min(df$signalValue)
-
-g2 <- ggplot(df,aes(x=score, y=signalValue, color=hits)) +
+width_min <- quantile(df$max.width, .05)
+width_max <- quantile(df$max.width, .95)
+binsize <- ifelse(score_lim/40>10,score_lim/40,2)
+  
+g2 <- ggplot(df,aes(x=signalValue, y=score, color=hits)) +
   # geom_violin(aes(fill=hits)) +
-  geom_point(size=1.5, position ='jitter', alpha=0.4) +
+  geom_point(size=1, position ='jitter', alpha=0.4) +
   scale_color_viridis_d(option ="viridis") +
-  coord_cartesian(xlim=c(0,score_lim), ylim = c(signalValue_min,signalValue_lim)) +
-  ggtitle(paste("score to signalValue"))
+  coord_cartesian(xlim=c(signalValue_min,signalValue_lim), ylim = c(0,score_lim)) +
+  ggtitle(paste("C: score to signalValue"))
 
 df2 <- df[df$hits == 1,]
 df2$replicate <- str_split(df2$name, pattern ="_", simplify = T)[,2]
@@ -469,7 +485,27 @@ g3 <- ggplot(df2,aes(x=score, y=signalValue, color=replicate)) +
   geom_point(size=1.5, position ='jitter', alpha=0.4) +
   scale_color_viridis_d(option ="turbo") +
   coord_cartesian(xlim=c(0,score_lim), ylim = c(signalValue_min,signalValue_lim)) +
-  ggtitle(paste("1 hits"))
+  ggtitle(paste("D: 1 hits"))
+
+g3b <- ggplot(df2,aes(x=score, group=replicate, fill=replicate)) +
+      stat_bin(alpha=0.5, position = 'identity', binwidth=1) + 
+      # stat_bin(position = 'identity', binwidth=100, geom="text", aes(label=after_stat(count)), vjust=-0.5, colour="blue") +
+      scale_fill_viridis_d() +
+      ggtitle(paste("D: scores per replicate (",n,")",sep="")) + coord_cartesian(xlim = c(0,score_lim))
+
+g3c <- ggplot(df2,aes(x=replicate, y=score, fill=replicate)) +
+  geom_violin() +
+  geom_point(size=0.05, position ='jitter', alpha=0.1) +
+  scale_fill_viridis_d(option ="viridis") +
+  coord_cartesian(ylim = c(0,score_lim/4)) +
+  ggtitle(paste("D: score per replicate"))
+
+g5 <- ggplot(df,aes(x=max.width, y=score, color=hits)) +
+  # geom_violin(aes(fill=hits)) +
+  geom_point(size=1, position ='jitter', alpha=0.4) +
+  scale_color_viridis_d(option ="viridis") +
+  coord_cartesian(xlim=c(width_min,width_max), ylim = c(0,score_lim)) +
+  ggtitle(paste("E: score to width"))
 
 #  ht_list[[run]] <-  hist_hits[[run]] / gridExtra::tableGrob(table, theme = t1) +  plot_layout(heights = c(1,2))
   
@@ -477,7 +513,9 @@ g1 <- hist_hits[[run]]
 g4 <- gridExtra::tableGrob(table, theme = t1)
 
 paste("Method: ",run)
-plot(g1+g4+g2+g3+plot_layout(guides = "collect", axis_titles="collect"))
+design <- ("ABB
+           CDE")
+plot(g1+g4+g2+g3c+g5+plot_layout(guides = "collect", axis_titles="collect", design=design))
 
 ht_list[[run]] <-  (hist_hits[[run]] + g) / (g2 + gridExtra::tableGrob(table, theme = t1) + plot_layout(widths = c(1,1)))
 }
@@ -501,6 +539,11 @@ i <- "pe"
 #### Venn Overlap Peaks
 ```{r venn_overlaps, echo=FALSE}
 
+# Add Gene names
+ah = AnnotationHub()
+query(ah, c("EnsDb", "Musculus"))
+edb <- ah[["AH113713"]]
+
 # Venns
 npeak_combined_1h <- list(npeak_combined_all[[1]][elementMetadata(npeak_combined_all[[1]])$hits > 1,],
                           npeak_combined_all[[2]][elementMetadata(npeak_combined_all[[2]])$hits > 1,],
@@ -509,16 +552,24 @@ npeak_combined_1h <- list(npeak_combined_all[[1]][elementMetadata(npeak_combined
                           npeak_combined_all[[5]][elementMetadata(npeak_combined_all[[5]])$hits > 1,])
 names(npeak_combined_1h) <- names(npeak_combined_all)
 
-# olvenn <- findOverlapsOfPeaks(npeak_combined_1h)
-
 length(npeak_combined_1h)
 # pdf(paste(csrundir,"Venn_Peaks2.pdf",sep="/"))
-makeVennDiagram(main="Overlap of combined & filtered (>1 hits) peak lists",
+v1 <- makeVennDiagram(main="Overlap of combined & filtered (>1 hits) peak lists",
                 plot = TRUE, npeak_combined_1h,
                 NameOfPeaks = names(npeak_combined_1h),
                 fill=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise"),
                 cat.col=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise")
                 )
+v1ol <- findOverlapsOfPeaks(npeak_combined_1h)
+v1_peaks <- v1ol[["peaklist"]][["Std///pe///local///chro5k///Online"]]
+venn_top <- annotatePeak(v1_peaks, TxDb=txdb, tssRegion=c(-3000, 3000), verbose=FALSE) %>% as.data.frame()
+  venn_top$transcriptId2 <- sub("\\.\\d+$", "", venn_top$transcriptId)
+  venn_top$geneId <- mapIds(edb, keys = venn_top$transcriptId2, column = "GENEID", keytype = "TXID")
+  venn_top$symbol <- mapIds(edb, keys = venn_top$transcriptId2, column = "SYMBOL", keytype = "TXID")
+# colnames(venn_top)
+  knitr::kable(venn_top[,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
+ kable_styling("striped", full_width = F) %>% 
+ scroll_box(height = "400px")
 
 # Venns (with 1 hits)
 # olvenn <- findOverlapsOfPeaks(npeak_combined_all)
@@ -531,6 +582,17 @@ makeVennDiagram(main="Overlap of combined & filtered (with 1 hits) peak lists",
                 fill=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise"),
                 cat.col=c("#009E73", "lightgreen", "lightgreen","lightblue","turquoise")
                 )
+v2ol <- findOverlapsOfPeaks(npeak_combined_all)
+v2_peaks <- v2ol[["peaklist"]][["Std///pe///local///chro5k///Online"]]
+venn_top <- annotatePeak(v2_peaks, TxDb=txdb, tssRegion=c(-3000, 3000), verbose=FALSE) %>% as.data.frame()
+  venn_top$transcriptId2 <- sub("\\.\\d+$", "", venn_top$transcriptId)
+  venn_top$geneId <- mapIds(edb, keys = venn_top$transcriptId2, column = "GENEID", keytype = "TXID")
+  venn_top$symbol <- mapIds(edb, keys = venn_top$transcriptId2, column = "SYMBOL", keytype = "TXID")
+# colnames(venn_top)
+  knitr::kable(venn_top[,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
+ kable_styling("striped", full_width = F) %>% 
+ scroll_box(height = "400px")
+
 
 # Venns (3 Bowtie2 mapper)
 
@@ -542,6 +604,17 @@ makeVennDiagram(main="Overlap of 3 Bowtie2 mapper",
                 fill=c("#009E73", "lightgreen", "lightgreen"),
                 cat.col=c("#009E73", "lightgreen", "lightgreen")
                 )
+v3ol <- findOverlapsOfPeaks(npeak_combined_all[1:3])
+v3_peaks <- v3ol[["peaklist"]][["Std///pe///local"]]
+venn_top <- annotatePeak(v3_peaks, TxDb=txdb, tssRegion=c(-3000, 3000), verbose=FALSE) %>% as.data.frame()
+  venn_top$transcriptId2 <- sub("\\.\\d+$", "", venn_top$transcriptId)
+  venn_top$geneId <- mapIds(edb, keys = venn_top$transcriptId2, column = "GENEID", keytype = "TXID")
+  venn_top$symbol <- mapIds(edb, keys = venn_top$transcriptId2, column = "SYMBOL", keytype = "TXID")
+# colnames(venn_top)
+venn_top <- venn_top[order(abs(venn_top$distanceToTSS)),]
+knitr::kable(venn_top[1:20,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
+ kable_styling("striped", full_width = F) %>% 
+ scroll_box(height = "400px")
 
 # dev.off()
 # ggsave(peaks.venn,file=paste(pubfigdir,"Venn_Peaks.pdf",sep="/"), width = 8, height = 8, device = "pdf")
@@ -563,7 +636,7 @@ edb <- ah[["AH113713"]]
 figures_annotated_peaks <- list()
 
 i <- "pe"
-all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=TRUE)
+all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3000, 3000), verbose=FALSE)
   all_npeaksAnno_table <- as.data.frame(all_npeaksAnno)
   all_npeaksAnno_table$transcriptId2 <- sub("\\.\\d+$", "", all_npeaksAnno_table$transcriptId)
   all_npeaksAnno_table$geneId <- mapIds(edb, keys = all_npeaksAnno_table$transcriptId2, column = "GENEID", keytype = "TXID")
@@ -574,7 +647,7 @@ all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotat
 # Annotated table
 top_hits <- all_npeaksAnno_table[order(all_npeaksAnno_table$signalValue, decreasing=T),]
 colnames(top_hits)
-kable(top_hits[1:15,c("seqnames","start","end","width","score","signalValue","hits","annotation","geneId","distanceToTSS","symbol","annotation_short")])  %>%
+kable(top_hits[1:15,c("symbol","distanceToTSS","annotation_short","score","signalValue","hits","seqnames","start","end","width","annotation","geneId")])  %>%
  kable_styling("striped", full_width = F) %>% 
  scroll_box(height = "400px")
 
@@ -798,6 +871,8 @@ all_npeaksAnno <- annotatePeak(npeak_combined_all[[i]], TxDb=txdb,tssRegion=c(-3
   all_npeaksAnno_table$symbol <- mapIds(edb, keys = all_npeaksAnno_table$transcriptId2, column = "SYMBOL", keytype = "TXID")
 n <- names(npeak_combined_all[i])
 all_npeaksAnno_table$annotation_short <-  str_split(all_npeaksAnno_table$annotation,pattern = " ", simplify = TRUE)[,1]
+
+
 
 hits_lim <- max(all_npeaksAnno_table$hits)
 score_lim <- quantile(all_npeaksAnno_table$score, .95)
@@ -1289,34 +1364,80 @@ addGuideLine(gr$peak, vp=vp, col="red")
 
 ### plot all peaks
 ```{r eval=FALSE, include=FALSE}
+top_hits_genes
+i <- 8
+for (i in 1:10){
 
-for (i in 1:4){
-  
 peak <- top_hits_genes[i,]
-gr <- GRanges(peak[,1:3])+1000
+print(peak$symbol)
+gr <- GRanges(peak[,1:3])+2000
 gr$peak <- peak$start+peak$peak
+trs <- {}
 trs <- geneModelFromTxdb(txdb,
                          org.Mm.eg.db,
                          gr=gr)
-bam_track_list <- list()
-for (i in bams[25:42]){
-  bam_track <- importBam(i,
-                          ranges = gr)
-  bam_track_list[[i]] <- bam_track
+
+# bam_track_list <- list()
+# max <- {}
+# # for (i in bams[25:42]){
+# #   bam_track <- importBam(i,
+# #                           ranges = gr)
+# #   bam_track_list[[i]] <- bam_track
+# #   max <- max(c(max,bam_track@dat@elementMetadata@listData[["score"]]))
+# # }
+
+# parallel loop
+n.cores <- 10
+my.cluster <- parallel::makeCluster(n.cores,type = "FORK")
+doParallel::registerDoParallel(cl = my.cluster)
+foreach::getDoParRegistered()
+foreach::getDoParWorkers()
+
+comb <- function(x, ...) {
+  lapply(seq_along(x),
+    function(i) c(x[[i]], lapply(list(...), function(y) y[[i]])))
 }
+
+max <- {}
+oper <- foreach(i=25:42, .combine='comb', .multicombine=TRUE,
+                .init=list(list(), list())) %dopar% {
+  b <- bams[i]
+  bam_track <- importBam(b,ranges = gr)
+  max <- max(bam_track@dat@elementMetadata@listData[["score"]])
+  list(bam_track,max)
+  }
+
+bam_track_list <- oper[[1]]
+max <- max(unlist(oper[[2]]))
+
+names(bam_track_list) <- str_split(bams, pattern = "_", simplify = T)[25:42,7]
+
 
 # Step 3. View the tracks
 viewerStyle <- trackViewerStyle()
 setTrackViewerStyleParam(viewerStyle, "margin", c(.1, .05, .02, .02))
+
 trackList <- trackList(trs)
 trackList <- trackList(bam_track_list,trs)
+
+optSty <- optimizeStyle(trackList(bam_track_list,trs))
+trackList <- optSty$tracks
+viewerStyle <- optSty$style
+setTrackXscaleParam(trackList[[1]], "draw", TRUE)
+setTrackXscaleParam(trackList[[1]], "gp", list(cex=0.8))
+setTrackViewerStyleParam(viewerStyle, "margin", c(.01, .05, .01, .05))
+for(i in 1:length(trackList)){
+    setTrackYaxisParam(trackList[[i]], "main", FALSE)}
+## Adjust the limit of y-axis
+for(i in 1:length(trackList)){
+    setTrackStyleParam(trackList[[i]], "ylim", c(0, max))}
 vp <- viewTracks(trackList, 
                  gr=gr, viewerStyle=viewerStyle, 
                  autoOptimizeStyle=TRUE)
 addGuideLine(gr$peak, vp=vp, col="red")
-plot(vp)
 }
 
+browseTracks(trackList, gr=gr)
 
 
 ```
