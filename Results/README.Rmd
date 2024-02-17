@@ -537,12 +537,14 @@ i <- "pe"
 
 
 #### Venn Overlap Peaks
-```{r venn_overlaps, echo=FALSE}
+```{r venn_overlaps, echo=FALSE, results="show"}
 
 # Add Gene names
 ah = AnnotationHub()
 query(ah, c("EnsDb", "Musculus"))
 edb <- ah[["AH113713"]]
+
+venn_top_list <- list()
 
 # Venns
 npeak_combined_1h <- list(npeak_combined_all[[1]][elementMetadata(npeak_combined_all[[1]])$hits > 1,],
@@ -570,7 +572,8 @@ venn_top <- annotatePeak(v1_peaks, TxDb=txdb, tssRegion=c(-3000, 3000), verbose=
   knitr::kable(venn_top[,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
  kable_styling("striped", full_width = F) %>% 
  scroll_box(height = "400px")
-
+venn_top_list[["v1"]] <- v1_peaks
+  
 # Venns (with 1 hits)
 # olvenn <- findOverlapsOfPeaks(npeak_combined_all)
 
@@ -592,7 +595,7 @@ venn_top <- annotatePeak(v2_peaks, TxDb=txdb, tssRegion=c(-3000, 3000), verbose=
   knitr::kable(venn_top[,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
  kable_styling("striped", full_width = F) %>% 
  scroll_box(height = "400px")
-
+venn_top_list[["v2"]] <- v2_peaks
 
 # Venns (3 Bowtie2 mapper)
 
@@ -615,7 +618,7 @@ venn_top <- venn_top[order(abs(venn_top$distanceToTSS)),]
 knitr::kable(venn_top[1:20,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
  kable_styling("striped", full_width = F) %>% 
  scroll_box(height = "400px")
-
+venn_top_list[["v3"]] <- v3_peaks
 # dev.off()
 # ggsave(peaks.venn,file=paste(pubfigdir,"Venn_Peaks.pdf",sep="/"), width = 8, height = 8, device = "pdf")
 
@@ -672,16 +675,22 @@ g3 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS)) +
       stat_bin(alpha=0.6, position = 'identity', binwidth=1000, fill=viridis(10)[3]) +
       coord_cartesian(xlim = c(-50000,+50000))
 g4 <- ggplot(all_npeaksAnno_table,aes(x=distanceToTSS)) +
-      stat_bin(alpha=0.6, position = 'identity', binwidth=200, fill=viridis(10)[5]) +
-      coord_cartesian(xlim = c(-10000,+10000)) 
+      stat_bin(alpha=0.6, position = 'identity', binwidth=100, fill=viridis(10)[5]) +
+      coord_cartesian(xlim = c(-5000,+5000)) 
 
-( (g1+g2) / 
-  (g1 + coord_cartesian(xlim=c(-500000,+500000),ylim=c(0,score_lim)) + 
-    g2 + coord_cartesian(xlim=c(-500000,+500000),ylim=c(1,signalValue_lim))) /
-  (g1 + coord_cartesian(xlim=c(-50000,+50000),ylim=c(0,score_lim)) + 
-    g2 + coord_cartesian(xlim=c(-50000,+50000),ylim=c(1,signalValue_lim))) /
-  (g3 + g4)
-  ) + plot_layout(guides = "collect", axis_titles="collect")
+# ( (g1+g2) / 
+#   (g1 + coord_cartesian(xlim=c(-500000,+500000),ylim=c(0,score_lim)) + 
+#     g2 + coord_cartesian(xlim=c(-500000,+500000),ylim=c(1,signalValue_lim))) /
+#   (g1 + coord_cartesian(xlim=c(-50000,+50000),ylim=c(0,score_lim)) + 
+#     g2 + coord_cartesian(xlim=c(-50000,+50000),ylim=c(1,signalValue_lim))) /
+#   (g3 + g4)
+#   ) + plot_layout(guides = "collect", axis_titles="collect")
+
+ (g1 + 
+     (g1 + coord_cartesian(xlim=c(-500000,+500000),ylim=c(0,score_lim)))) /
+  ((g1 + coord_cartesian(xlim=c(-50000,+50000),ylim=c(0,score_lim))) + 
+         (g1 + coord_cartesian(xlim=c(-5000,+5000),ylim=c(0,score_lim)))) /
+  (g3 + g4) + plot_layout(guides = "collect", axis_titles="collect")
 
 ```
 
@@ -786,6 +795,7 @@ qValue_lim <- quantile(all_npeaksAnno_table$qValue, .99)
 distanceToTSS_max <- quantile(all_npeaksAnno_table$distanceToTSS, .90)
 distanceToTSS_min <- quantile(all_npeaksAnno_table$distanceToTSS, .1)
 width_lim <- quantile(all_npeaksAnno_table$width, .99)
+signalValue_min <- min(all_npeaksAnno_table$signalValue)
 
 df <- all_npeaksAnno_table
 
@@ -1226,8 +1236,7 @@ bigwigs
 ## prepare txdb data
 ```{r}
 
-browseIntervals(npeak_combined_all[["Std"]][1:5])
-
+# browseIntervals(npeak_combined_all[["Std"]][1:5])
 
 # 
 txdb <- TxDb.Mmusculus.UCSC.mm39.knownGene
@@ -1249,7 +1258,7 @@ meta_models <- exonsBy(txdb, by="gene")
 
 ## trackViewer
 #### example
-```{r example, eval=FALSE}
+```{r example, eval=FALSE, include=TRUE}
 ## trackViewer example
 extdata <- system.file("extdata", package="trackViewer",
                        mustWork=TRUE)
@@ -1406,7 +1415,7 @@ oper <- foreach(i=25:42, .combine='comb', .multicombine=TRUE,
   max <- max(bam_track@dat@elementMetadata@listData[["score"]])
   list(bam_track,max)
   }
-
+parallel::stopCluster(cl = my.cluster)
 bam_track_list <- oper[[1]]
 max <- max(unlist(oper[[2]]))
 
@@ -1437,7 +1446,7 @@ vp <- viewTracks(trackList,
 addGuideLine(gr$peak, vp=vp, col="red")
 }
 
-browseTracks(trackList, gr=gr)
+# browseTracks(trackList, gr=gr)
 
 
 ```
