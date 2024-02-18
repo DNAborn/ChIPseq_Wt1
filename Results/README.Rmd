@@ -631,11 +631,11 @@ venn_peak_list[["v3"]] <- v3_peaks
 ##### Venn top overlaps
 ```{r venn top, results="show"}
 
-knitr::kable(venn_top_list[["v1"]][1:20,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
+knitr::kable(venn_top_list[["v1"]][,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
   kable_styling("striped", full_width = F) %>% 
   scroll_box(height = "400px")
 
-knitr::kable(venn_top_list[["v2"]][1:20,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
+knitr::kable(venn_top_list[["v2"]][,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
   kable_styling("striped", full_width = F) %>% 
   scroll_box(height = "400px")
 
@@ -867,18 +867,7 @@ top_hits_list[[n]] <- top_hits
 header = 7 
 names(header) = paste("Method: ",n)
 
-print("kable normal")
-knitr::kable(top_hits[c(0:20),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
- add_header_above( header = header) %>%
-  scroll_box(height = "400px")
-print("kable simple")
-test <- top_hits[1:3,1:3]
-knitr::kable(test)
-
-print("kable simple print")
-print(knitr::kable(test))
-
-# cat("\n")
+print(cat("\n"))
  
 plot(figures_annotated_peaks[[n]])
 
@@ -888,10 +877,25 @@ plot(figures_annotated_peaks[[n]])
 # figures_annotated_peaks
 
 
-knitr::kable(top_hits_list[[1]][c(0:20),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
+knitr::kable(top_hits_list[[1]][c(0:10),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
  add_header_above( header = header) %>%
   scroll_box(height = "400px")
 
+knitr::kable(top_hits_list[[2]][c(0:10),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
+ add_header_above( header = header) %>%
+  scroll_box(height = "400px")
+
+knitr::kable(top_hits_list[[3]][c(0:10),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
+ add_header_above( header = header) %>%
+  scroll_box(height = "400px")
+
+knitr::kable(top_hits_list[[4]][c(0:10),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
+ add_header_above( header = header) %>%
+  scroll_box(height = "400px")
+
+knitr::kable(top_hits_list[[5]][c(0:10),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
+ add_header_above( header = header) %>%
+  scroll_box(height = "400px")
 
 
 ```
@@ -1324,7 +1328,7 @@ plotTracks(dt, from=122929275, to=122930122, strand="-")
 ## https://www.biostars.org/p/394434/
 
 ```
-#### own data
+#### own data test 1 gene
 ```{r plot_tracks_1, results="show"}
 # # Step 1. Import data
 # ## example
@@ -1402,8 +1406,8 @@ addGuideLine(gr$peak, vp=vp, col="red")
 
 ```
 
-### plot all peaks
-```{r eval=FALSE, include=FALSE}
+### plot all peaks of top hits
+```{r trackviewer_loop, eval=TRUE}
 top_hits_genes
 i <- 8
 for (i in 1:10){
@@ -1482,6 +1486,89 @@ addGuideLine(gr$peak, vp=vp, col="red")
 
 ```
 
+### plot all peaks of candidates
+```{r trackviewer_loop, eval=TRUE}
+
+venn_top_list[["v3"]]
+venn_peak_list[["v2"]]
+peaks <- venn_peak_list[["v2"]]
+l <- length(peaks)
+i <- 8
+for (i in 1:l){
+
+peak <- peaks[i,]
+# print(peak$symbol)
+gr <- GRanges(peak[,1:3])+2000
+gr$peak <- peak$start+peak$peak
+trs <- {}
+trs <- geneModelFromTxdb(txdb,
+                         org.Mm.eg.db,
+                         gr=gr)
+
+# bam_track_list <- list()
+# max <- {}
+# # for (i in bams[25:42]){
+# #   bam_track <- importBam(i,
+# #                           ranges = gr)
+# #   bam_track_list[[i]] <- bam_track
+# #   max <- max(c(max,bam_track@dat@elementMetadata@listData[["score"]]))
+# # }
+
+# parallel loop
+n.cores <- 10
+my.cluster <- parallel::makeCluster(n.cores,type = "FORK")
+doParallel::registerDoParallel(cl = my.cluster)
+foreach::getDoParRegistered()
+foreach::getDoParWorkers()
+
+comb <- function(x, ...) {
+  lapply(seq_along(x),
+    function(i) c(x[[i]], lapply(list(...), function(y) y[[i]])))
+}
+
+max <- {}
+oper <- foreach(i=25:42, .combine='comb', .multicombine=TRUE,
+                .init=list(list(), list())) %dopar% {
+  b <- bams[i]
+  bam_track <- importBam(b,ranges = gr)
+  max <- max(bam_track@dat@elementMetadata@listData[["score"]])
+  list(bam_track,max)
+  }
+parallel::stopCluster(cl = my.cluster)
+bam_track_list <- oper[[1]]
+max <- max(unlist(oper[[2]]))
+
+names(bam_track_list) <- str_split(bams, pattern = "_", simplify = T)[25:42,7]
+
+
+# Step 3. View the tracks
+viewerStyle <- trackViewerStyle()
+setTrackViewerStyleParam(viewerStyle, "margin", c(.1, .05, .02, .02))
+
+trackList <- trackList(trs)
+trackList <- trackList(bam_track_list,trs)
+
+optSty <- optimizeStyle(trackList(bam_track_list,trs))
+trackList <- optSty$tracks
+viewerStyle <- optSty$style
+setTrackXscaleParam(trackList[[1]], "draw", TRUE)
+setTrackXscaleParam(trackList[[1]], "gp", list(cex=0.8))
+setTrackViewerStyleParam(viewerStyle, "margin", c(.01, .05, .01, .05))
+for(i in 1:length(trackList)){
+    setTrackYaxisParam(trackList[[i]], "main", FALSE)}
+## Adjust the limit of y-axis
+for(i in 1:length(trackList)){
+    setTrackStyleParam(trackList[[i]], "ylim", c(0, max))}
+vp <- viewTracks(trackList, 
+                 gr=gr, viewerStyle=viewerStyle, 
+                 autoOptimizeStyle=TRUE)
+addGuideLine(gr$peak, vp=vp, col="red")
+}
+
+# browseTracks(trackList, gr=gr)
+
+
+```
 
 
 ```{bash eval=FALSE, include=FALSE}

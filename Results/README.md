@@ -967,7 +967,7 @@ Online
 \##### Venn top overlaps
 
 ``` r
-knitr::kable(venn_top_list[["v1"]][1:20,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
+knitr::kable(venn_top_list[["v1"]][,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
   kable_styling("striped", full_width = F) %>% 
   scroll_box(height = "400px")
 ```
@@ -977,8 +977,6 @@ knitr::kable(venn_top_list[["v1"]][1:20,c("symbol","distanceToTSS","annotation",
 <table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-</th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 symbol
 </th>
@@ -1002,9 +1000,6 @@ end
 <tbody>
 <tr>
 <td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
 Npr3
 </td>
 <td style="text-align:right;">
@@ -1025,9 +1020,6 @@ chr15
 </tr>
 <tr>
 <td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
 Aqp5
 </td>
 <td style="text-align:right;">
@@ -1047,9 +1039,6 @@ chr15
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-3
-</td>
 <td style="text-align:left;">
 Wt1
 </td>
@@ -1071,9 +1060,6 @@ chr2
 </tr>
 <tr>
 <td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
 Pard6b
 </td>
 <td style="text-align:right;">
@@ -1092,381 +1078,13 @@ chr2
 167915181
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.1
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.3
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.4
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.5
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.6
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.7
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.8
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.9
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.10
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.11
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.12
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.13
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.14
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.15
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
 </tbody>
 </table>
 
 </div>
 
 ``` r
-knitr::kable(venn_top_list[["v2"]][1:20,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
+knitr::kable(venn_top_list[["v2"]][,c("symbol","distanceToTSS","annotation","seqnames","start","end")])  %>%
   kable_styling("striped", full_width = F) %>% 
   scroll_box(height = "400px")
 ```
@@ -1476,8 +1094,6 @@ knitr::kable(venn_top_list[["v2"]][1:20,c("symbol","distanceToTSS","annotation",
 <table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-</th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 symbol
 </th>
@@ -1501,9 +1117,6 @@ end
 <tbody>
 <tr>
 <td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
 Npr3
 </td>
 <td style="text-align:right;">
@@ -1524,9 +1137,6 @@ chr15
 </tr>
 <tr>
 <td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
 Aqp5
 </td>
 <td style="text-align:right;">
@@ -1546,9 +1156,6 @@ chr15
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-3
-</td>
 <td style="text-align:left;">
 Itga5
 </td>
@@ -1570,9 +1177,6 @@ chr15
 </tr>
 <tr>
 <td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
 Gm32342
 </td>
 <td style="text-align:right;">
@@ -1592,9 +1196,6 @@ chr19
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-5
-</td>
 <td style="text-align:left;">
 Wt1
 </td>
@@ -1616,9 +1217,6 @@ chr2
 </tr>
 <tr>
 <td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
 Pard6b
 </td>
 <td style="text-align:right;">
@@ -1638,9 +1236,6 @@ chr2
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-7
-</td>
 <td style="text-align:left;">
 Pgk1
 </td>
@@ -1662,9 +1257,6 @@ chrX
 </tr>
 <tr>
 <td style="text-align:left;">
-8
-</td>
-<td style="text-align:left;">
 Gm47283
 </td>
 <td style="text-align:right;">
@@ -1681,282 +1273,6 @@ chrY
 </td>
 <td style="text-align:right;">
 90794732
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.1
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.3
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.4
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.5
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.6
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.7
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.8
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.9
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.10
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA.11
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
 </td>
 </tr>
 </tbody>
@@ -3313,116 +2629,65 @@ top_hits_list[[n]] <- top_hits
 header = 7 
 names(header) = paste("Method: ",n)
 
-print("kable normal")
-knitr::kable(top_hits[c(0:20),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
- add_header_above( header = header) %>%
-  scroll_box(height = "400px")
-print("kable simple")
-test <- top_hits[1:3,1:3]
-knitr::kable(test)
-
-print("kable simple print")
-print(knitr::kable(test))
-
-# cat("\n")
+print(cat("\n"))
  
 plot(figures_annotated_peaks[[n]])
 
 }
 ```
 
-    ## >> preparing features information...      2024-02-17 10:26:30 
-    ## >> identifying nearest features...        2024-02-17 10:26:30 
-    ## >> calculating distance from peak to TSS...   2024-02-17 10:26:30 
-    ## >> assigning genomic annotation...        2024-02-17 10:26:30 
-    ## >> assigning chromosome lengths           2024-02-17 10:26:33 
-    ## >> done...                    2024-02-17 10:26:33 
-    ## [1] "kable normal"
-    ## [1] "kable simple"
-    ## [1] "kable simple print"
+    ## >> preparing features information...      2024-02-18 09:52:41 
+    ## >> identifying nearest features...        2024-02-18 09:52:41 
+    ## >> calculating distance from peak to TSS...   2024-02-18 09:52:41 
+    ## >> assigning genomic annotation...        2024-02-18 09:52:41 
+    ## >> assigning chromosome lengths           2024-02-18 09:52:45 
+    ## >> done...                    2024-02-18 09:52:45 
     ## 
-    ## 
-    ## |     |seqnames |     start|       end|
-    ## |:----|:--------|---------:|---------:|
-    ## |2547 |chr6     |  48885161|  48886142|
-    ## |3324 |chrX     | 105230324| 105230844|
-    ## |1507 |chr19    |  37685100|  37686273|
+    ## NULL
 
 <img src="README_files/figure-gfm/annotae_all_peaks-1.png" width="100%" />
 
-    ## >> preparing features information...      2024-02-17 10:26:35 
-    ## >> identifying nearest features...        2024-02-17 10:26:35 
-    ## >> calculating distance from peak to TSS...   2024-02-17 10:26:35 
-    ## >> assigning genomic annotation...        2024-02-17 10:26:35 
-    ## >> assigning chromosome lengths           2024-02-17 10:26:37 
-    ## >> done...                    2024-02-17 10:26:37 
-    ## [1] "kable normal"
-    ## [1] "kable simple"
-    ## [1] "kable simple print"
+    ## >> preparing features information...      2024-02-18 09:52:46 
+    ## >> identifying nearest features...        2024-02-18 09:52:46 
+    ## >> calculating distance from peak to TSS...   2024-02-18 09:52:46 
+    ## >> assigning genomic annotation...        2024-02-18 09:52:46 
+    ## >> assigning chromosome lengths           2024-02-18 09:52:48 
+    ## >> done...                    2024-02-18 09:52:48 
     ## 
-    ## 
-    ## |     |seqnames |     start|       end|
-    ## |:----|:--------|---------:|---------:|
-    ## |4038 |chr6     |  48882120|  48886141|
-    ## |2506 |chr19    |  37685100|  37686273|
-    ## |5486 |chrX     | 105230323| 105230844|
+    ## NULL
 
 <img src="README_files/figure-gfm/annotae_all_peaks-2.png" width="100%" />
 
-    ## >> preparing features information...      2024-02-17 10:26:40 
-    ## >> identifying nearest features...        2024-02-17 10:26:40 
-    ## >> calculating distance from peak to TSS...   2024-02-17 10:26:41 
-    ## >> assigning genomic annotation...        2024-02-17 10:26:41 
-    ## >> assigning chromosome lengths           2024-02-17 10:26:42 
-    ## >> done...                    2024-02-17 10:26:42 
-    ## [1] "kable normal"
-    ## [1] "kable simple"
-    ## [1] "kable simple print"
+    ## >> preparing features information...      2024-02-18 09:52:50 
+    ## >> identifying nearest features...        2024-02-18 09:52:50 
+    ## >> calculating distance from peak to TSS...   2024-02-18 09:52:51 
+    ## >> assigning genomic annotation...        2024-02-18 09:52:51 
+    ## >> assigning chromosome lengths           2024-02-18 09:52:52 
+    ## >> done...                    2024-02-18 09:52:52 
     ## 
-    ## 
-    ## |     |seqnames |    start|      end|
-    ## |:----|:--------|--------:|--------:|
-    ## |4758 |chr6     | 48882126| 48886222|
-    ## |1220 |chr12    | 69206069| 69206469|
-    ## |1795 |chr14    | 70887965| 70891315|
+    ## NULL
 
 <img src="README_files/figure-gfm/annotae_all_peaks-3.png" width="100%" />
 
-    ## >> preparing features information...      2024-02-17 10:26:46 
-    ## >> identifying nearest features...        2024-02-17 10:26:46 
-    ## >> calculating distance from peak to TSS...   2024-02-17 10:26:46 
-    ## >> assigning genomic annotation...        2024-02-17 10:26:46 
-    ## >> assigning chromosome lengths           2024-02-17 10:26:47 
-    ## >> done...                    2024-02-17 10:26:47 
-    ## [1] "kable normal"
-    ## [1] "kable simple"
-    ## [1] "kable simple print"
+    ## >> preparing features information...      2024-02-18 09:52:56 
+    ## >> identifying nearest features...        2024-02-18 09:52:56 
+    ## >> calculating distance from peak to TSS...   2024-02-18 09:52:56 
+    ## >> assigning genomic annotation...        2024-02-18 09:52:56 
+    ## >> assigning chromosome lengths           2024-02-18 09:52:58 
+    ## >> done...                    2024-02-18 09:52:58 
     ## 
-    ## 
-    ## |   |seqnames |     start|       end|
-    ## |:--|:--------|---------:|---------:|
-    ## |53 |chr6     |  48882115|  48886136|
-    ## |38 |chrX     | 105230324| 105230844|
-    ## |17 |chr19    |  37685100|  37686274|
+    ## NULL
 
 <img src="README_files/figure-gfm/annotae_all_peaks-4.png" width="100%" />
 
-    ## >> preparing features information...      2024-02-17 10:26:48 
-    ## >> identifying nearest features...        2024-02-17 10:26:48 
-    ## >> calculating distance from peak to TSS...   2024-02-17 10:26:49 
-    ## >> assigning genomic annotation...        2024-02-17 10:26:49 
-    ## >> assigning chromosome lengths           2024-02-17 10:26:51 
-    ## >> done...                    2024-02-17 10:26:51 
-    ## [1] "kable normal"
-    ## [1] "kable simple"
-    ## [1] "kable simple print"
+    ## >> preparing features information...      2024-02-18 09:52:58 
+    ## >> identifying nearest features...        2024-02-18 09:52:58 
+    ## >> calculating distance from peak to TSS...   2024-02-18 09:52:59 
+    ## >> assigning genomic annotation...        2024-02-18 09:52:59 
+    ## >> assigning chromosome lengths           2024-02-18 09:53:02 
+    ## >> done...                    2024-02-18 09:53:02 
     ## 
-    ## 
-    ## |      |seqnames |     start|       end|
-    ## |:-----|:--------|---------:|---------:|
-    ## |25738 |chr9     | 108925573| 108926508|
-    ## |2916  |chr10    | 127502110| 127503094|
-    ## |25570 |chr9     | 102594634| 102595068|
+    ## NULL
 
 <img src="README_files/figure-gfm/annotae_all_peaks-5.png" width="100%" />
 
@@ -3431,7 +2696,7 @@ plot(figures_annotated_peaks[[n]])
 # figures_annotated_peaks
 
 
-knitr::kable(top_hits_list[[1]][c(0:20),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
+knitr::kable(top_hits_list[[1]][c(0:10),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
  add_header_above( header = header) %>%
   scroll_box(height = "400px")
 ```
@@ -3492,10 +2757,10 @@ Aoc1
 9404
 </td>
 <td style="text-align:right;">
-177.44000
+177.4400
 </td>
 <td style="text-align:right;">
-940.48600
+940.4860
 </td>
 </tr>
 <tr>
@@ -3515,10 +2780,10 @@ Pgk1
 3268
 </td>
 <td style="text-align:right;">
-60.69470
+60.6947
 </td>
 <td style="text-align:right;">
-326.84900
+326.8490
 </td>
 </tr>
 <tr>
@@ -3538,10 +2803,10 @@ Gm32342
 3238
 </td>
 <td style="text-align:right;">
-62.51200
+62.5120
 </td>
 <td style="text-align:right;">
-323.87100
+323.8710
 </td>
 </tr>
 <tr>
@@ -3561,10 +2826,10 @@ Aoc1
 1266
 </td>
 <td style="text-align:right;">
-36.85590
+36.8559
 </td>
 <td style="text-align:right;">
-126.68500
+126.6850
 </td>
 </tr>
 <tr>
@@ -3584,10 +2849,10 @@ Wt1
 970
 </td>
 <td style="text-align:right;">
-23.40940
+23.4094
 </td>
 <td style="text-align:right;">
-97.01340
+97.0134
 </td>
 </tr>
 <tr>
@@ -3607,10 +2872,10 @@ Wt1
 913
 </td>
 <td style="text-align:right;">
-40.09450
+40.0945
 </td>
 <td style="text-align:right;">
-91.36210
+91.3621
 </td>
 </tr>
 <tr>
@@ -3630,10 +2895,10 @@ Aoc1
 803
 </td>
 <td style="text-align:right;">
-23.40860
+23.4086
 </td>
 <td style="text-align:right;">
-80.33710
+80.3371
 </td>
 </tr>
 <tr>
@@ -3653,10 +2918,10 @@ Prdm16os
 570
 </td>
 <td style="text-align:right;">
-17.83880
+17.8388
 </td>
 <td style="text-align:right;">
-57.09940
+57.0994
 </td>
 </tr>
 <tr>
@@ -3676,10 +2941,10 @@ Npr3
 438
 </td>
 <td style="text-align:right;">
-15.93290
+15.9329
 </td>
 <td style="text-align:right;">
-43.88880
+43.8888
 </td>
 </tr>
 <tr>
@@ -3699,64 +2964,114 @@ Aqp5
 269
 </td>
 <td style="text-align:right;">
-11.79040
+11.7904
 </td>
 <td style="text-align:right;">
-26.92200
+26.9220
 </td>
 </tr>
+</tbody>
+</table>
+
+</div>
+
+``` r
+knitr::kable(top_hits_list[[2]][c(0:10),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
+ add_header_above( header = header) %>%
+  scroll_box(height = "400px")
+```
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; ">
+
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="7">
+
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+
+Method: Online
+
+</div>
+
+</th>
+</tr>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+symbol
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+distanceToTSS
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+hits
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+score
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+signalValue
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+qValue
+</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td style="text-align:left;">
-2546
+4038
 </td>
 <td style="text-align:left;">
 Aoc1
 </td>
 <td style="text-align:right;">
-258
+0
+</td>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:right;">
+8634
+</td>
+<td style="text-align:right;">
+136.06900
+</td>
+<td style="text-align:right;">
+863.4900
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2506
+</td>
+<td style="text-align:left;">
+Gm32342
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:left;">
 4
 </td>
 <td style="text-align:right;">
-227
+3201
 </td>
 <td style="text-align:right;">
-11.21200
+49.43500
 </td>
 <td style="text-align:right;">
-22.76380
+320.1680
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-1118
+5486
 </td>
 <td style="text-align:left;">
-Aqp2
-</td>
-<td style="text-align:right;">
-91
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:right;">
-219
-</td>
-<td style="text-align:right;">
-12.23900
-</td>
-<td style="text-align:right;">
-21.90920
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-252
-</td>
-<td style="text-align:left;">
-Pbx1
+Pgk1
 </td>
 <td style="text-align:right;">
 0
@@ -3765,18 +3080,716 @@ Pbx1
 1
 </td>
 <td style="text-align:right;">
-109
+2703
 </td>
 <td style="text-align:right;">
-7.32916
+37.56650
 </td>
 <td style="text-align:right;">
-10.92410
+270.3460
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-2277
+5859
+</td>
+<td style="text-align:left;">
+Gm47283
+</td>
+<td style="text-align:right;">
+-1452
+</td>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:right;">
+916
+</td>
+<td style="text-align:right;">
+7.18823
+</td>
+<td style="text-align:right;">
+91.6929
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2708
+</td>
+<td style="text-align:left;">
+Wt1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:right;">
+843
+</td>
+<td style="text-align:right;">
+17.24360
+</td>
+<td style="text-align:right;">
+84.3646
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4037
+</td>
+<td style="text-align:left;">
+Aoc1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+705
+</td>
+<td style="text-align:right;">
+17.60380
+</td>
+<td style="text-align:right;">
+70.5450
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5165
+</td>
+<td style="text-align:left;">
+4921528I07Rik
+</td>
+<td style="text-align:right;">
+-1737
+</td>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:right;">
+622
+</td>
+<td style="text-align:right;">
+11.94810
+</td>
+<td style="text-align:right;">
+62.2213
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3545
+</td>
+<td style="text-align:left;">
+Prdm16os
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+460
+</td>
+<td style="text-align:right;">
+12.27010
+</td>
+<td style="text-align:right;">
+46.0280
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2709
+</td>
+<td style="text-align:left;">
+Wt1
+</td>
+<td style="text-align:right;">
+1932
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+416
+</td>
+<td style="text-align:right;">
+13.47970
+</td>
+<td style="text-align:right;">
+41.6804
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1732
+</td>
+<td style="text-align:left;">
+Npr3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+390
+</td>
+<td style="text-align:right;">
+12.11120
+</td>
+<td style="text-align:right;">
+39.0284
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+``` r
+knitr::kable(top_hits_list[[3]][c(0:10),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
+ add_header_above( header = header) %>%
+  scroll_box(height = "400px")
+```
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; ">
+
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="7">
+
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+
+Method: Online
+
+</div>
+
+</th>
+</tr>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+symbol
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+distanceToTSS
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+hits
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+score
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+signalValue
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+qValue
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+4758
+</td>
+<td style="text-align:left;">
+Aoc1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:right;">
+13265
+</td>
+<td style="text-align:right;">
+191.20300
+</td>
+<td style="text-align:right;">
+1326.520
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1220
+</td>
+<td style="text-align:left;">
+Rn7s1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:right;">
+5125
+</td>
+<td style="text-align:right;">
+69.98830
+</td>
+<td style="text-align:right;">
+512.572
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1795
+</td>
+<td style="text-align:left;">
+Npm2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:right;">
+4937
+</td>
+<td style="text-align:right;">
+73.74740
+</td>
+<td style="text-align:right;">
+493.767
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1221
+</td>
+<td style="text-align:left;">
+Gm54610
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:right;">
+4844
+</td>
+<td style="text-align:right;">
+71.10660
+</td>
+<td style="text-align:right;">
+484.470
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6465
+</td>
+<td style="text-align:left;">
+Pgk1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+4045
+</td>
+<td style="text-align:right;">
+55.56440
+</td>
+<td style="text-align:right;">
+404.597
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2905
+</td>
+<td style="text-align:left;">
+Gm32342
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+3643
+</td>
+<td style="text-align:right;">
+53.17130
+</td>
+<td style="text-align:right;">
+364.343
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1071
+</td>
+<td style="text-align:left;">
+Ncoa1
+</td>
+<td style="text-align:right;">
+-894
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+2549
+</td>
+<td style="text-align:right;">
+37.37940
+</td>
+<td style="text-align:right;">
+254.996
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6882
+</td>
+<td style="text-align:left;">
+Gm47283
+</td>
+<td style="text-align:right;">
+-1338
+</td>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:right;">
+1252
+</td>
+<td style="text-align:right;">
+7.89086
+</td>
+<td style="text-align:right;">
+125.230
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5368
+</td>
+<td style="text-align:left;">
+Crebzf
+</td>
+<td style="text-align:right;">
+-599
+</td>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:right;">
+1239
+</td>
+<td style="text-align:right;">
+6.02429
+</td>
+<td style="text-align:right;">
+123.973
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4633
+</td>
+<td style="text-align:left;">
+Gm29264
+</td>
+<td style="text-align:right;">
+-254
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:right;">
+1229
+</td>
+<td style="text-align:right;">
+18.10300
+</td>
+<td style="text-align:right;">
+122.986
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+``` r
+knitr::kable(top_hits_list[[4]][c(0:10),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
+ add_header_above( header = header) %>%
+  scroll_box(height = "400px")
+```
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; ">
+
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="7">
+
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+
+Method: Online
+
+</div>
+
+</th>
+</tr>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+symbol
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+distanceToTSS
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+hits
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+score
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+signalValue
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+qValue
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+53
+</td>
+<td style="text-align:left;">
+Aoc1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:right;">
+9112
+</td>
+<td style="text-align:right;">
+179.47000
+</td>
+<td style="text-align:right;">
+911.2190
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+38
+</td>
+<td style="text-align:left;">
+Pgk1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+3852
+</td>
+<td style="text-align:right;">
+70.94000
+</td>
+<td style="text-align:right;">
+385.2860
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+Gm32342
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:right;">
+3649
+</td>
+<td style="text-align:right;">
+65.99710
+</td>
+<td style="text-align:right;">
+364.9370
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+Wt1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:right;">
+1037
+</td>
+<td style="text-align:right;">
+24.89610
+</td>
+<td style="text-align:right;">
+103.7160
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+52
+</td>
+<td style="text-align:left;">
+Aoc1
+</td>
+<td style="text-align:right;">
+-21
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+826
+</td>
+<td style="text-align:right;">
+24.79430
+</td>
+<td style="text-align:right;">
+82.6330
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:left;">
+Prdm16os
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+588
+</td>
+<td style="text-align:right;">
+15.52920
+</td>
+<td style="text-align:right;">
+58.8265
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+Npr3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:right;">
+529
+</td>
+<td style="text-align:right;">
+17.96080
+</td>
+<td style="text-align:right;">
+52.9067
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+Aqp2
+</td>
+<td style="text-align:right;">
+89
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+363
+</td>
+<td style="text-align:right;">
+17.26800
+</td>
+<td style="text-align:right;">
+36.3153
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+Aqp5
+</td>
+<td style="text-align:right;">
+-44
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+284
+</td>
+<td style="text-align:right;">
+12.05460
+</td>
+<td style="text-align:right;">
+28.4349
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+27
 </td>
 <td style="text-align:left;">
 Ppargc1a
@@ -3785,154 +3798,296 @@ Ppargc1a
 0
 </td>
 <td style="text-align:left;">
-4
+3
 </td>
 <td style="text-align:right;">
-104
+117
 </td>
 <td style="text-align:right;">
-6.81414
+7.13174
 </td>
 <td style="text-align:right;">
-10.42860
+11.7944
 </td>
 </tr>
+</tbody>
+</table>
+
+</div>
+
+``` r
+knitr::kable(top_hits_list[[5]][c(0:10),c("symbol","distanceToTSS","hits","score","signalValue","qValue")],format = "markdown")  %>% kable_styling("striped", full_width = F) %>% 
+ add_header_above( header = header) %>%
+  scroll_box(height = "400px")
+```
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; ">
+
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
 <tr>
-<td style="text-align:left;">
-2545
-</td>
-<td style="text-align:left;">
-Aoc1
-</td>
-<td style="text-align:right;">
--14
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:right;">
-82
-</td>
-<td style="text-align:right;">
-6.30733
-</td>
-<td style="text-align:right;">
-8.23839
-</td>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="7">
+
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+
+Method: Online
+
+</div>
+
+</th>
 </tr>
 <tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+symbol
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+distanceToTSS
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+hits
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+score
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+signalValue
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+qValue
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
 <td style="text-align:left;">
-2124
+25738
 </td>
 <td style="text-align:left;">
-Gm12610
+Plxnb1
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:left;">
-1
+3
 </td>
 <td style="text-align:right;">
-76
+3913
 </td>
 <td style="text-align:right;">
-6.00147
+94.1196
 </td>
 <td style="text-align:right;">
-7.64712
+391.391
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-2315
+2916
 </td>
 <td style="text-align:left;">
-Kit
+Nab2
 </td>
 <td style="text-align:right;">
--112
+0
 </td>
 <td style="text-align:left;">
-2
+3
 </td>
 <td style="text-align:right;">
-70
+3616
 </td>
 <td style="text-align:right;">
-7.40557
+88.6813
 </td>
 <td style="text-align:right;">
-7.01991
+361.600
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-1124
+25570
 </td>
 <td style="text-align:left;">
-Itga5
+Amotl2
 </td>
 <td style="text-align:right;">
--56
+0
 </td>
 <td style="text-align:left;">
-1
+3
 </td>
 <td style="text-align:right;">
-51
+3551
 </td>
 <td style="text-align:right;">
-5.25024
+90.9816
 </td>
 <td style="text-align:right;">
-5.15759
+355.102
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-2448
+7522
 </td>
 <td style="text-align:left;">
-Eif3b
+Gm34934
 </td>
 <td style="text-align:right;">
--505
+0
 </td>
 <td style="text-align:left;">
-1
+3
 </td>
 <td style="text-align:right;">
-42
+3497
 </td>
 <td style="text-align:right;">
-6.05199
+88.1578
 </td>
 <td style="text-align:right;">
-4.28883
+349.739
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-2604
+18509
 </td>
 <td style="text-align:left;">
-1700009C05Rik
+Fosl2
 </td>
 <td style="text-align:right;">
--1752
+0
 </td>
 <td style="text-align:left;">
-1
+3
 </td>
 <td style="text-align:right;">
-39
+3440
 </td>
 <td style="text-align:right;">
-4.90555
+82.3431
 </td>
 <td style="text-align:right;">
-3.90468
+344.063
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4697
+</td>
+<td style="text-align:left;">
+Mrc2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+3336
+</td>
+<td style="text-align:right;">
+86.8477
+</td>
+<td style="text-align:right;">
+333.665
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+295
+</td>
+<td style="text-align:left;">
+Nab1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+3293
+</td>
+<td style="text-align:right;">
+84.2842
+</td>
+<td style="text-align:right;">
+329.331
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12972
+</td>
+<td style="text-align:left;">
+Neurl1a
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+3272
+</td>
+<td style="text-align:right;">
+85.1942
+</td>
+<td style="text-align:right;">
+327.238
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7468
+</td>
+<td style="text-align:left;">
+Bmpr1a
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+3270
+</td>
+<td style="text-align:right;">
+69.7882
+</td>
+<td style="text-align:right;">
+327.032
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+25011
+</td>
+<td style="text-align:left;">
+Nptn
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+3237
+</td>
+<td style="text-align:right;">
+81.4874
+</td>
+<td style="text-align:right;">
+323.759
 </td>
 </tr>
 </tbody>
@@ -4029,7 +4184,7 @@ plotTracks(dt, from=122929275, to=122930122, strand="-")
 ## https://www.biostars.org/p/394434/
 ```
 
-#### own data
+#### own data test 1 gene
 
 ``` r
 # # Step 1. Import data
@@ -4109,3 +4264,84 @@ addGuideLine(gr$peak, vp=vp, col="red")
 ![](README_files/figure-gfm/plot_tracks_1-1.png)<!-- -->
 
 ### plot all peaks
+
+``` r
+top_hits_genes
+i <- 8
+for (i in 1:10){
+
+peak <- top_hits_genes[i,]
+print(peak$symbol)
+gr <- GRanges(peak[,1:3])+2000
+gr$peak <- peak$start+peak$peak
+trs <- {}
+trs <- geneModelFromTxdb(txdb,
+                         org.Mm.eg.db,
+                         gr=gr)
+
+# bam_track_list <- list()
+# max <- {}
+# # for (i in bams[25:42]){
+# #   bam_track <- importBam(i,
+# #                           ranges = gr)
+# #   bam_track_list[[i]] <- bam_track
+# #   max <- max(c(max,bam_track@dat@elementMetadata@listData[["score"]]))
+# # }
+
+# parallel loop
+n.cores <- 10
+my.cluster <- parallel::makeCluster(n.cores,type = "FORK")
+doParallel::registerDoParallel(cl = my.cluster)
+foreach::getDoParRegistered()
+foreach::getDoParWorkers()
+
+comb <- function(x, ...) {
+  lapply(seq_along(x),
+    function(i) c(x[[i]], lapply(list(...), function(y) y[[i]])))
+}
+
+max <- {}
+oper <- foreach(i=25:42, .combine='comb', .multicombine=TRUE,
+                .init=list(list(), list())) %dopar% {
+  b <- bams[i]
+  bam_track <- importBam(b,ranges = gr)
+  max <- max(bam_track@dat@elementMetadata@listData[["score"]])
+  list(bam_track,max)
+  }
+parallel::stopCluster(cl = my.cluster)
+bam_track_list <- oper[[1]]
+max <- max(unlist(oper[[2]]))
+
+names(bam_track_list) <- str_split(bams, pattern = "_", simplify = T)[25:42,7]
+
+
+# Step 3. View the tracks
+viewerStyle <- trackViewerStyle()
+setTrackViewerStyleParam(viewerStyle, "margin", c(.1, .05, .02, .02))
+
+trackList <- trackList(trs)
+trackList <- trackList(bam_track_list,trs)
+
+optSty <- optimizeStyle(trackList(bam_track_list,trs))
+trackList <- optSty$tracks
+viewerStyle <- optSty$style
+setTrackXscaleParam(trackList[[1]], "draw", TRUE)
+setTrackXscaleParam(trackList[[1]], "gp", list(cex=0.8))
+setTrackViewerStyleParam(viewerStyle, "margin", c(.01, .05, .01, .05))
+for(i in 1:length(trackList)){
+    setTrackYaxisParam(trackList[[i]], "main", FALSE)}
+## Adjust the limit of y-axis
+for(i in 1:length(trackList)){
+    setTrackStyleParam(trackList[[i]], "ylim", c(0, max))}
+vp <- viewTracks(trackList, 
+                 gr=gr, viewerStyle=viewerStyle, 
+                 autoOptimizeStyle=TRUE)
+addGuideLine(gr$peak, vp=vp, col="red")
+}
+```
+
+![](README_files/figure-gfm/trackviewer_loop-1.png)<!-- -->![](README_files/figure-gfm/trackviewer_loop-2.png)<!-- -->![](README_files/figure-gfm/trackviewer_loop-3.png)<!-- -->![](README_files/figure-gfm/trackviewer_loop-4.png)<!-- -->![](README_files/figure-gfm/trackviewer_loop-5.png)<!-- -->![](README_files/figure-gfm/trackviewer_loop-6.png)<!-- -->![](README_files/figure-gfm/trackviewer_loop-7.png)<!-- -->![](README_files/figure-gfm/trackviewer_loop-8.png)<!-- -->![](README_files/figure-gfm/trackviewer_loop-9.png)<!-- -->![](README_files/figure-gfm/trackviewer_loop-10.png)<!-- -->
+
+``` r
+# browseTracks(trackList, gr=gr)
+```
