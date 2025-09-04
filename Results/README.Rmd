@@ -817,7 +817,7 @@ signalValue_lim <- quantile(all_npeaksAnno_table$signalValue, .99)
 qValue_lim <- quantile(all_npeaksAnno_table$qValue, .99)
 distanceToTSS_max <- quantile(all_npeaksAnno_table$distanceToTSS, .90)
 distanceToTSS_min <- quantile(all_npeaksAnno_table$distanceToTSS, .1)
-width_lim <- quantile(all_npeaksAnno_table$width, .99)
+width_lim <- quantile(all_npeaksAnno_table$max.width, .99)
 signalValue_min <- min(all_npeaksAnno_table$signalValue)
 
 df <- all_npeaksAnno_table
@@ -840,13 +840,13 @@ g2a <- ggplot(df,aes(x=width, y=signalValue, color=hits)) +
   coord_cartesian(xlim=c(180,width_lim), ylim = c(signalValue_min,signalValue_lim)) +
   ggtitle(paste("C: signalValue per peak width (hits)"))
 
-g2b <- ggplot(df,aes(x=width, y=signalValue, color=annotation_short)) +
+g2b <- ggplot(df,aes(x=max.width, y=signalValue, color=annotation_short)) +
   geom_point(size=1.5, position ='jitter', alpha=0.4) +
   scale_color_viridis_d(option ="turbo") +
   coord_cartesian(xlim=c(180,width_lim), ylim = c(signalValue_min,signalValue_lim)) +
   ggtitle(paste("D: signalValue per peak width (region)"))
 
-g2c <- ggplot(df,aes(x=width, y=signalValue, color=distanceToTSS)) +
+g2c <- ggplot(df,aes(x=max.width, y=signalValue, color=distanceToTSS)) +
   geom_point(size=1.5, position ='jitter', alpha=0.4) +
   scale_color_viridis_c(option ="turbo", limits = c(distanceToTSS_min*0.2, distanceToTSS_max*0.2)) +
   coord_cartesian(xlim=c(0,width_lim), ylim = c(signalValue_min,signalValue_lim)) +
@@ -1489,11 +1489,19 @@ addGuideLine(gr$peak, vp=vp, col="red")
 ### plot all peaks of candidates
 ```{r trackviewer_loop, eval=TRUE}
 
-venn_top_list[["v3"]]
-venn_peak_list[["v2"]]
-peaks <- venn_peak_list[["v2"]]
-l <- length(peaks)
-i <- 8
+head(top_hits_genes)
+head(venn_top_list[["v2"]])
+head(venn_peak_list[["v2"]])
+peaks <- venn_top_list[["v2"]]
+peaks$peakNames
+
+filtered3 <- findOverlaps(top_hits_genes,peaks, type = 'any')
+queryHits(filtered2) %>% duplicated() %>% summary
+
+filtered <- npeak[-(queryHits(filtered2)),]
+
+l <- length(rownames(peaks))
+i <- 1
 for (i in 1:l){
 
 peak <- peaks[i,]
